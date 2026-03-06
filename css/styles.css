@@ -166,7 +166,7 @@ nav {
     color: #8c5a35; /* Texto color tierra */
 }
 
-/* ¡El disparador! Al hacer hover en el contenedor, mostramos el menú */
+/* Al hacer hover en el contenedor, mostramos el menú */
 .dropdown:hover .dropdown-menu {
     opacity: 1;
     visibility: visible;
