@@ -5,172 +5,680 @@
     font-family: 'Arial', sans-serif;
 }
 
-body{
-    line-height: 1.6;
+body {
+    background-color: #f4f1ea; /* El color arena pasa al fondo de toda la página */
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif; /* Asegura una fuente limpia si no tenías una definida */
 }
 
 header {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-nav{
+/* 1. Contenedor principal de navegación */
+nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Envía el logo a la izquierda y los enlaces a la derecha */
+    align-items: center; /* Centra todo verticalmente */
+    padding: 15px 30px; /* Un poco de espacio interior para que no pegue en las orillas */
+    background-color: #f8f5f0; /* Un color de fondo rústico/claro de ejemplo */
+}
+
+/* 2. Contenedor del Logo (Imagen + Texto) */
+/* El Logo toma 1 parte del espacio disponible */
+.Logo {
+    display: flex;
     align-items: center;
-    padding: 1rem 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-
-}
-
-
-.logo{
-    font-size: 1.5rem;
+    gap: 12px;
     font-weight: bold;
+    font-size: 1.2rem;
     color: #333;
-
+    flex: 1; 
 }
 
+/* Controlamos el tamaño de la imagen para que no deforme el menú */
+.Logo img {
+    width: 80px; /* Ajusta este valor dependiendo de qué tan grande quieras la mariposa */
+    height: auto;
+    clip-path: circle(40%);
+}
+
+/* 3. Contenedor de los enlaces con más espacio */
 .nav-links {
     display: flex;
+    justify-content: center;
+    align-items: center;
     list-style: none;
-    gap: 2rem;
-    
-
+    gap: 40px;
+    margin: 0;
+    padding: 0;
+    flex: 2; 
 }
-.nav-links a {
+
+.nav-actions {
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    flex: 1; 
+}
+
+.dropbtn {
+    font-size: large;
     text-decoration: none;
-    color: #333;
-    padding: 10px; 
-    border: 2px solid transparent; 
-    transition: all 0.4s ease; 
+    color: #4a4a4a;
+    font-weight: 500;
+    padding-bottom: 5px;
+    transition: color 0.3s ease;
 }
 
-.nav-links a:hover{
-    background-color: white;
-    border: 2px solid #333333;
-    padding: 10px;
+.dropbtn:hover {
+    color: #8c5a35;
 }
 
-#hero {
-    padding-top: 2rem;
-    min-height: 100vh;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../img/habitaciones/portada.jpg');
+/* Estilo del enlace y preparación para la animación */
+.nav-links a {
+    font-size: large;
+    text-decoration: none; 
+    color: #4a4a4a;
+    font-weight: 500;
+    position: relative; /* Crucial: permite que la línea se ancle al texto */
+    padding-bottom: 5px; /* Da un respiro entre el texto y la línea que va a aparecer */
+    transition: color 0.3s ease; /* Suaviza el cambio de color del texto */
+}
+
+/* Aquí creamos la línea base (invisible al inicio) */
+.nav-links a::after {
+    content: ''; /* Necesario para que el pseudo-elemento exista */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%; /* Empieza oculta */
+    height: 2px; /* El grosor de la línea */
+    background-color: #8c5a35; /* El color tierra */
+    transition: width 0.3s ease; /* Controla la velocidad con la que se desliza */
+}
+
+/* Efectos al pasar el cursor (Hover) */
+.nav-links a:hover {
+    color: #8c5a35; /* El texto cambia al color tierra */
+}
+
+.nav-links a:hover::after {
+    width: 100%; /* La línea se desliza hasta cubrir todo el ancho del texto */
+}
+
+
+/* =========================================
+   MENÚ DESPLEGABLE DE IDIOMAS (DROPDOWN)
+   ========================================= */
+
+/* El contenedor principal debe ser relative para que el submenú sepa dónde anclarse */
+.dropdown {
+    position: relative;
+}
+
+/* Estilos del submenú oculto */
+.dropdown-menu {
+    position: absolute;
+    top: 150%; /* Lo empuja un poco más abajo del texto "Idioma" */
+    left: 50%; /* Centrado respecto al botón */
+    transform: translateX(-50%) translateY(10px); /* Ajuste fino del centrado y lo baja un poco para la animación */
+    background-color: #ffffff;
+    min-width: 120px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15); /* Sombra elegante */
+    border-radius: 8px;
+    overflow: hidden;
+    
+    /* Variables de ocultamiento y animación */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    
+    /* Limpieza de lista */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1000; /* Asegura que pase por encima del Hero Section */
+}
+
+/* Los enlaces dentro del submenú */
+.dropdown-menu li a {
+    padding: 12px 20px;
+    display: block; /* Para que el área clickeable sea todo el rectángulo */
+    border-bottom: 1px solid #f0ece1;
+    color: #4a4a4a;
+    text-align: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Quita la línea inferior del último elemento y la animación de la línea roja que tenían los enlaces principales */
+.dropdown-menu li:last-child a {
+    border-bottom: none;
+}
+.dropdown-menu li a::after {
+    display: none; 
+}
+
+/* Hover de los enlaces del submenú */
+.dropdown-menu li a:hover {
+    background-color: #f4f1ea; /* Fondo arena al pasar el mouse */
+    color: #8c5a35; /* Texto color tierra */
+}
+
+/* ¡El disparador! Al hacer hover en el contenedor, mostramos el menú */
+.dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    top: 100%; /* Sube suavemente a pegarse al menú principal */
+    transform: translateX(-50%) translateY(0);
+}
+
+
+/*aqui comienza el estilo de mi body*/
+
+/* --- 1. Hero Section (La Portada) --- */
+.hero-section {
+    /* Fondo oscuro semitransparente combinado con tu imagen para que el texto resalte */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../img/habitaciones/habitacion101.jpg');
     background-size: cover;
     background-position: center;
+    height: 85vh; /* Ocupa el 85% del alto de la pantalla visible */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #ffffff;
+    padding: 0 20px;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+    letter-spacing: 1px;
+}
+
+.hero-content p {
+    font-size: 1.3rem;
+    margin-bottom: 35px;
+    font-weight: 300;
+}
+
+/* Botón Principal (Call to Action) */
+.cta-button {
+    display: inline-block;
+    background-color: #8c5a35; /* Color tierra/rústico */
+    color: white;
+    padding: 15px 35px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.cta-button:hover {
+    background-color: #6b4326; /* Un tono más oscuro al pasar el mouse */
+    transform: scale(1.05); /* Efecto de que el botón se acerca */
+}
+
+
+/* --- Estilos compartidos para el efecto de "Bloque Flotante" --- */
+.welcome-section,
+.featured-rooms,
+.amenities-section {
+    max-width: 1100px; 
+    width: 90%; 
+    margin: 60px auto; 
+    border-radius: 15px; 
+    /* Sombra intensificada para que sobresalgan más del fondo arena */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18); 
+}
+
+/* --- 2. Sección de Bienvenida --- */
+.welcome-section {
+    background-color: #ffffff; /* Fondo blanco */
+    padding: 60px 40px;
+    text-align: center;
+    /* Truco: Sube este bloque para que monte un poco sobre la imagen del Hero */
+    margin-top: -60px; 
+    position: relative; 
+    z-index: 10;
+}
+
+.welcome-text {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.welcome-text h2 {
+    color: #8c5a35;
+    font-size: 2.2rem;
+    margin-bottom: 25px;
+}
+
+.welcome-text p {
+    line-height: 1.8;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* --- 3. Habitaciones Destacadas --- */
+.featured-rooms {
+    background-color: #ffffff; /* Fondo blanco */
+    padding: 60px 40px;
+    text-align: center;
+}
+
+
+/* --- 4. Amenidades --- */
+.amenities-section {
+    background-color: #3e4e42; /* Mantenemos el verde */
+    padding: 60px 40px;
+    color: white;
+    text-align: center;
+}
+
+/* --- 2. Sección de Bienvenida --- */
+.welcome-section {
+    padding: 80px 20px;
+    text-align: center;
+    background-color: #fdfbf7; /* Un blanco roto, ligeramente cálido */
+}
+
+.welcome-text {
+    max-width: 800px;
+    margin: 0 auto; /* Centra el bloque de texto en la pantalla */
+}
+
+.welcome-text h2 {
+    color: #8c5a35;
+    font-size: 2.2rem;
+    margin-bottom: 25px;
+}
+
+.welcome-text p {
+    line-height: 1.8;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* --- 3. Habitaciones Destacadas (Tarjetas) --- */
+.featured-rooms {
+    padding: 60px 20px 80px;
+    background-color: #f4f1ea; /* Fondo un poco más oscuro para separar secciones */
+    text-align: center;
+}
+
+.featured-rooms h2 {
+    color: #333;
+    font-size: 2.2rem;
+    margin-bottom: 50px;
+}
+
+.cards-container {
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); /* Crea exactamente 3 columnas iguales */
+    gap: 40px; /* Separación entre tarjetas */
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+/* Diseño individual de cada tarjeta */
+.room-card {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden; /* Corta las esquinas de la imagen para que coincida con el borde redondeado */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    width: 320px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.room-card:hover {
+    transform: translateY(-10px); /* Efecto de levitación elegante */
+    box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+}
+
+.room-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover; /* Asegura que las fotos no se apachurren ni deformen */
+}
+
+.room-card h3 {
+    margin: 20px 0 10px;
+    color: #4a4a4a;
+    font-size: 1.5rem;
+}
+
+.room-card p {
+    padding: 0 20px;
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+/* Botón secundario dentro de las tarjetas */
+.btn-secundario {
+    display: inline-block;
+    margin-bottom: 25px;
+    color: #8c5a35;
+    text-decoration: none;
+    font-weight: bold;
+    border: 2px solid #8c5a35;
+    padding: 8px 25px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.btn-secundario:hover {
+    background-color: #8c5a35;
+    color: white;
+}
+
+/* --- Distintivo Premium (Línea roja) --- */
+.premium-card {
+    border-top: 5px solid #9e2a2b; /* Un rojo tinto elegante */
+    position: relative; /* Necesario para posicionar la lupa */
+}
+
+/* Indicador visual de que la imagen es clickeable */
+.img-zoom-link {
+    display: block;
+    position: relative;
+    overflow: hidden; /* Evita que la imagen se salga al hacer un pequeño zoom de hover */
+}
+
+.lupa-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: white;
+    opacity: 0; /* Oculto por defecto */
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* Para que el click pase a través de la lupa hacia la imagen */
+}
+
+.img-zoom-link:hover .lupa-icon {
+    opacity: 1;
+}
+
+.img-zoom-link:hover img {
+    transform: scale(1.05); /* Pequeño zoom previo al click */
+    filter: brightness(0.7); /* Oscurece la imagen un poco para que resalte la lupa */
+}
+
+.room-card img {
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* =========================================
+   EFECTO LIGHTBOX (ZOOM) 100% CSS
+   ========================================= */
+
+/* El contenedor del zoom empieza oculto */
+.lightbox {
+    display: none; 
+    position: fixed; /* Se queda fijo en la pantalla */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* Fondo negro semitransparente */
+    z-index: 9999; /* Asegura que esté por encima de TODO */
+    justify-content: center;
+    align-items: center;
+}
+
+/* ¡LA MAGIA! Cuando el ID del lightbox coincide con el enlace clickeado, se muestra */
+.lightbox:target {
+    display: flex;
+}
+
+/* Contenedor de la imagen en grande */
+.lightbox-content {
+    position: relative;
+    max-width: 80%;
+    max-height: 80vh; /* Máximo el 80% de la altura de la pantalla */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.lightbox-content img {
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    object-fit: cover;
+    display: block;
+}
+
+/* El overlay oscuro que pides al pasar el mouse por la imagen grande */
+.lightbox-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    color: white;
-    padding: 0 1rem;
-
+    opacity: 0; /* Oculto al principio */
+    transition: opacity 0.4s ease;
 }
 
-
-
-#hero h1{
-    font-size: 3rem;
-    margin-bottom: 1rem;
+/* Aparece al hacer hover en la imagen grande */
+.lightbox-content:hover .lightbox-overlay {
+    opacity: 1;
 }
 
-.cta-button{
-    background-color: #ff6b6b;
+.lightbox-overlay h3 {
     color: white;
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 2rem;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.close-btn {
+    background-color: #9e2a2b; /* El mismo rojo premium */
+    color: white;
+    padding: 12px 25px;
     text-decoration: none;
-    
-}
-
-
-
-.cta-button:hover{
-    background-color: #fa5a5a;
-
-}
-
-#catalogo {
-    padding: 4rem 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-
-}
-
-#catalogo h2{
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.habitaciones-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
-    gap: 2rem;
-}
-
-.habitaciones-card{
-    background-color: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    transition: transform 0.42s ease, box-shadow 0.3s ease;
-
-}
-
-.habitaciones-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-    cursor: pointer;
-}
-
-.habitaciones-card img{
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-
-}
-
-.habitaciones-card h3 {
-    padding: 1rem;
-    color: #333;
-}
-
-.precio {
-    color: #ff6b6b;
+    font-size: 1.2rem;
     font-weight: bold;
-    padding: 0 1rem;
-}
-
-.descripcion {
-    padding: .5rem 1rem;
-    color: #666;
-
-}
-
-.habitaciones-card button{
-    margin: 1rem;
-    padding: .5rem 1rem;
-    background-color: #333;
-    color: white;
-    border: none;
     border-radius: 5px;
-    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.habitaciones-card button:hover{
-    background-color: #000000;
+.close-btn:hover {
+    background-color: #c93638; /* Rojo más claro al pasar el mouse */
 }
 
-footer {
-    background-color: #333;
+/* --- 4. Amenidades --- */
+.amenities-section {
+    padding: 70px 20px;
+    background-color: #3e4e42; /* Un verde bosque oscuro, muy michoacano */
     color: white;
     text-align: center;
-    padding: 1rem;
 }
+
+.amenities-section h2 {
+    margin-bottom: 50px;
+    font-size: 2.2rem;
+    color: #e0d5c1;
+}
+
+.amenities-container {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* --- Estilos del contenedor individual de cada amenidad --- */
+.amenity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 160px;
+    cursor: pointer; /* Cambia el cursor a una manita para invitar a la interacción */
+}
+
+/* --- Diseño del icono con fondo blanco --- */
+.amenity .icon {
+    font-size: 2.2rem;
+    background-color: #ffffff; /* Fondo blanco que pediste */
+    color: #3e4e42; /* Color verde oscuro por si usas iconos de fuente después */
+    width: 80px; /* Ancho fijo */
+    height: 80px; /* Alto fijo */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centra el emoji/icono perfectamente en el círculo */
+    border-radius: 50%; /* Convierte el cuadro en un círculo perfecto */
+    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Sombra base del círculo */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Prepara la animación */
+}
+
+/* --- Efecto Hover (Levitación) --- */
+/* Nota: Se activa al pasar el mouse sobre todo el bloque de la amenidad, no solo sobre el círculo */
+.amenity:hover .icon {
+    transform: translateY(-10px); /* Levanta el círculo blanco */
+    box-shadow: 0 15px 25px rgba(0,0,0,0.4); /* Hace la sombra más grande y oscura */
+}
+
+.amenity p {
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+/* Opcional: El texto también se aclara un poco al pasar el mouse */
+.amenity:hover p {
+    color: #e0d5c1;
+}
+
+/* --- 5. Footer Completo --- */
+.site-footer {
+    background-color: #2b3329; /* Un verde-grisáceo muy oscuro y elegante */
+    color: #e0d5c1; /* Texto claro tirando a color arena */
+    padding: 60px 20px 20px; /* Mucho espacio arriba, menos abajo */
+    font-size: 0.95rem;
+    margin-top: 50px; /* Lo separa del contenido principal */
+}
+
+/* Contenedor Flexbox para las 3 columnas */
+.footer-container {
+    display: flex;
+    flex-wrap: wrap; /* Si la pantalla es pequeña, las columnas se acomodan hacia abajo */
+    justify-content: space-between;
+    max-width: 1100px;
+    margin: 0 auto;
+    gap: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #4a5947; /* Una línea divisoria sutil antes del copyright */
+}
+
+/* Estilo general para cada columna */
+.footer-column {
+    flex: 1; /* Todas las columnas toman el mismo ancho */
+    min-width: 250px; /* Evita que se apachurren demasiado en pantallas medianas */
+}
+
+.footer-column h3 {
+    color: #ffffff;
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+/* Un adornito sutil: una rayita naranja debajo de los títulos del footer */
+.footer-column h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    background-color: #8c5a35;
+}
+
+.footer-column p {
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+/* Quitamos viñetas de la lista de enlaces */
+.links-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.links-col ul li {
+    margin-bottom: 15px;
+}
+
+/* Animación de los enlaces del footer */
+.links-col ul li a {
+    color: #e0d5c1;
+    text-decoration: none;
+    transition: color 0.3s ease, padding-left 0.3s ease; /* Prepara el movimiento */
+}
+
+.links-col ul li a:hover {
+    color: #8c5a35; /* Cambia a color tierra */
+    padding-left: 8px; /* El texto hace un pequeño salto a la derecha al pasar el mouse */
+}
+
+/* La barra de hasta abajo */
+.footer-bottom {
+    text-align: center;
+    padding-top: 25px;
+    font-size: 0.85rem;
+    color: #8f9b8c;
+}
+
+/* =========================================
+   PÁGINA: CATÁLOGO DE HABITACIONES
+   ========================================= */
+
+/* Hacemos que la cuadrícula permita centrar todas las tarjetas si sobran en la última fila */
+.cards-container {
+    justify-content: center;
+    gap: 40px;
+    padding: 20px 0;
+}
+
+/* Espaciado interno para la información de la tarjeta */
+.room-info {
+    padding: 0 20px 20px;
+}
+
+/* Diseño elegante para el precio */
+.precio-catalogo {
+    color: #9e2a2b; /* El rojo tinto que usamos en la línea premium */
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: -5px 0 15px 0;
+}
+
+.precio-catalogo .moneda {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: normal;
+}
+
 
 @media screen and (max-width: 430px) {
     nav{
@@ -186,108 +694,161 @@ footer {
 }
 
 
-/* Estilo de cada Bloque (Misión/Visión) */
-.identidad-block {
-    flex: 1;
-    min-width: 320px; 
-    background: rgb(240,240,240);
-    padding: 3rem 2rem;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-    border-bottom: 5px solid #ff6b6b; 
-    transition: transform 0.3s ease;
-}
+/* =========================================
+   PÁGINA: NOSOTROS
+   ========================================= */
 
-/*Aqui va el codigo de mi pagina nosotros*/
+/* Cabecera de página (más pequeña que el Hero del Index) */
+/* Cabecera de página (Bloque flotante con imagen de fondo) */
+/* =========================================
+   CABECERAS DE PÁGINA (ESTRUCTURA BASE)
+   ========================================= */
 
-/* Sección General de Identidad */
-#identidad {
-    padding-top: 2rem;
-    min-height: 100vh;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../img/habitaciones/portada.jpg');
+/* 1. Estructura general (Comparte tamaño, sombra, padding, pero NO la imagen) */
+.page-header {
     background-size: cover;
     background-position: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    max-width: 1100px; 
+    width: 90%;
+    margin: 60px auto 40px auto; 
+    border-radius: 15px; 
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18); 
     text-align: center;
-    color: white;
-    padding: 0 1rem;
+    padding: 80px 20px; 
+    position: relative;
+    z-index: 10;
+    background-color: #3e4e42; /* Un color verde de respaldo por si la foto no carga */
 }
 
+.page-header h1 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #ffffff;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
 
+.page-header p {
+    font-size: 1.2rem;
+    color: #e0d5c1;
+}
+
+/* 2. Clases Modificadoras (Solo ponen la imagen de fondo correspondiente) */
+.bg-nosotros {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('../img/habitaciones/nosotros-quinta-dalam.jpg');
+}
+
+.bg-contacto {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('../img/habitaciones/img-contacto.jpg');
+}
+
+.bg-catalogo {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('../img/catalogo-fondo.jpg'); /* Asegúrate de tener esta foto en tu carpeta img */
+}
+
+/* Reutilizamos el concepto de bloques flotantes del Index */
+.floating-block {
+    background-color: #ffffff;
+    max-width: 1100px;
+    width: 90%;
+    margin: 40px auto;
+    border-radius: 15px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+    padding: 50px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Historia: Imagen y texto lado a lado */
+.container-flex {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.container-flex .texto {
+    flex: 1.5;
+}
+
+.container-flex .texto h2 {
+    color: #8c5a35;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.container-flex .texto p {
+    color: #555;
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+.imagen-historia {
+    flex: 1; 
+    display: flex;
+    justify-content: center; /* Centra la imagen dentro de su lado */
+}
+
+/* Controlamos el tamaño exacto de la foto */
+.imagen-historia img {
+    width: 100%;
+    max-width: 300px; /* Aquí está el truco: la imagen nunca pasará de este tamaño */
+    height: auto; /* Mantiene la proporción original para no apachurrarse */
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15); /* Una sombra un poquito más marcada */
+}
+
+/* Contenedor Flex para Misión/Visión y Valores */
 .identidad-container {
     display: flex;
     justify-content: center;
-    gap: 3rem;
-    max-width: 1100px;
-    margin: 0 auto;
-    flex-wrap: wrap; /* Para que en celular se pongan uno abajo del otro */
-}
-
-.historia {
+    gap: 40px;
+    flex-wrap: wrap;
     text-align: center;
-    
 }
 
-.page-header {
-    text-align: center;
-    
+/* Estilo para los bloques de Misión y Visión */
+.identidad-block {
+    flex: 1;
+    min-width: 250px;
 }
 
-.identidad-block:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-}
-
-.identidad-block h2 {
-    color: #333;
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
+.identidad-block h2, .identidad-block h3 {
+    color: #8c5a35;
+    margin-bottom: 15px;
 }
 
 .identidad-block p {
     color: #666;
-    line-height: 1.8;
+    line-height: 1.6;
 }
 
 .icono-bloque {
     font-size: 3rem;
-    margin-bottom: 1rem;
+    margin-bottom: 15px;
 }
 
-/* Estilos para el Modal */
-.modal {
-    display: none; /* Oculto por defecto */
-    position: fixed;
-    z-index: 1000;
-    padding-top: 50px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.9); /* Fondo negro con opacidad */
+/* Tarjetas pequeñas para los Valores/Pilares y Misión/Visión */
+.valor-card {
+    background-color: #fdfbf7;
+    padding: 30px 20px;
+    border-radius: 8px;
+    border-bottom: 4px solid #8c5a35;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* Sombra base pegada al fondo */
+    /* Agregamos box-shadow a la transición para que el cambio sea suave */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 
-.modal-content {
-    margin: auto;
-    display: block;
-    width: 60%;
-    max-width: 700px;
-    border-radius: 10px;
-    animation: zoom 0.7s; /* Animación de entrada */
+.valor-card:hover {
+    transform: translateY(-8px); /* Lo elevamos un poquito más para que se note el efecto */
+    box-shadow: 0 15px 25px rgba(0,0,0,0.15); /* Sombra más grande, suave y difuminada */
 }
 
-#caption {
-    color: #f1f1f1;
-    font-size: 1.8rem;
-    text-transform: uppercase; 
-    letter-spacing: 2px; 
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-
+.valores h2 {
+    text-align: center;
+    color: #333;
+    font-size: 2.2rem;
+    margin-bottom: 40px;
 }
+
 
 @keyframes zoom {
     from {transform: scale(0)} 
@@ -311,90 +872,236 @@ footer {
 
 /*Aqui va el codigo de mi pagina contacto*/
 /* Contenedor Principal de Contacto */
+/* =========================================
+   PÁGINA: CONTACTO
+   ========================================= */
+
+/* Usamos Flexbox para dividir la pantalla en dos columnas */
 .contacto-wrapper {
     display: flex;
-    gap: 4rem;
-    max-width: 1200px;
-    margin: 4rem auto;
-    padding: 0 2rem;
+    gap: 50px;
+    align-items: flex-start; /* Para que ambas columnas empiecen desde arriba */
+    padding: 40px;
 }
 
-/* Sección del Formulario */
+/* El formulario toma un poco más de espacio visual que la información */
 .formulario-section {
-    flex: 2; /* Toma más espacio */
-    background: rgb(240, 240, 240);
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    flex: 1.2;
+}
+
+.info-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Separación entre info, redes y mapa */
+}
+
+/* --- Diseño del Formulario --- */
+.hotel-form {
+    margin-top: 20px;
 }
 
 .input-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
 }
 
 .input-group label {
-    display: block;
-    margin-bottom: 0.5rem;
     font-weight: bold;
-    color: #333;
+    color: #4a4a4a;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
 }
 
-.input-group input, 
+
+/* Estilo base de los inputs y textarea (Ancho inicial al 50%) */
+.input-group input,
 .input-group textarea {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    width: 50%; /* Cambiamos del 100% al 50% */
+    padding: 15px;
+    border: 1px solid #d1caba;
+    border-radius: 8px;
+    background-color: #fcfbf9;
+    font-family: inherit;
     font-size: 1rem;
-    resize: vertical;
-}
-
-/* Columna de Información */
-.info-section {
-    flex: 1; /* Toma menos espacio */
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.datos-contacto h3, .redes-sociales h3, .mapa-container h3 {
-    margin-bottom: 1rem;
     color: #333;
-    border-left: 4px solid #ff6b6b;
-    padding-left: 10px;
+    transition: all 0.4s ease; /* Un poco más de tiempo para que la animación se disfrute más */
+    box-sizing: border-box; 
 }
 
+/* Solo el textarea permite redimensionar verticalmente y tiene altura mínima */
+.input-group textarea {
+    resize: vertical; 
+    min-height: 120px; 
+}
+
+/* Efecto Focus: Expande al 100% y resalta los colores */
+.input-group input:focus,
+.input-group textarea:focus {
+    width: 100%; /* ¡Aquí ocurre la magia de la animación! */
+    outline: none;
+    border-color: #8c5a35; 
+    background-color: #ffffff;
+    box-shadow: 0 0 8px rgba(140, 90, 53, 0.2);
+}
+
+.hotel-form .cta-button {
+    width: 100%; /* Botón de ancho completo en el formulario */
+    border: none;
+    cursor: pointer;
+}
+
+/* --- Diseño de la Información --- */
+.datos-contacto h3, .redes-sociales h3 {
+    color: #8c5a35;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.datos-contacto p {
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon-contact {
+    font-size: 1.2rem;
+}
+
+/* Contenedor de los íconos */
 .social-links {
     display: flex;
-    gap: 1rem;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 15px;
 }
 
-.social-links a {
-    text-decoration: none;
-    background: #333;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    transition: background 0.3s;
+/* El enlace actúa como un contenedor circular invisible */
+.social-icon {
+    display: block; /* Ocupa todo el espacio circular */
+    width: 60px;  /* Hacemos los círculos un poco más grandes para que luzcan las fotos */
+    height: 60px;
+    border-radius: 50%; /* Esto crea el círculo */
+    overflow: hidden;   /* ¡Importante! Recorta la imagen JPG/PNG para que sea circular */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Sombra base sutil */
+    
+    /* Prepara la animación de levitación */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    /* Eliminamos el color de fondo anterior */
+    background-color: transparent; 
 }
 
-.social-links a:hover {
-    background: #ff6b6b;
+/* La imagen dentro toma TODO el tamaño del círculo */
+.social-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que la imagen llene el círculo sin estirarse, recortando si es necesario */
+    display: block;
+    
+    /* Eliminamos cualquier filtro de color previo */
+    filter: none !important; 
 }
 
-.page-count{
-    text-decoration: none;
-    background: rgb(240, 240, 240);
-    color: black;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    transition: background 0.3s;
+/* El efecto HOVER: Levitación (Se mantiene) */
+.social-icon:hover {
+    transform: translateY(-10px); /* Se eleva suavemente */
+    box-shadow: 0 15px 25px rgba(0,0,0,0.2); /* Sombra más profunda para dar realismo */
+    
+    /* Aseguramos que no cambie el fondo al pasar el mouse */
+    background-color: transparent;
+}
+
+/* Nos aseguramos de que la imagen no cambie al hacer hover */
+.social-icon:hover img {
+    filter: none !important;
+}
+
+/* Contenedor del Mapa */
+.mapa-container {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden; /* Para que el mapa respete las esquinas redondeadas */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border: 2px solid #e0d5c1;
+}
+/* --- Ajustes para la cabecera de contacto --- */
+.page-count {
+    /* Mismo estilo de bloque flotante, solo cambia la ruta de tu imagen */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('../img/contacto-fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    max-width: 1100px; 
+    width: 90%;
+    margin: 60px auto 40px auto; 
+    border-radius: 15px; 
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18); 
     text-align: center;
-    flex: 2; /* Toma más espacio */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    padding: 80px 20px; 
+    position: relative;
+    z-index: 10;
 }
+
+.page-count h1 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #ffffff;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+.page-count p {
+    font-size: 1.2rem;
+    color: #e0d5c1;
+}
+
+/* --- Estilos para los Radio Buttons --- */
+.radio-group label {
+    margin-bottom: 10px;
+}
+
+.radio-options {
+    display: flex;
+    gap: 20px;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.radio-options label {
+    font-weight: normal; /* Quitamos la negrita a estas opciones para diferenciarlas del título */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+/* Aseguramos que el radio en sí no ocupe el 100% del ancho como los textos */
+.radio-options input[type="radio"] {
+    width: auto;
+    margin: 0;
+}
+
+/* --- Acomodo de los botones de enviar y limpiar --- */
+.form-actions {
+    display: flex;
+    gap: 15px; 
+    margin-top: 15px;
+}
+
+/* Forzamos a que los botones CTA dentro de este contenedor midan lo mismo */
+.form-actions .cta-button {
+    flex: 1;
+    width: 100%;
+    border: none; /* Previene bordes por defecto del navegador */
+    cursor: pointer;
+}
+
+
+
 /* Ajuste Responsivo para móviles */
 @media screen and (max-width: 768px) {
     .contacto-wrapper {

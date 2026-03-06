@@ -4,65 +4,121 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Hotel Quinta Dalam</title>
-		<link rel="stylesheet" href="\css\styles.css"> 
+		<link rel="stylesheet" href="/css/styles.css">
+        <link rel="icon" type="image/x-icon" href="/img/logo/Logo2.ico"> 
 	</head>
+<body>    
 <header>
-	<nav>
-		<div class="Logo">Hotel Quinta Dalam</div>
-		
-			<ul class="nav-links">
-				<li><a href="index.html">Inicio</a></li>
-				<li><a href="nosotros.html">Nosotros</a></li>
-                <li><a href="catalogo.html">Habitaciones</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-			</ul>
-		</nav>
-	</header>
-<body>
+    <nav>
+        <div class="Logo">
+            <img src="./img/logo/Logo2.ico" alt="Logo Quinta Dalam">
+            <span>Hotel Quinta Dalam</span>
+        </div>
+        
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="catalogo.html">Habitaciones</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Idioma 🌐</a>
+                
+                <ul class="dropdown-menu">
+                    <li><a href="index.html">Español</a></li>
+                    <li><a href="index-en.html">English</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
 	
 <main>
-    <section class="page-header">
+    <section class="page-header bg-nosotros">
         <h1>Nuestra Historia</h1>
         <p>Tradición que se vive en cada rincón del Hotel Quinta Dalam</p>
     </section>
 
-    <section class="historia">
+    <section class="historia floating-block">
         <div class="container-flex">
             <div class="texto">
                 <h2>Un refugio en el corazón de Michoacán</h2>
-                <p>Hotel Quinta Dalam no es solo un lugar de descanso, es un homenaje a la riqueza cultural de nuestro estado. 
-                Inspirados en algunos municipios y pueblos mágicos de Michoacán, hemos creado un espacio donde la arquitectura 
-                tradicional se funde con el confort moderno.</p>
-
+                <p>Hotel Quinta Dalam no es solo un lugar de descanso, es un homenaje a la riqueza cultural de nuestro estado. Inspirados en los municipios y pueblos mágicos de Michoacán, hemos creado un espacio donde la arquitectura tradicional se funde con el confort moderno.</p>
             </div>
             <div class="imagen-historia">
-                <img src="img/nosotros-foto.jpg" alt="Fachada tradicional del hotel">
+                <img src="./img/habitaciones/fachada-quinta-dalam.jpg" alt="Fachada tradicional del hotel">
             </div>
         </div>
     </section>
 
-    <section class="valores">
+  <div class="mision-vision floating-block">
+        <div class="identidad-container">
+            <article class="identidad-block valor-card">
+                <div class="icono-bloque">🎯</div> 
+                <h2>Nuestra Misión</h2>
+                <p>Brindar una experiencia de hospitalidad auténtica que celebre la riqueza cultural de Michoacán, ofreciendo espacios temáticos que cuentan la historia de nuestros pueblos.</p>
+            </article>
+
+            <article class="identidad-block valor-card">
+                <div class="icono-bloque">👁️</div>
+                <h2>Nuestra Visión</h2>
+                <p>Ser reconocidos como el hotel boutique referente en la región por nuestra excelencia en el servicio y el rescate de la identidad purépecha para el 2030.</p>
+            </article>
+        </div>
+    </div>
+
+    <section class="valores floating-block">
         <h2>Nuestros Pilares</h2>
         <div class="identidad-container">
-            <article class="identidad-block">
+            <article class="identidad-block valor-card">
                 <h3>Calidez</h3>
                 <p>Nuestra atención personalizada refleja el alma michoacana.</p>
             </article>
-            <article class="identidad-block">
+            <article class="identidad-block valor-card">
                 <h3>Cultura</h3>
                 <p>Cada habitación cuenta una historia de tradición y artesanía.</p>
             </article>
-            <article class="identidad-block">
+            <article class="identidad-block valor-card">
                 <h3>Calidad</h3>
-                <p>Excelencia en servicio avalada por los estándares de DevWeb.</p>
+                <p>Excelencia en servicio avalada por los más altos estándares.</p>
             </article>
         </div>
     </section>
 </main>
 
-	<footer>
-		<p>&copy;Hotel-Quinta-Dalam. Todos los derechos reservados</p>
-	</footer>
+	<footer class="site-footer">
+        <div class="footer-container">
+            
+            <div class="footer-column brand-col">
+                <h3>Hotel Quinta-Dalam</h3>
+                <p>Tu refugio temático en el corazón de Michoacán. Vive la cultura, el confort y la tradición en cada estancia.</p>
+            </div>
+
+            <div class="footer-column links-col">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="catalogo.html">Habitaciones</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column contact-col">
+                <h3>Contáctanos</h3>
+                <p>📍 Michoacán, México</p>
+                <p>📞 +52 (443) 000-0000</p>
+                <p>✉️ reservaciones@quintadalam.com</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Hotel Quinta-Dalam. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 
 	
 

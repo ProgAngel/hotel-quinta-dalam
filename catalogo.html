@@ -4,149 +4,378 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo | Hotel Quinta Dalam</title>
-    <link rel="stylesheet" href="\css\styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" type="image/x-icon" href="/img/logo/Logo2.ico">
 </head>
-<header>
+<body>
+    <header>
         <nav>
-            <div class="Logo">Hotel Quinta Dalam</div>
+            <div class="Logo">
+                <img src="./img/logo/Logo2.ico" alt="Logo Quinta Dalam">
+                <span>Hotel Quinta Dalam</span>
+            </div>
+            
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="nosotros.html">Nosotros</a></li>
                 <li><a href="catalogo.html">Habitaciones</a></li>
                 <li><a href="contacto.html">Contacto</a></li>
             </ul>
+
+            <div class="nav-actions">
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">Idioma 🌐</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html">Español</a></li>
+                        <li><a href="index-en.html">English</a></li>
+                    </ul>
+                </div>
+            </div>
         </nav>
     </header>
-<body>
+
     <main>
-        <section id="catalogo">
-            <h2>Nuestras Habitaciones Temáticas</h2>
-            <div class="habitaciones-grid">
+        <section class="page-header bg-catalogo">
+        <h1>Nuestro Catálogo</h1>
+        <p>Descubre el descanso perfecto inspirado en los rincones de Michoacán.</p>
+    </section>
+
+        <section id="catalogo" class="featured-rooms floating-block">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #8c5a35;">Todas nuestras habitaciones</h2>
+            <div class="cards-container">
+                
+                <article class="room-card">
+                    <a href="#zoom-101" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion101.jpg" alt="Habitación 101 Tzintzuntzan">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <div class="room-info">
+                        <h3>Tzintzuntzan</h3>
+                        <p class="precio-catalogo">$800 <span class="moneda">MXN / noche</span></p>
+                        <p>Hermosa habitación con temática del pueblo mágico Tzintzuntzan.</p>
+                        <a href="contacto.html" class="btn-secundario">Reservar ahora</a>
+                    </div>
+                </article>
+
+                <div id="zoom-101" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion101.jpg" alt="Zoom 101">
+                        <div class="lightbox-overlay">
+                            <h3>Habitación Tzintzuntzan</h3>
+                            <a href="#catalogo" class="close-btn">✖ Volver al catálogo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <article class="room-card">
+                    <a href="#zoom-102" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion102.jpg" alt="Habitación 102 Paracho">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <div class="room-info">
+                        <h3>Paracho</h3>
+                        <p class="precio-catalogo">$800 <span class="moneda">MXN / noche</span></p>
+                        <p>Hermosa habitación con temática del municipio Paracho.</p>
+                        <a href="contacto.html" class="btn-secundario">Reservar ahora</a>
+                    </div>
+                </article>
+
+                <div id="zoom-102" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion102.jpg" alt="Zoom 102">
+                        <div class="lightbox-overlay">
+                            <h3>Habitación Paracho</h3>
+                            <a href="#catalogo" class="close-btn">✖ Volver al catálogo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <article class="room-card premium-card"> <a href="#zoom-103" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion103.jpg" alt="Habitación 103 Yunuen">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <div class="room-info">
+                        <h3>Yunuen</h3>
+                        <p class="precio-catalogo">$1,200 <span class="moneda">MXN / noche</span></p>
+                        <p>Hermosa habitación con temática de la isla de Pátzcuaro, Yunuen.</p>
+                        <a href="contacto.html" class="btn-secundario">Reservar ahora</a>
+                    </div>
+                </article>
+
+                <div id="zoom-103" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion103.jpg" alt="Zoom 103">
+                        <div class="lightbox-overlay">
+                            <h3>Habitación Yunuen</h3>
+                            <a href="#catalogo" class="close-btn">✖ Volver al catálogo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <article class="room-card premium-card">
+                    <a href="#zoom-104" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion104.jpg" alt="Habitación 104 Pátzcuaro">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <div class="room-info">
+                        <h3>Pátzcuaro</h3>
+                        <p class="precio-catalogo">$1,200 <span class="moneda">MXN / noche</span></p>
+                        <p>Hermosa habitación con temática del pueblo mágico Pátzcuaro.</p>
+                        <a href="contacto.html" class="btn-secundario">Reservar ahora</a>
+                    </div>
+                </article>
+
+                <div id="zoom-104" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion104.jpg" alt="Zoom 104">
+                        <div class="lightbox-overlay">
+                            <h3>Habitación Pátzcuaro</h3>
+                            <a href="#catalogo" class="close-btn">✖ Volver al catálogo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <article class="room-card">
+                    <a href="#zoom-105" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion105.jpg" alt="Habitación 105 Coeneo">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <div class="room-info">
+                        <h3>Coeneo</h3>
+                        <p class="precio-catalogo">$1,000 <span class="moneda">MXN / noche</span></p>
+                        <p>Hermosa habitación con temática del municipio Coeneo.</p>
+                        <a href="contacto.html" class="btn-secundario">Reservar ahora</a>
+                    </div>
+                </article>
+
+                <div id="zoom-105" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion105.jpg" alt="Zoom 105">
+                        <div class="lightbox-overlay">
+                            <h3>Habitación Coeneo</h3>
+                            <a href="#catalogo" class="close-btn">✖ Volver al catálogo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <article class="room-card">
+                    <a href="#zoom-106" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion106.jpg" alt="Habitación 106 Janitzio">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <div class="room-info">
+                        <h3>Janitzio</h3>
+                        <p class="precio-catalogo">$1,000 <span class="moneda">MXN / noche</span></p>
+                        <p>Hermosa habitación con temática de la isla de Pátzcuaro, Janitzio.</p>
+                        <a href="contacto.html" class="btn-secundario">Reservar ahora</a>
+                    </div>
+                </article>
+
+                <div id="zoom-106" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion106.jpg" alt="Zoom 106">
+                        <div class="lightbox-overlay">
+                            <h3>Habitación Janitzio</h3>
+                            <a href="#catalogo" class="close-btn">✖ Volver al catálogo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <article class="room-card premium-card">
+                    <a href="#zoom-201" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion201.jpg" alt="Habitación 201 Suite Quencio">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <div class="room-info">
+                        <h3>Suite Quencio</h3>
+                        <p class="precio-catalogo">$2,200 <span class="moneda">MXN / noche</span></p>
+                        <p>Hermosa Suite con temática del municipio de Coeneo, Suite Quencio.</p>
+                        <a href="contacto.html" class="btn-secundario">Reservar ahora</a>
+                    </div>
+                </article>
+
+                <div id="zoom-201" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion201.jpg" alt="Zoom 201">
+                        <div class="lightbox-overlay">
+                            <h3>Suite Quencio</h3>
+                            <a href="#catalogo" class="close-btn">✖ Volver al catálogo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <article class="room-card premium-card">
+                    <a href="#zoom-202" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion202.jpg" alt="Habitación 202 Morelia">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <div class="room-info">
+                        <h3>Morelia</h3>
+                        <p class="precio-catalogo">$1,200 <span class="moneda">MXN / noche</span></p>
+                        <p>Hermosa habitación con temática de la capital del estado, Morelia.</p>
+                        <a href="contacto.html" class="btn-secundario">Reservar ahora</a>
+                    </div>
+                </article>
+
+                <div id="zoom-202" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion202.jpg" alt="Zoom 202">
+                        <div class="lightbox-overlay">
+                            <h3>Habitación Morelia</h3>
+                            <a href="#catalogo" class="close-btn">✖ Volver al catálogo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <article class="room-card premium-card">
+                    <a href="#zoom-203" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion203.jpg" alt="Habitación 203 Tacámbaro">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <div class="room-info">
+                        <h3>Tacámbaro</h3>
+                        <p class="precio-catalogo">$1,500 <span class="moneda">MXN / noche</span></p>
+                        <p>Hermosa habitación con temática del pueblo mágico Tacámbaro.</p>
+                        <a href="contacto.html" class="btn-secundario">Reservar ahora</a>
+                    </div>
+                </article>
+
+                <div id="zoom-203" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion203.jpg" alt="Zoom 203">
+                        <div class="lightbox-overlay">
+                            <h3>Habitación Tacámbaro</h3>
+                            <a href="#catalogo" class="close-btn">✖ Volver al catálogo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <article class="room-card premium-card">
+                    <a href="#zoom-204" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion204.jpg" alt="Habitación 204 Uruapan">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <div class="room-info">
+                        <h3>Uruapan</h3>
+                        <p class="precio-catalogo">$1,500 <span class="moneda">MXN / noche</span></p>
+                        <p>Hermosa habitación con temática del municipio Uruapan.</p>
+                        <a href="contacto.html" class="btn-secundario">Reservar ahora</a>
+                    </div>
+                </article>
+
+                <div id="zoom-204" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion204.jpg" alt="Zoom 204">
+                        <div class="lightbox-overlay">
+                            <h3>Habitación Uruapan</h3>
+                            <a href="#catalogo" class="close-btn">✖ Volver al catálogo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <article class="room-card premium-card">
+                    <a href="#zoom-205" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion205.jpg" alt="Habitación 205 Tlalpujahua">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <div class="room-info">
+                        <h3>Tlalpujahua</h3>
+                        <p class="precio-catalogo">$1,200 <span class="moneda">MXN / noche</span></p>
+                        <p>Hermosa habitación con temática del pueblo mágico Tlalpujahua.</p>
+                        <a href="contacto.html" class="btn-secundario">Reservar ahora</a>
+                    </div>
+                </article>
+
+                <div id="zoom-205" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion205.jpg" alt="Zoom 205">
+                        <div class="lightbox-overlay">
+                            <h3>Habitación Tlalpujahua</h3>
+                            <a href="#catalogo" class="close-btn">✖ Volver al catálogo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <article class="room-card">
+                    <a href="#zoom-206" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion206.jpg" alt="Habitación 206 Cuitzeo">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <div class="room-info">
+                        <h3>Cuitzeo</h3>
+                        <p class="precio-catalogo">$1,000 <span class="moneda">MXN / noche</span></p>
+                        <p>Hermosa habitación con temática del pueblo mágico Cuitzeo.</p>
+                        <a href="contacto.html" class="btn-secundario">Reservar ahora</a>
+                    </div>
+                </article>
+
+                <div id="zoom-206" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion206.jpg" alt="Zoom 206">
+                        <div class="lightbox-overlay">
+                            <h3>Habitación Cuitzeo</h3>
+                            <a href="#catalogo" class="close-btn">✖ Volver al catálogo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <article class="room-card">
+                    <a href="#zoom-207" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion207.jpg" alt="Habitación 207 Cuanajo">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <div class="room-info">
+                        <h3>Cuanajo</h3>
+                        <p class="precio-catalogo">$1,000 <span class="moneda">MXN / noche</span></p>
+                        <p>Hermosa habitación con temática del pueblo mágico Cuanajo.</p>
+                        <a href="contacto.html" class="btn-secundario">Reservar ahora</a>
+                    </div>
+                </article>
+
+                <div id="zoom-207" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion207.jpg" alt="Zoom 207">
+                        <div class="lightbox-overlay">
+                            <h3>Habitación Cuanajo</h3>
+                            <a href="#catalogo" class="close-btn">✖ Volver al catálogo</a>
+                        </div>
+                    </div>
+                </div>
+
                 </div>
         </section>
     </main>
-    <section id="catalogo">
-				<h2>Catalogo</h2>
-				<div class="habitaciones-grid">
-    <div class="habitaciones-card">
-        <img src="img/habitaciones/habitacion101.jpg" alt="Habitación 101 Tzintzuntzan">
-        <h3>Tzintzuntzan</h3>
-        <p class="precio">$800</p>
-        <p class="descripcion">Hermosa habitación con temática del pueblo mágico Tzintzuntzan.</p>
-        <button>Reservar ahora</button>
-    </div>
 
-    <div class="habitaciones-card">
-        <img src="img/habitaciones/habitacion102.jpg" alt="Habitación 102 Paracho">
-        <h3>Paracho</h3>
-        <p class="precio">$800</p>
-        <p class="descripcion">Hermosa habitación con temática del municipio Paracho.</p>
-        <button>Reservar ahora</button>
-    </div>
+    <footer class="site-footer">
+        <div class="footer-container">
+            
+            <div class="footer-column brand-col">
+                <h3>Hotel Quinta-Dalam</h3>
+                <p>Tu refugio temático en el corazón de Michoacán. Vive la cultura, el confort y la tradición en cada estancia.</p>
+            </div>
 
-    <div class="habitaciones-card">
-        <img src="img/habitaciones/habitacion103.jpg" alt="Habitación 103 Yunuen">
-        <h3>Yunuen</h3>
-        <p class="precio">$1,200</p>
-        <p class="descripcion">Hermosa habitación con temática de la isla de Pátzcuaro, Yunuen.</p>
-        <button>Reservar ahora</button>
-    </div>
+            <div class="footer-column links-col">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="catalogo.html">Habitaciones</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </div>
 
-    <div class="habitaciones-card">
-        <img src="img/habitaciones/habitacion104.jpg" alt="Habitación 104 Pátzcuaro">
-        <h3>Pátzcuaro</h3>
-        <p class="precio">$1,200</p>
-        <p class="descripcion">Hermosa habitación con temática del pueblo mágico Pátzcuaro.</p>
-        <button>Reservar ahora</button>
-    </div>
+            <div class="footer-column contact-col">
+                <h3>Contáctanos</h3>
+                <p>📍 Michoacán, México</p>
+                <p>📞 +52 (443) 000-0000</p>
+                <p>✉️ reservaciones@quintadalam.com</p>
+            </div>
 
-    <div class="habitaciones-card">
-        <img src="img/habitaciones/habitacion105.jpg" alt="Habitación 105 Coeneo">
-        <h3>Coeneo</h3>
-        <p class="precio">$1,000</p>
-        <p class="descripcion">Hermosa habitación con temática del municipio Coeneo.</p>
-        <button>Reservar ahora</button>
-    </div>
+        </div>
 
-    <div class="habitaciones-card">
-        <img src="img/habitaciones/habitacion106.jpg" alt="Habitación 106 Janitzio">
-        <h3>Janitzio</h3>
-        <p class="precio">$1,000</p>
-        <p class="descripcion">Hermosa habitación con temática de la isla de Pátzcuaro, Janitzio.</p>
-        <button>Reservar ahora</button>
-    </div>
-
-    <div class="habitaciones-card">
-        <img src="img/habitaciones/habitacion201.jpg" alt="Habitación 201 Suite Quencio">
-        <h3>Suite Quencio</h3>
-        <p class="precio">$2,200</p>
-        <p class="descripcion">Hermosa Suite con temática del municipio de Coeneo, Suite Quencio.</p>
-        <button>Reservar ahora</button>
-    </div>
-
-    <div class="habitaciones-card">
-        <img src="img/habitaciones/habitacion202.jpg" alt="Habitación 202 Morelia">
-        <h3>Morelia</h3>
-        <p class="precio">$1,200</p>
-        <p class="descripcion">Hermosa habitación con temática de la capital del estado, Morelia.</p>
-        <button>Reservar ahora</button>
-    </div>
-
-    <div class="habitaciones-card">
-        <img src="img/habitaciones/habitacion203.jpg" alt="Habitación 203 Tacámbaro">
-        <h3>Tacámbaro</h3>
-        <p class="precio">$1,500</p>
-        <p class="descripcion">Hermosa habitación con temática del pueblo mágico Tacámbaro.</p>
-        <button>Reservar ahora</button>
-    </div>
-
-    <div class="habitaciones-card">
-        <img src="img/habitaciones/habitacion204.jpg" alt="Habitación 204 Uruapan">
-        <h3>Uruapan</h3>
-        <p class="precio">$1,500</p>
-        <p class="descripcion">Hermosa habitación con temática del municipio Uruapan.</p>
-        <button>Reservar ahora</button>
-    </div>
-
-    <div class="habitaciones-card">
-        <img src="img/habitaciones/habitacion205.jpg" alt="Habitación 205 Tlalpujahua">
-        <h3>Tlalpujahua</h3>
-        <p class="precio">$1,200</p>
-        <p class="descripcion">Hermosa habitación con temática del pueblo mágico Tlalpujahua.</p>
-        <button>Reservar ahora</button>
-    </div>
-
-    <div class="habitaciones-card">
-        <img src="img/habitaciones/habitacion206.jpg" alt="Habitación 206 Cuitzeo">
-        <h3>Cuitzeo</h3>
-        <p class="precio">$1,000</p>
-        <p class="descripcion">Hermosa habitación con temática del pueblo mágico Cuitzeo.</p>
-        <button>Reservar ahora</button>
-    </div>
-
-    <div class="habitaciones-card">
-        <img src="img/habitaciones/habitacion207.jpg" alt="Habitación 207 Cuanajo">
-        <h3>Cuanajo</h3>
-        <p class="precio">$1,000</p>
-        <p class="descripcion">Hermosa habitación con temática del pueblo mágico Cuanajo.</p>
-        <button>Reservar ahora</button>
-    </div>
-</div>
-			</div>	
-		</section>
-
-
-    <footer>
-        <p>&copy; 2026 Hotel Quinta Dalam. Todos los derechos reservados.</p>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Hotel Quinta-Dalam. Todos los derechos reservados.</p>
+        </div>
     </footer>
-
-    <div id="imageModal" class="modal">
-        <span class="close">&times;</span>
-        <img class="modal-content" id="imgZoom">
-        <div id="caption"></div>
-    </div>
-
-
-    <script src="js/main.js"></script>
 </body>
 </html>

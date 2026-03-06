@@ -4,52 +4,175 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Hotel Quinta Dalam</title>
-		<link rel="stylesheet" href="\css\styles.css"> 
+		<link rel="stylesheet" href="/css/styles.css">
+		<link rel="icon" type="image/x-icon" href="/img/logo/Logo2.ico"> 
 	</head>
-<header>
-	<nav>
-		<div class="Logo">Hotel Quinta Dalam</div>
-		
-			<ul class="nav-links">
-				<li><a href="index.html">Inicio</a></li>
-				<li><a href="nosotros.html">Nosotros</a></li>
-                <li><a href="catalogo.html">Habitaciones</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-			</ul>
-		</nav>
-	</header>
 <body>
-	
-	<main>
-		<section id="hero">
-			<h1>Encuentra tu hotel ideal en michoacan</h1>
-			<p>Habitaciones con tematica de pueblos magicos y municipios</p>
-			<a href="catalogo.html" class="cta-button">Ver catalogo</a>
-		</section>
-		
-		<section id="identidad">
-    <div class="identidad-container">
+<header>
+    <nav>
+        <div class="Logo">
+            <img src="./img/logo/Logo2.ico" alt="Logo Quinta Dalam">
+            <span>Hotel Quinta Dalam</span>
+        </div>
         
-        <article class="identidad-block" id="mision">
-            <div class="icono-bloque">🎯</div> <h2>Nuestra Misión</h2>
-            <p>Brindar una experiencia de hospitalidad auténtica que celebre la riqueza cultural de Michoacán, ofreciendo espacios temáticos que cuentan la historia de nuestros pueblos.</p>
-        </article>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="catalogo.html">Habitaciones</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
 
-        <article class="identidad-block" id="vision">
-            <div class="icono-bloque">👁️</div>
-            <h2>Nuestra Visión</h2>
-            <p>Ser reconocidos como el hotel boutique referente en la región por nuestra excelencia en el servicio y el rescate de la identidad purépecha para el 2030.</p>
-        </article>
+        <div class="nav-actions">
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Idioma 🌐</a>
+                
+                <ul class="dropdown-menu">
+                    <li><a href="index.html">Español</a></li>
+                    <li><a href="index-en.html">English</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+    
+    <main>
+        <section id="hero" class="hero-section">
+            <div class="hero-content">
+                <h1>Descubre la Magia de Michoacán en Cada Rincón</h1>
+                <p>Habitaciones temáticas inspiradas en la belleza de nuestros Pueblos Mágicos y municipios.</p>
+                <a href="catalogo.html" class="cta-button">Ver Habitaciones</a>
+            </div>
+        </section>
+        
+        <section id="bienvenida" class="welcome-section">
+            <div class="welcome-text">
+                <h2>Bienvenidos a Quinta-Dalam</h2>
+                <p>Sumérgete en una experiencia única. Nuestro hotel boutique fusiona el confort moderno con el rescate de la identidad purépecha y la tradición de la región. Cada espacio está diseñado para hacerte sentir la verdadera hospitalidad.</p>
+            </div>
+        </section>
 
-    </div>
-</section>
+        <section id="destacadas" class="featured-rooms">
+            <h2>Nuestras Habitaciones Premium</h2>
+            <div class="cards-container">
+                
+                <article class="room-card premium-card">
+                    <a href="#zoom-patzcuaro" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion104.jpg" alt="Habitación Temática Pátzcuaro">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <h3>Pátzcuaro</h3>
+                    <p>Elegancia colonial con detalles artesanales únicos.</p>
+                    <a href="catalogo.html" class="btn-secundario">Ver detalles</a>
+                </article>
 
-	</main>
+                <div id="zoom-patzcuaro" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion104.jpg" alt="Zoom Pátzcuaro">
+                        <div class="lightbox-overlay">
+                            <h3>Habitación Pátzcuaro</h3>
+                            <a href="#destacadas" class="close-btn">✖ Volver a la página</a>
+                        </div>
+                    </div>
+                </div>
 
-	<footer>
-		<p>&copy;Hotel-Quinta-Dalam. Todos los derechos reservados</p>
-	</footer>
+                <article class="room-card premium-card">
+                    <a href="#zoom-tzintzuntzan" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion101.jpg" alt="Habitación Temática Tzintzuntzan">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <h3>Tzintzuntzan</h3>
+                    <p>Un espacio de tranquilidad inspirado en el antiguo imperio.</p>
+                    <a href="catalogo.html" class="btn-secundario">Ver detalles</a>
+                </article>
 
-	
-</body>
+                <div id="zoom-tzintzuntzan" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion101.jpg" alt="Zoom Tzintzuntzan">
+                        <div class="lightbox-overlay">
+                            <h3>Habitación Tzintzuntzan</h3>
+                            <a href="#destacadas" class="close-btn">✖ Volver a la página</a>
+                        </div>
+                    </div>
+                </div>
+
+                <article class="room-card premium-card">
+                    <a href="#zoom-tacambaro" class="img-zoom-link">
+                        <img src="./img/habitaciones/habitacion203.jpg" alt="Habitación Temática Tacambaro">
+                        <div class="lupa-icon">🔍</div>
+                    </a>
+                    <h3>Tacambaro</h3>
+                    <p>Calidez y destellos cobrizos que enamoran.</p>
+                    <a href="catalogo.html" class="btn-secundario">Ver detalles</a>
+                </article>
+
+                <div id="zoom-tacambaro" class="lightbox">
+                    <div class="lightbox-content">
+                        <img src="./img/habitaciones/habitacion203.jpg" alt="Zoom Tacambaro">
+                        <div class="lightbox-overlay">
+                            <h3>Habitación Tacambaro</h3>
+                            <a href="#destacadas" class="close-btn">✖ Volver a la página</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="amenidades" class="amenities-section">
+            <h2>Lo que ofrecemos</h2>
+            <div class="amenities-container">
+                <div class="amenity">
+                    <span class="icon">📶</span>
+                    <p>Wi-Fi de Alta Velocidad</p>
+                </div>
+                <div class="amenity">
+                    <span class="icon">☕</span>
+                    <p>Desayuno Tradicional</p>
+                </div>
+                <div class="amenity">
+                    <span class="icon">🚗</span>
+                    <p>Estacionamiento Privado</p>
+                </div>
+                <div class="amenity">
+                    <span class="icon">🏊‍♂️</span>
+                    <p>Alberca Climatizada</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+   <footer class="site-footer">
+        <div class="footer-container">
+            
+            <div class="footer-column brand-col">
+                <h3>Hotel Quinta-Dalam</h3>
+                <p>Tu refugio temático en el corazón de Michoacán. Vive la cultura, el confort y la tradición en cada estancia.</p>
+            </div>
+
+            <div class="footer-column links-col">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="catalogo.html">Habitaciones</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column contact-col">
+                <h3>Contáctanos</h3>
+                <p>📍 Michoacán, México</p>
+                <p>📞 +52 (443) 000-0000</p>
+                <p>✉️ reservaciones@quintadalam.com</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Hotel Quinta-Dalam. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>	
 </html>
