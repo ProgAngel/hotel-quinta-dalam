@@ -1,167 +1,90 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Hotel Quinta Dalam</title>
-		<link rel="stylesheet" href="./css/styles.css">
-		<link rel="icon" type="image/x-icon" href="./img/logo/Logo2.ico"> 
-	</head>
-<body>
-<header>
-    <nav>
-        <div class="Logo">
-            <img src="./img/logo/Logo2.ico" alt="Logo Quinta Dalam">
-            <span>Hotel Quinta Dalam</span>
-        </div>
-        
-        <ul class="nav-links">
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="nosotros.html">Nosotros</a></li>
-            <li><a href="catalogo.html">Habitaciones</a></li>
-            <li><a href="contacto.html">Contacto</a></li>
-        </ul>
-
-        <div class="nav-actions">
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Idioma 🌐</a>
-                
-                <ul class="dropdown-menu">
-                    <li><a href="index.html">Español</a></li>
-                    <li><a href="index-en.html">English</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio | Hotel Quinta Dalam</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="icon" type="image/x-icon" href="./img/logo/Logo2.ico">
     
-    <main>
-        <section id="hero" class="hero-section">
-            <div class="hero-content">
-                <h1>Descubre la Magia de Michoacán en Cada Rincón</h1>
-                <p>Habitaciones temáticas inspiradas en la belleza de nuestros Pueblos Mágicos y municipios.</p>
-                <a href="catalogo.html" class="cta-button">Ver Habitaciones</a>
-            </div>
-        </section>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        /* Animación para la flecha de scroll */
+        @keyframes bounceDown {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(10px) translateX(-50%); }
+            60% { transform: translateY(5px) translateX(-50%); }
+        }
         
-        <section id="bienvenida" class="welcome-section">
-            <div class="welcome-text">
-                <h2>Bienvenidos a Quinta-Dalam</h2>
-                <p>Sumérgete en una experiencia única. Nuestro hotel boutique fusiona el confort moderno con el rescate de la identidad purépecha y la tradición de la región. Cada espacio está diseñado para hacerte sentir la verdadera hospitalidad.</p>
+        /* Animación de flotación suave para el CTA final */
+        @keyframes floatSubtle {
+            0% { transform: translateY(0px); box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
+            50% { transform: translateY(-8px); box-shadow: 0 25px 45px rgba(0,0,0,0.25); }
+            100% { transform: translateY(0px); box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
+        }
+
+        /* Oculta el scrollbar del lightbox */
+        .thumbnails-container::-webkit-scrollbar { height: 8px; }
+        .thumbnails-container::-webkit-scrollbar-thumb { background-color: #8c5a35; border-radius: 4px; }
+        .thumbnails-container::-webkit-scrollbar-track { background-color: rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body style="background-color: #f4f1ea; margin: 0; padding: 0;">
+    <header>
+        <nav>
+            <div class="Logo">
+                <img src="./img/logo/Logo2.ico" alt="Logo Quinta Dalam">
+                <span>Hotel Quinta Dalam</span>
             </div>
-        </section>
+            
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="catalogo.html">Habitaciones</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="reservaciones.html">Reservar</a></li>
+            </ul>
 
-        <section id="destacadas" class="featured-rooms">
-            <h2>Nuestras Habitaciones Premium</h2>
-            <div class="cards-container">
-                
-                <article class="room-card premium-card">
-                    <a href="#zoom-patzcuaro" class="img-zoom-link">
-                        <img src="./img/habitaciones/habitacion104.jpg" alt="Habitación Temática Pátzcuaro">
-                        <div class="lupa-icon">🔍</div>
-                    </a>
-                    <h3>Pátzcuaro</h3>
-                    <p>Elegancia colonial con detalles artesanales únicos.</p>
-                    <a href="catalogo.html" class="btn-secundario">Ver detalles</a>
-                </article>
-
-                <div id="zoom-patzcuaro" class="lightbox">
-                    <div class="lightbox-content">
-                        <img src="./img/habitaciones/habitacion104.jpg" alt="Zoom Pátzcuaro">
-                        <div class="lightbox-overlay">
-                            <h3>Habitación Pátzcuaro</h3>
-                            <a href="#destacadas" class="close-btn">✖ Volver a la página</a>
-                        </div>
-                    </div>
-                </div>
-
-                <article class="room-card premium-card">
-                    <a href="#zoom-tzintzuntzan" class="img-zoom-link">
-                        <img src="./img/habitaciones/habitacion101.jpg" alt="Habitación Temática Tzintzuntzan">
-                        <div class="lupa-icon">🔍</div>
-                    </a>
-                    <h3>Tzintzuntzan</h3>
-                    <p>Un espacio de tranquilidad inspirado en el antiguo imperio.</p>
-                    <a href="catalogo.html" class="btn-secundario">Ver detalles</a>
-                </article>
-
-                <div id="zoom-tzintzuntzan" class="lightbox">
-                    <div class="lightbox-content">
-                        <img src="./img/habitaciones/habitacion101.jpg" alt="Zoom Tzintzuntzan">
-                        <div class="lightbox-overlay">
-                            <h3>Habitación Tzintzuntzan</h3>
-                            <a href="#destacadas" class="close-btn">✖ Volver a la página</a>
-                        </div>
-                    </div>
-                </div>
-
-                <article class="room-card premium-card">
-                    <a href="#zoom-tacambaro" class="img-zoom-link">
-                        <img src="./img/habitaciones/habitacion203.jpg" alt="Habitación Temática Tacambaro">
-                        <div class="lupa-icon">🔍</div>
-                    </a>
-                    <h3>Tacambaro</h3>
-                    <p>Calidez y destellos cobrizos que enamoran.</p>
-                    <a href="catalogo.html" class="btn-secundario">Ver detalles</a>
-                </article>
-
-                <div id="zoom-tacambaro" class="lightbox">
-                    <div class="lightbox-content">
-                        <img src="./img/habitaciones/habitacion203.jpg" alt="Zoom Tacambaro">
-                        <div class="lightbox-overlay">
-                            <h3>Habitación Tacambaro</h3>
-                            <a href="#destacadas" class="close-btn">✖ Volver a la página</a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section id="amenidades" class="amenities-section">
-            <h2>Lo que ofrecemos</h2>
-            <div class="amenities-container">
-                <div class="amenity">
-                    <span class="icon">📶</span>
-                    <p>Wi-Fi de Alta Velocidad</p>
-                </div>
-                <div class="amenity">
-                    <span class="icon">☕</span>
-                    <p>Desayuno Tradicional</p>
-                </div>
-                <div class="amenity">
-                    <span class="icon">🚗</span>
-                    <p>Estacionamiento Privado</p>
-                </div>
-                <div class="amenity">
-                    <span class="icon">🏊‍♂️</span>
-                    <p>Alberca Climatizada</p>
+            <div class="nav-actions">
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">Idioma 🌐</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html">Español</a></li>
+                        <li><a href="index-en.html">English</a></li>
+                    </ul>
                 </div>
             </div>
-        </section>
+        </nav>
+    </header>
 
+    <main>
+        <div id="root-index"></div>
     </main>
 
-   <footer class="site-footer">
+    <footer class="site-footer">
         <div class="footer-container">
             
             <div class="footer-column brand-col">
-                <h3>Hotel Quinta-Dalam</h3>
+                <h1>Hotel Quinta-Dalam</h1>
                 <p>Tu refugio temático en el corazón de Michoacán. Vive la cultura, el confort y la tradición en cada estancia.</p>
             </div>
 
             <div class="footer-column links-col">
-                <h3>Enlaces Rápidos</h3>
+                <h1>Enlaces Rápidos</h1>
                 <ul>
                     <li><a href="index.html">Inicio</a></li>
                     <li><a href="nosotros.html">Nosotros</a></li>
                     <li><a href="catalogo.html">Habitaciones</a></li>
                     <li><a href="contacto.html">Contacto</a></li>
+                    <li><a href="reservaciones.html">Reservar</a></li>
                 </ul>
             </div>
 
             <div class="footer-column contact-col">
-                <h3>Contáctanos</h3>
+                <h1>Contáctanos</h1>
                 <p>📍 Michoacán, México</p>
                 <p>📞 +52 (443) 000-0000</p>
                 <p>✉️ reservaciones@quintadalam.com</p>
@@ -187,5 +110,315 @@
         </div>
     </footer>
 
-</body>	
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Función para el placeholder del Lightbox
+        const generarGaleriaPlaceholder = (nombreHabitacion) => {
+            const nombreM = nombreHabitacion.replace(' ', '+');
+            return [
+                { url: `https://via.placeholder.com/1200x800/e0d5c1/8c5a35?text=${nombreM}+-+Recámara`, etiqueta: 'Recámara Principal' },
+                { url: `https://via.placeholder.com/1200x800/fdf8f5/333333?text=${nombreM}+-+Baño`, etiqueta: 'Baño Completo' },
+                { url: `https://via.placeholder.com/1200x800/e0d5c1/8c5a35?text=${nombreM}+-+Vista`, etiqueta: 'Vista al exterior' },
+                { url: `https://via.placeholder.com/1200x800/fdf8f5/333333?text=${nombreM}+-+Detalles`, etiqueta: 'Detalles y Amenidades' }
+            ];
+        };
+
+        // 3 Habitaciones destacadas con sus galerías
+        const habitacionesDestacadas = [
+            { id: 1, nombre: 'Tzintzuntzan', precio: 800, maxPersonas: 4, imagen: './img/habitaciones/habitacion101.jpg', tipo: 'Estándar', disponibilidad: 'Última disponible', desc: 'Vista panorámica al lago • 35 m²', camas: '2 Matrimoniales', amenidades: ['📶 Wi-Fi', '❄️ A/C', '📺 Smart TV', '☕ Cafetera'], resena: { estrellas: 5, comentario: 'Una experiencia mágica. La decoración artesanal es preciosa.', autor: 'María G.' }, galeria: generarGaleriaPlaceholder('Tzintzuntzan') },
+            { id: 11, nombre: 'Suite Quinceo', precio: 2200, maxPersonas: 2, imagen: './img/habitaciones/habitacion201.jpg', tipo: 'Suite Presidencial', disponibilidad: 'Solo 1', desc: 'Lujo y exclusividad máxima • 60 m²', camas: '1 King Size Extra', amenidades: ['📶 Wi-Fi Premium', '❄️ A/C', '🛁 Jacuzzi', '🍾 Champán'], resena: { estrellas: 5, comentario: 'Increíble para nuestra luna de miel. Servicio de primera clase.', autor: 'Roberto V.' }, galeria: generarGaleriaPlaceholder('Suite Quinceo') },
+            { id: 4, nombre: 'Tacámbaro', precio: 1500, maxPersonas: 6, imagen: './img/habitaciones/habitacion203.jpg', tipo: 'Master Familiar', disponibilidad: 'Últimas 2', desc: 'Rodeada de naturaleza • 55 m²', camas: '3 Matrimoniales', amenidades: ['📶 Wi-Fi', '🔥 Chimenea', '🍳 Cocineta'], resena: { estrellas: 4, comentario: 'Muy acogedora. Perfecta para toda la familia.', autor: 'Luis F.' }, galeria: generarGaleriaPlaceholder('Tacámbaro') }
+        ];
+
+        function PaginaInicio() {
+            const fechaHoy = new Date().toISOString().split('T')[0];
+            const [busqueda, setBusqueda] = useState({ checkIn: '', checkOut: '', huespedes: 2 });
+            
+            // Estado para controlar el Lightbox
+            const [lightbox, setLightbox] = useState({ abierto: false, habitacionActual: null, indiceFoto: 0 });
+
+            const formatoMoneda = (cantidad) => cantidad.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const renderEstrellas = (cantidad) => Array(cantidad).fill('⭐').join('');
+
+            const manejarBusqueda = (e) => {
+                e.preventDefault();
+                window.location.href = 'reservaciones.html';
+            };
+
+            // Funciones del Lightbox
+            const abrirGaleria = (habitacion) => { setLightbox({ abierto: true, habitacionActual: habitacion, indiceFoto: 0 }); document.body.style.overflow = 'hidden'; };
+            const cerrarGaleria = () => { setLightbox({ abierto: false, habitacionActual: null, indiceFoto: 0 }); document.body.style.overflow = 'auto'; };
+            const fotoSiguiente = (e) => { e.stopPropagation(); setLightbox(prev => ({ ...prev, indiceFoto: (prev.indiceFoto + 1) % prev.habitacionActual.galeria.length })); };
+            const fotoAnterior = (e) => { e.stopPropagation(); setLightbox(prev => ({ ...prev, indiceFoto: (prev.indiceFoto - 1 + prev.habitacionActual.galeria.length) % prev.habitacionActual.galeria.length })); };
+            const irAFoto = (e, index) => { e.stopPropagation(); setLightbox(prev => ({ ...prev, indiceFoto: index })); };
+
+            return (
+                <div>
+                    {/* === HERO SECTION CON FLECHA ANIMADA === */}
+                    <div style={{ 
+                        position: 'relative', // Importante para posicionar la flecha
+                        backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url("./img/habitaciones/habitacion104.jpg")', 
+                        backgroundSize: 'cover', backgroundPosition: 'center', height: '85vh', 
+                        display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', 
+                        color: '#fff', textAlign: 'center', padding: '0 20px' 
+                    }}>
+                        <h1 style={{ fontSize: '4rem', fontWeight: '800', marginBottom: '20px', letterSpacing: '-1px', textShadow: '0 4px 10px rgba(0,0,0,0.3)' }}>
+                            Descubre la Magia de Michoacán
+                        </h1>
+                        <p style={{ fontSize: '1.3rem', marginBottom: '40px', maxWidth: '700px', lineHeight: '1.6', textShadow: '0 2px 5px rgba(0,0,0,0.3)' }}>
+                            Tu refugio perfecto te espera en Hotel Quinta Dalam. Tradición, confort, y un servicio excepcional diseñado para crear recuerdos inolvidables.
+                        </p>
+                        
+                        <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
+                            <a href="reservaciones.html" style={{ backgroundColor: '#8c5a35', color: '#fff', padding: '16px 35px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.1rem', transition: 'all 0.3s ease', boxShadow: '0 4px 15px rgba(140, 90, 53, 0.4)' }} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 20px rgba(140, 90, 53, 0.6)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 15px rgba(140, 90, 53, 0.4)';}}>
+                                Reservar Ahora
+                            </a>
+                            <a href="catalogo.html" style={{ backgroundColor: 'rgba(255,255,255,0.1)', border: '2px solid #fff', color: '#fff', padding: '14px 35px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.1rem', transition: 'all 0.3s ease', backdropFilter: 'blur(5px)' }} onMouseEnter={(e) => {e.currentTarget.style.backgroundColor = '#fff'; e.currentTarget.style.color = '#333'; e.currentTarget.style.transform = 'translateY(-4px)';}} onMouseLeave={(e) => {e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.transform = 'translateY(0)';}}>
+                                Ver Habitaciones
+                            </a>
+                        </div>
+
+                        {/* FLECHA DE SCROLL */}
+                        <div style={{ position: 'absolute', bottom: '30px', left: '50%', width: '50px', height: '50px', backgroundColor: 'rgba(255,255,255,0.2)', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.4)', animation: 'bounceDown 2s infinite' }}>
+                            ↓
+                        </div>
+                    </div>
+
+                    {/* === BUSCADOR === */}
+                    <div style={{ maxWidth: '1000px', margin: '-50px auto 60px auto', position: 'relative', zIndex: 10, padding: '0 20px' }}>
+                        <form onSubmit={manejarBusqueda} style={{ backgroundColor: '#fff', padding: '25px 30px', borderRadius: '15px', boxShadow: '0 15px 40px rgba(0,0,0,0.1)', display: 'flex', gap: '20px', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                            <div style={{ flex: '1', minWidth: '200px' }}>
+                                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', color: '#555', fontSize: '0.9rem' }}>Llegada</label>
+                                <input type="date" required min={fechaHoy} value={busqueda.checkIn} onChange={(e) => setBusqueda({...busqueda, checkIn: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '6px', border: '1px solid #ccc' }} />
+                            </div>
+                            <div style={{ flex: '1', minWidth: '200px' }}>
+                                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', color: '#555', fontSize: '0.9rem' }}>Salida</label>
+                                <input type="date" required min={busqueda.checkIn || fechaHoy} value={busqueda.checkOut} onChange={(e) => setBusqueda({...busqueda, checkOut: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '6px', border: '1px solid #ccc' }} />
+                            </div>
+                            <div style={{ flex: '0.8', minWidth: '150px' }}>
+                                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', color: '#555', fontSize: '0.9rem' }}>Huéspedes</label>
+                                <select value={busqueda.huespedes} onChange={(e) => setBusqueda({...busqueda, huespedes: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '6px', border: '1px solid #ccc', backgroundColor: '#fff' }}>
+                                    <option value="1">1 Persona</option>
+                                    <option value="2">2 Personas</option>
+                                    <option value="3">3 Personas</option>
+                                    <option value="4">4 Personas</option>
+                                    <option value="5">5+ Personas</option>
+                                </select>
+                            </div>
+                            
+                            {/* BOTÓN BUSCAR CON ANIMACIÓN */}
+                            <button type="submit" style={{ flex: '0.8', minWidth: '150px', backgroundColor: '#8c5a35', color: '#fff', padding: '14px', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', fontSize: '1.05rem', transition: 'all 0.3s ease' }} onMouseEnter={(e) => {e.currentTarget.style.backgroundColor = '#6e4528'; e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 5px 15px rgba(140,90,53,0.3)';}} onMouseLeave={(e) => {e.currentTarget.style.backgroundColor = '#8c5a35'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
+                                Buscar
+                            </button>
+                        </form>
+                    </div>
+
+                    {/* === HABITACIONES DESTACADAS (CON LIGHTBOX) === */}
+                    <div style={{ maxWidth: '1200px', margin: '0 auto 80px auto', padding: '0 20px' }}>
+                        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+                            <h2 style={{ fontSize: '2.5rem', color: '#333', marginBottom: '10px' }}>Habitaciones Destacadas</h2>
+                            <p style={{ color: '#666', fontSize: '1.1rem' }}>Nuestras opciones más populares elegidas por los huéspedes.</p>
+                        </div>
+
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '30px' }}>
+                            {habitacionesDestacadas.map((hab) => (
+                                <div key={hab.id} style={{ backgroundColor: '#fff', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 8px 20px rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column', transition: 'transform 0.3s, box-shadow 0.3s' }} onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-5px)'; e.currentTarget.style.boxShadow = '0 12px 25px rgba(0,0,0,0.15)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.08)'; }}>
+                                    
+                                    {/* IMAGEN CON CLIC PARA LIGHTBOX */}
+                                    <div onClick={() => abrirGaleria(hab)} style={{ position: 'relative', height: '230px', backgroundColor: '#e0d5c1', cursor: 'zoom-in' }}>
+                                        <img src={hab.imagen} alt={hab.nombre} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.target.src = 'https://via.placeholder.com/400x250?text=Habitación'; }} />
+                                        <span style={{ position: 'absolute', top: '15px', left: '15px', backgroundColor: 'rgba(0,0,0,0.7)', color: '#fff', padding: '5px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold' }}>{hab.tipo}</span>
+                                        <span style={{ position: 'absolute', top: '15px', right: '15px', backgroundColor: '#2ecc71', color: '#fff', padding: '5px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold' }}>Destacada</span>
+                                        
+                                        <div style={{ position: 'absolute', bottom: '15px', right: '15px', backgroundColor: 'rgba(0,0,0,0.6)', color: '#fff', padding: '6px 12px', borderRadius: '5px', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '5px', backdropFilter: 'blur(4px)' }}>
+                                            📷 Ver fotos
+                                        </div>
+                                    </div>
+
+                                    <div style={{ padding: '25px', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
+                                            <h2 style={{ fontSize: '1.4rem', color: '#333', margin: 0 }}>{hab.nombre}</h2>
+                                            <div style={{ textAlign: 'right' }}>
+                                                <h3 style={{ fontSize: '1.2rem', color: '#8c5a35', margin: 0, fontWeight: 'bold' }}>${formatoMoneda(hab.precio)}</h3>
+                                                <span style={{ fontSize: '0.8rem', color: '#777' }}>/ noche</span>
+                                            </div>
+                                        </div>
+                                        <p style={{ color: '#666', fontSize: '0.95rem', marginBottom: '15px' }}>{hab.desc}</p>
+                                        <div style={{ display: 'flex', gap: '15px', marginBottom: '15px', color: '#444', fontSize: '0.9rem', fontWeight: 'bold' }}>
+                                            <span>👥 Máx: {hab.maxPersonas} pers.</span>
+                                            <span>🛏️ {hab.camas}</span>
+                                        </div>
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
+                                            {hab.amenidades.map((amenidad, index) => (
+                                                <span key={index} style={{ backgroundColor: '#fdf8f5', border: '1px solid #e0d5c1', color: '#8c5a35', padding: '4px 10px', borderRadius: '20px', fontSize: '0.8rem' }}>{amenidad}</span>
+                                            ))}
+                                        </div>
+                                        <div style={{ flexGrow: 1 }}></div>
+                                        
+                                        {/* BOTÓN RESERVAR CON ANIMACIÓN */}
+                                        <a href="reservaciones.html" style={{ display: 'block', textAlign: 'center', backgroundColor: '#8c5a35', color: '#fff', padding: '12px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold', transition: 'all 0.3s ease' }} onMouseEnter={(e) => {e.currentTarget.style.backgroundColor = '#6e4528'; e.currentTarget.style.transform = 'translateY(-2px)';}} onMouseLeave={(e) => {e.currentTarget.style.backgroundColor = '#8c5a35'; e.currentTarget.style.transform = 'translateY(0)';}}>
+                                            Reservar ahora
+                                        </a>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        
+                        {/* BOTÓN CATÁLOGO CON ANIMACIÓN */}
+                        <div style={{ textAlign: 'center', marginTop: '40px' }}>
+                            <a href="catalogo.html" style={{ display: 'inline-block', backgroundColor: 'transparent', color: '#8c5a35', border: '2px solid #8c5a35', padding: '12px 30px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold', transition: 'all 0.3s ease' }} onMouseEnter={(e) => {e.currentTarget.style.backgroundColor = '#8c5a35'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.transform = 'scale(1.05)';}} onMouseLeave={(e) => {e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#8c5a35'; e.currentTarget.style.transform = 'scale(1)';}}>
+                                Ver el catálogo completo
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* === SERVICIOS INCLUIDOS (INTERACTIVOS) === */}
+                    <div style={{ backgroundColor: '#fff', padding: '80px 20px', borderTop: '1px solid #e0d5c1', borderBottom: '1px solid #e0d5c1' }}>
+                        <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
+                            <h2 style={{ fontSize: '2.5rem', color: '#333', marginBottom: '50px' }}>Servicios de Primera Clase</h2>
+                            
+                            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '30px' }}>
+                                
+                                {/* Tarjeta de Servicio */}
+                                <div style={{ flex: '1', minWidth: '220px', maxWidth: '280px', border: '2px solid #f4f1ea', borderRadius: '15px', padding: '30px 20px', backgroundColor: '#fff', cursor: 'pointer', transition: 'all 0.3s ease' }} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.borderColor = '#8c5a35'; e.currentTarget.style.boxShadow = '0 10px 25px rgba(140,90,53,0.15)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = '#f4f1ea'; e.currentTarget.style.boxShadow = 'none';}}>
+                                    <div style={{ fontSize: '3rem', marginBottom: '15px' }}>📶</div>
+                                    <h3 style={{ color: '#8c5a35', marginBottom: '10px' }}>Wi-Fi de Alta Velocidad</h3>
+                                    <p style={{ color: '#666', fontSize: '0.95rem', margin: 0 }}>Conexión estable y gratuita en todas las habitaciones y áreas.</p>
+                                </div>
+                                
+                                <div style={{ flex: '1', minWidth: '220px', maxWidth: '280px', border: '2px solid #f4f1ea', borderRadius: '15px', padding: '30px 20px', backgroundColor: '#fff', cursor: 'pointer', transition: 'all 0.3s ease' }} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.borderColor = '#8c5a35'; e.currentTarget.style.boxShadow = '0 10px 25px rgba(140,90,53,0.15)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = '#f4f1ea'; e.currentTarget.style.boxShadow = 'none';}}>
+                                    <div style={{ fontSize: '3rem', marginBottom: '15px' }}>🅿️</div>
+                                    <h3 style={{ color: '#8c5a35', marginBottom: '10px' }}>Estacionamiento</h3>
+                                    <p style={{ color: '#666', fontSize: '0.95rem', margin: 0 }}>Aparcamiento seguro y gratuito exclusivo para nuestros huéspedes.</p>
+                                </div>
+                                
+                                <div style={{ flex: '1', minWidth: '220px', maxWidth: '280px', border: '2px solid #f4f1ea', borderRadius: '15px', padding: '30px 20px', backgroundColor: '#fff', cursor: 'pointer', transition: 'all 0.3s ease' }} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.borderColor = '#8c5a35'; e.currentTarget.style.boxShadow = '0 10px 25px rgba(140,90,53,0.15)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = '#f4f1ea'; e.currentTarget.style.boxShadow = 'none';}}>
+                                    <div style={{ fontSize: '3rem', marginBottom: '15px' }}>🏊</div>
+                                    <h3 style={{ color: '#8c5a35', marginBottom: '10px' }}>Alberca Climatizada</h3>
+                                    <p style={{ color: '#666', fontSize: '0.95rem', margin: 0 }}>Relájate en nuestra zona de piscina con temperatura perfecta todo el año.</p>
+                                </div>
+                                
+                                <div style={{ flex: '1', minWidth: '220px', maxWidth: '280px', border: '2px solid #f4f1ea', borderRadius: '15px', padding: '30px 20px', backgroundColor: '#fff', cursor: 'pointer', transition: 'all 0.3s ease' }} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.borderColor = '#8c5a35'; e.currentTarget.style.boxShadow = '0 10px 25px rgba(140,90,53,0.15)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = '#f4f1ea'; e.currentTarget.style.boxShadow = 'none';}}>
+                                    <div style={{ fontSize: '3rem', marginBottom: '15px' }}>🥐</div>
+                                    <h3 style={{ color: '#8c5a35', marginBottom: '10px' }}>Desayuno Incluido</h3>
+                                    <p style={{ color: '#666', fontSize: '0.95rem', margin: 0 }}>Empieza tu día con nuestro buffet de platillos tradicionales y frescos.</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* === RESEÑAS === */}
+                    <div style={{ maxWidth: '1000px', margin: '80px auto', padding: '0 20px' }}>
+                        <h2 style={{ fontSize: '2.5rem', color: '#333', textAlign: 'center', marginBottom: '40px' }}>Lo que dicen nuestros huéspedes</h2>
+                        
+                        <div style={{ display: 'flex', gap: '30px', flexWrap: 'wrap' }}>
+                            <div style={{ flex: '1', minWidth: '300px', backgroundColor: '#fff', padding: '30px', borderRadius: '15px', boxShadow: '0 5px 20px rgba(0,0,0,0.05)', position: 'relative' }}>
+                                <div style={{ fontSize: '4rem', color: '#e0d5c1', position: 'absolute', top: '10px', left: '20px', opacity: '0.5', lineHeight: '1' }}>"</div>
+                                <div style={{ marginBottom: '15px', position: 'relative', zIndex: 1 }}>{renderEstrellas(5)}</div>
+                                <p style={{ color: '#555', fontSize: '1.1rem', fontStyle: 'italic', marginBottom: '20px', position: 'relative', zIndex: 1 }}>
+                                    "La atención al detalle es impresionante. Desde que entras se siente una paz increíble, y la habitación estaba impecable. Sin duda el mejor lugar para hospedarse en la zona."
+                                </p>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                                    <div style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#8c5a35', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1.2rem' }}>AG</div>
+                                    <div>
+                                        <h4 style={{ margin: 0, color: '#333' }}>Alejandro Gómez</h4>
+                                        <span style={{ fontSize: '0.8rem', color: '#888' }}>Viajero frecuente</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style={{ flex: '1', minWidth: '300px', backgroundColor: '#fff', padding: '30px', borderRadius: '15px', boxShadow: '0 5px 20px rgba(0,0,0,0.05)', position: 'relative' }}>
+                                <div style={{ fontSize: '4rem', color: '#e0d5c1', position: 'absolute', top: '10px', left: '20px', opacity: '0.5', lineHeight: '1' }}>"</div>
+                                <div style={{ marginBottom: '15px', position: 'relative', zIndex: 1 }}>{renderEstrellas(5)}</div>
+                                <p style={{ color: '#555', fontSize: '1.1rem', fontStyle: 'italic', marginBottom: '20px', position: 'relative', zIndex: 1 }}>
+                                    "Celebramos nuestro aniversario aquí y fue la mejor decisión. El servicio del personal, el desayuno y la comodidad de la cama superaron todas nuestras expectativas."
+                                </p>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                                    <div style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#8c5a35', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1.2rem' }}>SF</div>
+                                    <div>
+                                        <h4 style={{ margin: 0, color: '#333' }}>Sara & Fernando</h4>
+                                        <span style={{ fontSize: '0.8rem', color: '#888' }}>Pareja</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* === UBICACIÓN === */}
+                    <div style={{ backgroundColor: '#fff', padding: '60px 20px' }}>
+                        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: '40px', alignItems: 'center' }}>
+                            <div style={{ flex: '1', minWidth: '300px' }}>
+                                <h2 style={{ fontSize: '2.5rem', color: '#333', marginBottom: '20px' }}>Encuéntranos Fácilmente</h2>
+                                <p style={{ color: '#666', fontSize: '1.1rem', marginBottom: '30px', lineHeight: '1.6' }}>
+                                    Estamos ubicados en el corazón histórico, a solo unos pasos de los principales atractivos culturales, restaurantes y centros artesanales.
+                                </p>
+                                <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 30px 0', color: '#555', fontSize: '1.05rem' }}>
+                                    <li style={{ marginBottom: '10px' }}>📍 Centro Histórico, Michoacán, México</li>
+                                    <li style={{ marginBottom: '10px' }}>🚗 A 15 min de la terminal de autobuses</li>
+                                    <li style={{ marginBottom: '10px' }}>✈️ A 40 min del Aeropuerto Internacional</li>
+                                </ul>
+                                
+                                {/* BOTÓN MAPA CON ANIMACIÓN */}
+                                <a href="https://maps.google.com" target="_blank" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', backgroundColor: '#f1f1f1', color: '#333', padding: '12px 25px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold', border: '1px solid #ccc', transition: 'all 0.3s ease' }} onMouseEnter={(e) => {e.currentTarget.style.backgroundColor = '#e5e5e5'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';}} onMouseLeave={(e) => {e.currentTarget.style.backgroundColor = '#f1f1f1'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
+                                    <span>🗺️</span> Abrir en Google Maps
+                                </a>
+                            </div>
+                            <div style={{ flex: '1.5', minWidth: '350px', height: '400px', borderRadius: '15px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15024.96020524584!2d-101.19694465!3d19.70271175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842d0e40be8f5d05%3A0x80352ef2dc740df!2sCentro%20hist%C3%B3rico%20de%20Morelia%2C%20Morelia%2C%20Mich.!5e0!3m2!1ses-419!2smx!4v1700000000000!5m2!1ses-419!2smx" style={{ border: 0, width: '100%', height: '100%' }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Mapa del Hotel"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* === CTA FINAL (FONDO ELEGANTE OSCURO Y ANIMADO) === */}
+                    <div style={{ maxWidth: '1000px', margin: '80px auto', padding: '0 20px' }}>
+                        <div style={{ 
+                            borderRadius: '20px', 
+                            padding: '70px 40px', 
+                            textAlign: 'center', 
+                            color: '#fff', 
+                            backgroundImage: 'linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%)', /* Gris carbón súper elegante */
+                            animation: 'floatSubtle 4s ease-in-out infinite' /* Animación de flotación */
+                        }}>
+                            <h2 style={{ fontSize: '2.5rem', marginBottom: '15px', color: '#fff' }}>¿Listo para tu próxima escapada?</h2>
+                            <p style={{ fontSize: '1.2rem', color: '#e0d5c1', marginBottom: '40px', maxWidth: '600px', margin: '0 auto 40px auto' }}>
+                                No esperes más. Las fechas más solicitadas se llenan rápido. Asegura tu descanso ideal hoy mismo.
+                            </p>
+                            
+                            {/* BOTÓN FINAL CON ANIMACIÓN */}
+                            <a href="reservaciones.html" style={{ backgroundColor: '#8c5a35', color: '#fff', padding: '16px 40px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.2rem', transition: 'all 0.3s ease', display: 'inline-block' }} onMouseEnter={(e) => {e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.backgroundColor = '#a3683d'; e.currentTarget.style.boxShadow = '0 10px 25px rgba(140,90,53,0.4)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.backgroundColor = '#8c5a35'; e.currentTarget.style.boxShadow = 'none';}}>
+                                Ver Disponibilidad y Reservar
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* === LIGHTBOX A PANTALLA COMPLETA === */}
+                    {lightbox.abierto && (
+                        <div onClick={cerrarGaleria} style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.92)', zIndex: 9999, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                            <button onClick={cerrarGaleria} style={{ position: 'absolute', top: '25px', right: '30px', background: 'none', border: 'none', color: '#fff', fontSize: '2.5rem', cursor: 'pointer', zIndex: 10000, padding: '10px', transition: 'transform 0.2s' }} onMouseEnter={(e)=>e.currentTarget.style.transform='scale(1.2)'} onMouseLeave={(e)=>e.currentTarget.style.transform='scale(1)'}>✕</button>
+                            <div onClick={(e) => e.stopPropagation()} style={{ position: 'relative', width: '90%', maxWidth: '1000px', height: '65vh', display: 'flex', justifyContent: 'center', alignItems: 'center', userSelect: 'none' }}>
+                                <button onClick={fotoAnterior} style={{ position: 'absolute', left: '-20px', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: '3rem', cursor: 'pointer', padding: '10px 20px', borderRadius: '10px', transition: '0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background='rgba(255,255,255,0.3)'} onMouseLeave={(e) => e.currentTarget.style.background='rgba(255,255,255,0.1)'}>‹</button>
+                                <img src={lightbox.habitacionActual.galeria[lightbox.indiceFoto].url} style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', borderRadius: '8px', boxShadow: '0 10px 40px rgba(0,0,0,0.5)' }} />
+                                <button onClick={fotoSiguiente} style={{ position: 'absolute', right: '-20px', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: '3rem', cursor: 'pointer', padding: '10px 20px', borderRadius: '10px', transition: '0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background='rgba(255,255,255,0.3)'} onMouseLeave={(e) => e.currentTarget.style.background='rgba(255,255,255,0.1)'}>›</button>
+                                <div style={{ position: 'absolute', bottom: '-45px', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#fff' }}>
+                                    <h4 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 'normal', letterSpacing: '1px' }}>{lightbox.habitacionActual.galeria[lightbox.indiceFoto].etiqueta}</h4>
+                                    <span style={{ fontSize: '1rem', backgroundColor: 'rgba(255,255,255,0.2)', padding: '5px 12px', borderRadius: '20px' }}>{lightbox.indiceFoto + 1} / {lightbox.habitacionActual.galeria.length}</span>
+                                </div>
+                            </div>
+                            <div className="thumbnails-container" onClick={(e) => e.stopPropagation()} style={{ display: 'flex', gap: '15px', marginTop: '80px', overflowX: 'auto', maxWidth: '90%', padding: '10px 5px', userSelect: 'none' }}>
+                                {lightbox.habitacionActual.galeria.map((img, i) => (
+                                    <img key={i} src={img.url} onClick={(e) => irAFoto(e, i)} style={{ width: '100px', height: '70px', objectFit: 'cover', borderRadius: '6px', cursor: 'pointer', transition: 'all 0.2s ease', border: lightbox.indiceFoto === i ? '3px solid #8c5a35' : '3px solid transparent', opacity: lightbox.indiceFoto === i ? 1 : 0.4, transform: lightbox.indiceFoto === i ? 'scale(1.05)' : 'scale(1)' }} />
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root-index'));
+        root.render(<PaginaInicio />);
+    </script>
+</body>
 </html>

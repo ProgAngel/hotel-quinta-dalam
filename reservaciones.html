@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservaciones | Hotel Quinta Dalam</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="icon" type="image/x-icon" href="./img/logo/Logo2.ico">
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="Logo">
+                <img src="./img/logo/Logo2.ico" alt="Logo Quinta Dalam">
+                <span>Hotel Quinta Dalam</span>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="catalogo.html">Habitaciones</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="reservaciones.html" class="active">Reservar</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">Idioma 🌐</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="reservaciones.html">Español</a></li>
+                        <li><a href="reservaciones-en.html">English</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header bg-contacto">
+            <h1>Reserva tu Estancia</h1>
+            <p>Selecciona tus fechas y encuentra la habitación perfecta en Michoacán.</p>
+        </section>
+
+       <div id="root-reservaciones" style="max-width: 1200px; margin: 40px auto; position: relative; z-index: 10; padding: 0 20px;"></div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            
+            <div class="footer-column brand-col">
+                <h1>Hotel Quinta-Dalam</h1>
+                <p>Tu refugio temático en el corazón de Michoacán. Vive la cultura, el confort y la tradición en cada estancia.</p>
+            </div>
+
+            <div class="footer-column links-col">
+                <h1>Enlaces Rápidos</h1>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="catalogo.html">Habitaciones</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                    <li><a href="reservaciones.html">Reservar</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column contact-col">
+                <h1>Contáctanos</h1>
+                <p>📍 Michoacán, México</p>
+                <p>📞 +52 (443) 000-0000</p>
+                <p>✉️ reservaciones@quintadalam.com</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Hotel Quinta-Dalam. Todos los derechos reservados.</p>
+            
+            <div class="w3c-badges" style="margin-top: 15px; display: flex; justify-content: center; gap: 15px; align-items: center;">
+                
+                <a href="https://validator.w3.org/nu/?doc=https://progangel.github.io/hotel-quinta-dalam/" target="_blank">
+                    <img src="https://www.w3.org/html/logo/badge/html5-badge-h-solo.png" width="45" height="45" alt="HTML5 Válido" title="Código HTML5 Válido">
+                </a>
+
+                <a href="https://jigsaw.w3.org/css-validator/validator?lang=es&profile=css3svg&uri=https%3A%2F%2Fprogangel.github.io%2Fhotel-quinta-dalam%2Fnosotros.html&usermedium=all&vextwarning=&warning=1">
+                <img style="border:0;width:88px;height:31px"
+                src="https://jigsaw.w3.org/css-validator/images/vcss"
+                alt="¡CSS Válido!" /></a>
+
+            </div>
+        </div>
+    </footer>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const habitacionesCatalogo = [
+           { id: 1, nombre: 'Tzintzuntzan', precio: 800, maxPersonas: 4, imagen: './img/habitaciones/habitacion101.jpg'},
+            { id: 2, nombre: 'Pátzcuaro', precio: 1200, maxPersonas: 5, imagen: './img/habitaciones/habitacion104.jpg' },
+            { id: 3, nombre: 'Coeneo', precio: 1000, maxPersonas: 3, imagen: './img/habitaciones/habitacion105.jpg' },
+            { id: 4, nombre: 'Tacámbaro', precio: 1500, maxPersonas: 6, imagen: './img/habitaciones/habitacion203.jpg' },
+            { id: 5, nombre: 'Uruapan', precio: 1500, maxPersonas: 6, imagen: './img/habitaciones/habitacion204.jpg' },
+            { id: 6, nombre: 'Tlalpujahua', precio: 1200, maxPersonas: 4, imagen: './img/habitaciones/habitacionn205.jpg' },
+            { id: 7, nombre: 'Paracho', precio: 800, maxPersonas: 4, imagen: './img/habitaciones/habitacion102.jpg' },
+            { id: 8, nombre: 'Yunuen', precio: 1200, maxPersonas: 5, imagen: './img/habitaciones/habitacion103.jpg' },
+            { id: 9, nombre: 'Cuitzeo', precio: 1000, maxPersonas: 3, imagen: './img/habitaciones/habitacion206.jpg' },
+            { id: 10, nombre: 'Janitzio', precio: 1000, maxPersonas: 3, imagen: './img/habitaciones/habitacion106.jpg' },
+            { id: 11, nombre: 'Suite Quinceo', precio: 2200, maxPersonas: 2, imagen: './img/habitaciones/habitacion201.jpg' },
+            { id: 12, nombre: 'Morelia', precio: 1200, maxPersonas: 5, imagen: './img/habitaciones/habitacion202.jpg' },
+            { id: 13, nombre: 'Cuanajo', precio: 1180, maxPersonas: 6, imagen: './img/habitaciones/habitacion207.jpg' }
+        ];
+
+        function ModuloReservaciones() {
+            const [checkIn, setCheckIn] = useState('');
+            const [checkOut, setCheckOut] = useState('');
+            const [adultos, setAdultos] = useState(1);
+            const [ninos, setNinos] = useState(0);
+            const [habitacionSeleccionada, setHabitacionSeleccionada] = useState(null);
+            const [errorFechas, setErrorFechas] = useState('');
+            const [noches, setNoches] = useState(0);
+
+            // ESTADOS DEL CLIENTE
+            const [mostrarModal, setMostrarModal] = useState(false);
+            const [reservaExitosa, setReservaExitosa] = useState(false); // NUEVO ESTADO PARA ÉXITO
+            // NUEVOS ESTADOS PARA CANCELACIÓN
+            const [mostrarConfirmacionCancelar, setMostrarConfirmacionCancelar] = useState(false);
+            const [cancelacionExitosa, setCancelacionExitosa] = useState(false);
+            // Cliente
+            const [datosCliente, setDatosCliente] = useState({
+                nombre: '', apellido: '', correo: '', codigoPais: '+52', telefono: '', 
+                metodoPago: 'tarjeta', numeroTarjeta: '', fechaExpiracion: '', cvv: ''
+            });
+
+            const fechaHoy = new Date().toISOString().split('T')[0];
+
+            useEffect(() => {
+                if (checkIn && checkOut) {
+                    const fechaInicio = new Date(checkIn);
+                    const fechaFin = new Date(checkOut);
+                    const diferenciaDias = Math.ceil((fechaFin - fechaInicio) / (1000 * 60 * 60 * 24));
+
+                    if (diferenciaDias <= 0) {
+                        setErrorFechas('La fecha de salida debe ser posterior a la de llegada.');
+                        setNoches(0);
+                        setHabitacionSeleccionada(null);
+                    } else {
+                        setErrorFechas('');
+                        setNoches(diferenciaDias);
+                    }
+                } else {
+                    setErrorFechas('');
+                    setNoches(0);
+                    setHabitacionSeleccionada(null);
+                }
+            }, [checkIn, checkOut]);
+
+            const sumarAdulto = () => setAdultos(prev => prev < 4 ? prev + 1 : prev);
+            const restarAdulto = () => setAdultos(prev => prev > 1 ? prev - 1 : prev);
+            const sumarNino = () => setNinos(prev => prev < 3 ? prev + 1 : prev);
+            const restarNino = () => setNinos(prev => prev > 0 ? prev - 1 : prev);
+
+            const limpiarDatos = () => {
+                setCheckIn('');
+                setCheckOut('');
+                setAdultos(1);
+                setNinos(0);
+                setHabitacionSeleccionada(null);
+                setErrorFechas('');
+                setNoches(0);
+                setDatosCliente({ 
+                    nombre: '', apellido: '', correo: '', codigoPais: '+52', telefono: '', 
+                    metodoPago: 'tarjeta', numeroTarjeta: '', fechaExpiracion: '', cvv: '' 
+                });
+            };
+
+            const formatoMoneda = (cantidad) => {
+                return cantidad.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            };
+
+            // NUEVA LÓGICA DE CONFIRMACIÓN CON SONIDO
+            const procesarReserva = (e) => {
+                e.preventDefault(); 
+                
+                // 1. Reproducir sonido de éxito (Puedes cambiar esta URL por un archivo local como './audio/exito.mp3')
+                const audioExito = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
+                audioExito.play().catch(err => console.log("El navegador bloqueó el audio automático"));
+
+                // 2. Ocultar el formulario y mostrar la ventana de éxito
+                setMostrarModal(false);
+                setReservaExitosa(true);
+
+                // 3. Después de 4 segundos, cerramos la ventana de éxito y limpiamos todo
+                setTimeout(() => {
+                    setReservaExitosa(false);
+                    limpiarDatos();
+                }, 4000);
+            };
+            // === NUEVAS FUNCIONES DE CANCELACIÓN ===
+            const intentarCancelar = () => {
+                setMostrarConfirmacionCancelar(true);
+            };
+
+            const confirmarCancelacion = () => {
+                const audioCancel = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
+                audioCancel.play().catch(err => console.log("Audio bloqueado"));
+
+                setMostrarConfirmacionCancelar(false);
+                setMostrarModal(false);
+                setCancelacionExitosa(true);
+
+                setTimeout(() => {
+                    setCancelacionExitosa(false);
+                    limpiarDatos();
+                }, 3000);
+            };
+
+            const abortarCancelacion = () => {
+                setMostrarConfirmacionCancelar(false);
+            };
+
+            const huespedesTotales = adultos + ninos;
+            const habitacionesDisponibles = habitacionesCatalogo.filter(hab => hab.maxPersonas >= huespedesTotales);
+
+            const subtotal = habitacionSeleccionada ? habitacionSeleccionada.precio * noches : 0;
+            const ish = subtotal * 0.03;
+            const iva = subtotal * 0.16;
+            const total = subtotal + ish + iva;
+
+            const columnaStyle = { flex: '1', minWidth: '300px', height: '550px', backgroundColor: '#fff', padding: '20px', borderRadius: '10px', boxShadow: '0 4px 15px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column', overflowY: 'auto' };
+            const estadoValidacion = (!checkIn || !checkOut) ? 'inicial' : (noches > 0 && !errorFechas ? 'valido' : 'error');
+
+            return (
+                <div style={{ display: 'flex', gap: '30px', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'flex-start' }}>
+                    
+                    {/* COLUMNA 1 */}
+                    <div style={columnaStyle}>
+                        <h3 style={{ color: '#8c5a35', borderBottom: '2px solid #e0d5c1', paddingBottom: '10px', flexShrink: 0 }}>PASO 1: Fechas y Huéspedes</h3>
+                        <div style={{ marginTop: '20px' }}>
+                            <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Llegada (Check-in)</label>
+                            <input type="date" value={checkIn} min={fechaHoy} onChange={(e) => setCheckIn(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', marginBottom: '15px' }} />
+
+                            <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Salida (Check-out)</label>
+                            <input type="date" value={checkOut} min={checkIn || fechaHoy} onChange={(e) => setCheckOut(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', marginBottom: '15px' }} />
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
+                            <div>
+                                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Adultos</label>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <button onClick={restarAdulto} style={{ padding: '5px 15px', cursor: 'pointer' }}>-</button>
+                                    <span>{adultos}</span>
+                                    <button onClick={sumarAdulto} style={{ padding: '5px 15px', cursor: 'pointer' }}>+</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Niños</label>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <button onClick={restarNino} style={{ padding: '5px 15px', cursor: 'pointer' }}>-</button>
+                                    <span>{ninos}</span>
+                                    <button onClick={sumarNino} style={{ padding: '5px 15px', cursor: 'pointer' }}>+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style={{ backgroundColor: estadoValidacion === 'valido' ? '#e6ffe6' : (estadoValidacion === 'error' ? '#ffe6e6' : '#f9f9f9'), padding: '15px', borderRadius: '5px', border: '1px solid #ddd', marginTop: 'auto' }}>
+                            <p style={{ margin: '5px 0', color: estadoValidacion === 'error' ? 'red' : '#333' }}>
+                                {estadoValidacion === 'inicial' && '📅 Seleccione fechas de llegada y salida'}
+                                {estadoValidacion === 'valido' && '✅ Fechas válidas'}
+                                {estadoValidacion === 'error' && `❌ ${errorFechas}`}
+                            </p>
+                            <p style={{ margin: '5px 0' }}>✅ Huéspedes: {huespedesTotales}</p>
+                            {noches > 0 && <p style={{ margin: '5px 0', fontWeight: 'bold', color: '#8c5a35' }}>Total de noches: {noches}</p>}
+                        </div>
+                    </div>
+
+                    {/* COLUMNA 2 */}
+                    <div style={{ ...columnaStyle, opacity: noches > 0 ? 1 : 0.5, pointerEvents: noches > 0 ? 'auto' : 'none', transition: '0.3s' }}>
+                        <h3 style={{ color: '#8c5a35', borderBottom: '2px solid #e0d5c1', paddingBottom: '10px', flexShrink: 0 }}>PASO 2: Elija su Habitación</h3>
+                        
+                        {noches === 0 ? (
+                            <p style={{ marginTop: '20px', color: '#666' }}>Complete el Paso 1 para ver las habitaciones disponibles.</p>
+                        ) : (
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '15px', marginTop: '20px' }}>
+                                {habitacionesDisponibles.map(hab => (
+                                    <div key={hab.id} onClick={() => setHabitacionSeleccionada(hab)} style={{ border: habitacionSeleccionada?.id === hab.id ? '2px solid #8c5a35' : '1px solid #ddd', borderRadius: '8px', padding: '10px', cursor: 'pointer', backgroundColor: habitacionSeleccionada?.id === hab.id ? '#fdf8f5' : '#fff', textAlign: 'center', transition: 'all 0.2s', boxShadow: habitacionSeleccionada?.id === hab.id ? '0 4px 8px rgba(140, 90, 53, 0.2)' : 'none' }}>
+                                        <img src={hab.imagen} alt={hab.nombre} style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '4px', marginBottom: '10px', backgroundColor: '#e0d5c1' }} onError={(e) => { e.target.src = 'https://via.placeholder.com/150?text=Sin+Imagen'; }} />
+                                        <h4 style={{ margin: '5px 0', fontSize: '0.9rem', color: '#333' }}>{hab.nombre}</h4>
+                                        <p style={{ margin: '0', color: '#8c5a35', fontWeight: 'bold', fontSize: '0.9rem' }}>${formatoMoneda(hab.precio)}</p>
+                                        <p style={{ margin: '5px 0 0 0', fontSize: '0.75rem', color: '#666' }}>Máx: {hab.maxPersonas} pers.</p>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* COLUMNA 3 */}
+                    <div style={{ ...columnaStyle, opacity: habitacionSeleccionada ? 1 : 0.5, transition: '0.3s' }}>
+                        <h3 style={{ color: '#8c5a35', borderBottom: '2px solid #e0d5c1', paddingBottom: '10px', flexShrink: 0 }}>PASO 3: Resumen y confirmación</h3>
+                        
+                        {habitacionSeleccionada && noches > 0 ? (
+                            <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', height: '100%' }}>
+                                <div style={{ flexGrow: 1 }}>
+                                    <h4 style={{ color: '#333', marginBottom: '15px', fontSize: '1.2rem' }}>Habitación {habitacionSeleccionada.nombre}</h4>
+                                    <p style={{ margin: '5px 0', color: '#555' }}><strong>Llegada:</strong> {checkIn}</p>
+                                    <p style={{ margin: '5px 0', color: '#555' }}><strong>Salida:</strong> {checkOut}</p>
+                                    <p style={{ margin: '5px 0', color: '#555' }}><strong>Estancia:</strong> {noches} noche(s)</p>
+                                    <p style={{ margin: '5px 0', color: '#555' }}><strong>Huéspedes:</strong> {adultos} Adulto(s), {ninos} Niño(s)</p>
+                                    
+                                    <hr style={{ border: 'none', borderTop: '1px dashed #ccc', margin: '20px 0' }} />
+                                    
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', color: '#666' }}><span>Subtotal ({noches} noches):</span><span>${formatoMoneda(subtotal)}</span></div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', color: '#666' }}><span>ISH (3%):</span><span>${formatoMoneda(ish)}</span></div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', color: '#666' }}><span>IVA (16%):</span><span>${formatoMoneda(iva)}</span></div>
+
+                                    <hr style={{ border: 'none', borderTop: '2px solid #e0d5c1', margin: '20px 0' }} />
+                                    
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', color: '#333', fontSize: '1.2rem', fontWeight: 'bold' }}><span>TOTAL:</span><span>${formatoMoneda(total)} MXN</span></div>
+                                </div>
+
+                                <div style={{ marginTop: 'auto' }}>
+                                    <button onClick={() => setMostrarModal(true)} style={{ width: '100%', backgroundColor: '#8c5a35', color: '#fff', padding: '12px', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold', marginBottom: '10px' }}>Confirmar Reserva</button>
+                                    <button onClick={limpiarDatos} style={{ width: '100%', backgroundColor: 'transparent', color: '#d9534f', padding: '10px', border: '1px solid #d9534f', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold', transition: '0.2s' }}>Limpiar Datos</button>
+                                </div>
+                            </div>
+                        ) : (
+                            <p style={{ marginTop: '20px', color: '#666' }}>Seleccione fechas y una habitación para ver el desglose completo.</p>
+                        )}
+                    </div>
+
+                    {/* === MODAL DE CONFIRMACIÓN (FORMULARIO) === */}
+                    {mostrarModal && (
+                        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.6)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, overflowY: 'auto', padding: '20px' }}>
+                            <div style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '10px', width: '100%', maxWidth: '500px', boxShadow: '0 10px 25px rgba(0,0,0,0.2)', maxHeight: '90vh', overflowY: 'auto' }}>
+                                <h2 style={{ color: '#8c5a35', borderBottom: '2px solid #e0d5c1', paddingBottom: '10px', marginBottom: '20px', textAlign: 'center' }}>Finalizar Reserva</h2>
+                                
+                                <form onSubmit={procesarReserva}>
+                                    
+                                    <div style={{ display: 'flex', gap: '15px', marginBottom: '15px' }}>
+                                        <div style={{ flex: 1 }}>
+                                            <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px', color: '#333', fontSize: '0.9rem' }}>Nombre(s)</label>
+                                            <input type="text" required pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" title="Solo letras" value={datosCliente.nombre} onChange={(e) => setDatosCliente({...datosCliente, nombre: e.target.value})} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} placeholder="Ej. Juan" />
+                                        </div>
+                                        <div style={{ flex: 1 }}>
+                                            <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px', color: '#333', fontSize: '0.9rem' }}>Apellido(s)</label>
+                                            <input type="text" required pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" title="Solo letras" value={datosCliente.apellido} onChange={(e) => setDatosCliente({...datosCliente, apellido: e.target.value})} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} placeholder="Ej. Pérez" />
+                                        </div>
+                                    </div>
+
+                                    {/* === VALIDACIÓN ESTRICTA DE CORREO === */}
+                                    <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px', color: '#333', fontSize: '0.9rem' }}>Correo Electrónico</label>
+                                    <input 
+                                        type="email" 
+                                        required 
+                                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" 
+                                        title="Por favor ingresa un correo válido (ejemplo: usuario@dominio.com)"
+                                        value={datosCliente.correo} 
+                                        onChange={(e) => setDatosCliente({...datosCliente, correo: e.target.value})} 
+                                        style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', marginBottom: '15px' }} 
+                                        placeholder="ejemplo@correo.com" 
+                                    />
+
+                                    <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px', color: '#333', fontSize: '0.9rem' }}>Teléfono Móvil</label>
+                                    <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+                                        <select value={datosCliente.codigoPais} onChange={(e) => setDatosCliente({...datosCliente, codigoPais: e.target.value})} style={{ width: '35%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}>
+                                            <option value="+52">🇲🇽 MX (+52)</option>
+                                            <option value="+1">🇺🇸 US (+1)</option>
+                                            <option value="+1">🇨🇦 CA (+1)</option>
+                                            <option value="+34">🇪🇸 ES (+34)</option>
+                                            <option value="+54">🇦🇷 AR (+54)</option>
+                                            <option value="+51">🇵🇪 PE (+51)</option>
+                                            <option value="+57">🇨🇴 CO (+57)</option>
+                                        </select>
+                                        <input type="tel" required pattern="[0-9]{10}" title="Debe contener exactamente 10 dígitos numéricos" value={datosCliente.telefono} onChange={(e) => setDatosCliente({...datosCliente, telefono: e.target.value})} style={{ width: '65%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} placeholder="10 dígitos" maxLength="10" />
+                                    </div>
+
+                                    <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px', color: '#333', fontSize: '0.9rem' }}>Forma de Pago</label>
+                                    <select value={datosCliente.metodoPago} onChange={(e) => setDatosCliente({...datosCliente, metodoPago: e.target.value})} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', marginBottom: '20px' }}>
+                                        <option value="tarjeta">💳 Tarjeta de Crédito / Débito</option>
+                                        <option value="paypal">🅿️ PayPal</option>
+                                        <option value="transferencia">🏦 Transferencia Bancaria (SPEI)</option>
+                                        <option value="recepcion">🏨 Pagar en Recepción (Efectivo)</option>
+                                    </select>
+
+                                    <div style={{ marginBottom: '25px' }}>
+                                        {datosCliente.metodoPago === 'tarjeta' && (
+                                            <div style={{ backgroundColor: '#f9f9f9', padding: '15px', border: '1px solid #e0d5c1', borderRadius: '5px' }}>
+                                                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px', fontSize: '0.85rem' }}>Número de Tarjeta</label>
+                                                <input type="text" required pattern="[0-9]{16}" title="Debe contener 16 dígitos numéricos" placeholder="0000 0000 0000 0000" maxLength="16" value={datosCliente.numeroTarjeta} onChange={(e) => setDatosCliente({...datosCliente, numeroTarjeta: e.target.value})} style={{ width: '100%', padding: '8px', marginBottom: '10px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                                                
+                                                <div style={{ display: 'flex', gap: '15px' }}>
+                                                    <div style={{ flex: 1 }}>
+                                                        <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px', fontSize: '0.85rem' }}>Expiración (MM/AA)</label>
+                                                        <input type="text" required pattern="(0[1-9]|1[0-2])\/[0-9]{2}" title="Formato MM/AA" placeholder="MM/AA" maxLength="5" value={datosCliente.fechaExpiracion} onChange={(e) => setDatosCliente({...datosCliente, fechaExpiracion: e.target.value})} style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                                                    </div>
+                                                    <div style={{ flex: 1 }}>
+                                                        <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px', fontSize: '0.85rem' }}>CVV</label>
+                                                        <input type="text" required pattern="[0-9]{3,4}" title="3 o 4 dígitos de seguridad" placeholder="123" maxLength="4" value={datosCliente.cvv} onChange={(e) => setDatosCliente({...datosCliente, cvv: e.target.value})} style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                        {datosCliente.metodoPago === 'paypal' && ( <div style={{ backgroundColor: '#eef6fa', padding: '15px', border: '1px solid #b6d4ea', borderRadius: '5px', textAlign: 'center', color: '#003087' }}><p style={{ margin: 0, fontWeight: 'bold' }}>Se te redirigirá a PayPal.</p></div> )}
+                                        {datosCliente.metodoPago === 'transferencia' && ( <div style={{ backgroundColor: '#fdf8f5', padding: '15px', border: '1px solid #e0d5c1', borderRadius: '5px', color: '#333' }}><p style={{ margin: '0 0 5px 0', fontWeight: 'bold' }}>Banco: BBVA <br/>CLABE: 012345678901234567</p></div> )}
+                                        {datosCliente.metodoPago === 'recepcion' && ( <div style={{ backgroundColor: '#e6ffe6', padding: '15px', border: '1px solid #b3ccb3', borderRadius: '5px', textAlign: 'center', color: '#2d662d' }}><p style={{ margin: 0, fontWeight: 'bold' }}>Pago en Recepción.</p></div> )}
+                                    </div>
+
+                                    <div style={{ backgroundColor: '#fdf8f5', padding: '15px', borderRadius: '5px', marginBottom: '20px', textAlign: 'center', border: '1px solid #e0d5c1' }}>
+                                        <span style={{ color: '#666', fontSize: '0.9rem' }}>Total a pagar:</span>
+                                        <h3 style={{ color: '#8c5a35', margin: '5px 0 0 0' }}>${formatoMoneda(total)} MXN</h3>
+                                    </div>
+
+                                    <div style={{ display: 'flex', gap: '15px' }}>
+                                        <button type="button" onClick={intentarCancelar} style={{ flex: 1, backgroundColor: '#fff', color: '#d9534f', padding: '12px', border: '1px solid #d9534f', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>Cancelar</button>
+                                        <button type="submit" style={{ flex: 1, backgroundColor: '#8c5a35', color: '#fff', padding: '12px', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>Confirmar Pago</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* === MODAL SECUNDARIO: CONFIRMAR CANCELACIÓN === */}
+                    {mostrarConfirmacionCancelar && (
+                        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.8)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1500 }}>
+                            <div style={{ backgroundColor: '#fff', padding: '40px', borderRadius: '10px', width: '90%', maxWidth: '400px', textAlign: 'center', boxShadow: '0 10px 25px rgba(0,0,0,0.3)' }}>
+                                <div style={{ fontSize: '60px', marginBottom: '15px' }}>⚠️</div>
+                                <h3 style={{ color: '#d9534f', marginBottom: '15px' }}>¿Cancelar reservación?</h3>
+                                <p style={{ color: '#555', marginBottom: '25px' }}>Se perderán los datos ingresados y la habitación seleccionada.</p>
+                                
+                                <div style={{ display: 'flex', gap: '15px' }}>
+                                    <button onClick={abortarCancelacion} style={{ flex: 1, backgroundColor: '#f1f1f1', color: '#333', padding: '10px', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>No, volver</button>
+                                    <button onClick={confirmarCancelacion} style={{ flex: 1, backgroundColor: '#d9534f', color: '#fff', padding: '10px', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>Sí, cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* === MODAL DE ÉXITO (LA PALOMITA) === */}
+                    {reservaExitosa && (
+                        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.7)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 2000 }}>
+                            <div style={{ backgroundColor: '#fff', padding: '50px', borderRadius: '15px', textAlign: 'center', boxShadow: '0 10px 30px rgba(0,0,0,0.3)', width: '90%', maxWidth: '400px' }}>
+                                
+                                {/* Palomita gigante animada por CSS inline */}
+                                <div style={{ fontSize: '80px', marginBottom: '20px', color: '#2ecc71', transform: 'scale(1)', animation: 'pulse 0.5s ease-in-out' }}>
+                                    ✅
+                                </div>
+                                
+                                <h2 style={{ color: '#2d662d', marginBottom: '15px', fontSize: '1.8rem' }}>¡Reservación Exitosa!</h2>
+                                <p style={{ color: '#555', fontSize: '1.1rem', marginBottom: '10px' }}>
+                                    Gracias, <strong>{datosCliente.nombre}</strong>.
+                                </p>
+                                <p style={{ color: '#777', fontSize: '0.95rem' }}>
+                                    Hemos enviado los detalles de tu reservación a:<br/>
+                                    <strong style={{ color: '#333' }}>{datosCliente.correo}</strong>
+                                </p>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* === MODAL DE CANCELACIÓN EXITOSA (EL TACHE ROJO) === */}
+                    {cancelacionExitosa && (
+                        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.7)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 2000 }}>
+                            <div style={{ backgroundColor: '#fff', padding: '50px', borderRadius: '15px', textAlign: 'center', width: '90%', maxWidth: '400px' }}>
+                                <div style={{ fontSize: '80px', marginBottom: '20px', color: '#d9534f', animation: 'pulse 0.5s ease-in-out' }}>❌</div>
+                                <h2 style={{ color: '#d9534f', marginBottom: '15px' }}>Reservación Cancelada</h2>
+                                <p style={{ color: '#555' }}>El proceso se detuvo de forma segura.</p>
+                            </div>
+                        </div>
+                    )}
+
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root-reservaciones'));
+        root.render(<ModuloReservaciones />);
+    </script>
+</body>
+</html>
