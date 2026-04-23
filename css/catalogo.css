@@ -1,0 +1,138 @@
+/* ── Grid del catálogo ── */
+.catalogo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+/* ── Lightbox ── */
+.thumbnails-container::-webkit-scrollbar {
+  height: 8px;
+}
+.thumbnails-container::-webkit-scrollbar-thumb {
+  background-color: #8c5a35;
+  border-radius: 4px;
+}
+.thumbnails-container::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.lb-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.92);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.lb-close {
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2.5rem;
+  cursor: pointer;
+  z-index: 10000;
+  padding: 10px;
+  transition: transform 0.2s;
+}
+.lb-close:hover {
+  transform: scale(1.2);
+}
+
+.lb-viewer {
+  position: relative;
+  width: 90%;
+  max-width: 1000px;
+  height: 65vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
+.lb-nav {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  font-size: 3rem;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+.lb-nav:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+.lb-nav--prev {
+  left: -20px;
+}
+.lb-nav--next {
+  right: -20px;
+}
+.lb-img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+.lb-info {
+  position: absolute;
+  bottom: -45px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+}
+.lb-label {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: normal;
+  letter-spacing: 1px;
+}
+.lb-counter {
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+.lb-thumbs {
+  display: flex;
+  gap: 15px;
+  margin-top: 80px;
+  overflow-x: auto;
+  max-width: 90%;
+  padding: 10px 5px;
+  user-select: none;
+}
+.lb-thumb {
+  width: 100px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 3px solid transparent;
+  opacity: 0.4;
+}
+.lb-thumb--activa {
+  border-color: #8c5a35;
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* ── Responsive ── */
+@media screen and (max-width: 768px) {
+  .catalogo-grid {
+    grid-template-columns: 1fr;
+  }
+}

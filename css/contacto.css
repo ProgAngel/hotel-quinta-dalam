@@ -1,0 +1,678 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap");
+
+/* ── Wrapper de página ── */
+.contacto-page {
+  max-width: 1060px;
+  width: 92%;
+  margin: 50px auto 80px;
+  font-family: "Lato", Arial, sans-serif;
+  animation: cFadeIn 0.6s ease forwards;
+  opacity: 0;
+}
+
+@keyframes cFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Encabezado de página — tarjeta flotante ── */
+.contacto-hero {
+  text-align: center;
+  margin-bottom: 44px;
+  padding: 0 20px;
+}
+
+.contacto-hero-card {
+  display: inline-block;
+  max-width: 640px;
+  width: 100%;
+  padding: 44px 50px 40px;
+  border-radius: 22px;
+  background: linear-gradient(
+    145deg,
+    #2a1206 0%,
+    #4a2010 30%,
+    #6b3a1f 65%,
+    #8c5a35 100%
+  );
+  box-shadow: 0 20px 55px rgba(42, 18, 6, 0.38);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Brillo interior */
+.contacto-hero-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(
+      ellipse at 20% 30%,
+      rgba(255, 255, 255, 0.07) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 80% 70%,
+      rgba(196, 154, 108, 0.08) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+}
+
+/* Línea ornamental superior */
+.contacto-hero-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #c49a6c, transparent);
+}
+
+.contacto-hero h1 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.contacto-hero p {
+  font-size: 0.97rem;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.7;
+  position: relative;
+  z-index: 2;
+}
+
+/* Línea decorativa */
+.contacto-hero-line {
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.45),
+    transparent
+  );
+  margin: 16px auto 0;
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 540px) {
+  .contacto-hero-card {
+    padding: 34px 24px 30px;
+  }
+  .contacto-hero h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* ── Tarjeta principal dividida ── */
+.contacto-card {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  animation: cSlideUp 0.7s ease forwards;
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+@keyframes cSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Panel izquierdo (info + mapa) ── */
+.contacto-panel-info {
+  background: linear-gradient(
+    160deg,
+    #2a1206 0%,
+    #5a2e10 40%,
+    #8c5a35 75%,
+    #b07d52 100%
+  );
+  position: relative;
+  padding: 50px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+}
+
+/* Efecto de luz interior */
+.contacto-panel-info::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(
+      circle at 25% 25%,
+      rgba(255, 255, 255, 0.07) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 80% 75%,
+      rgba(255, 255, 255, 0.04) 0%,
+      transparent 40%
+    );
+  pointer-events: none;
+}
+
+/* Ornamentos decorativos */
+.cinfo-ornament {
+  position: absolute;
+  top: -55px;
+  right: -55px;
+  width: 180px;
+  height: 180px;
+  border: 2px solid rgba(255, 255, 255, 0.07);
+  border-radius: 50%;
+}
+
+.cinfo-ornament::after {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+}
+
+.cinfo-ornament-b {
+  position: absolute;
+  bottom: -70px;
+  left: -70px;
+  width: 220px;
+  height: 220px;
+  border: 1.5px solid rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+}
+
+/* Título del panel */
+.cinfo-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.7rem;
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.cinfo-subtitle {
+  font-family: "Lato", sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 2;
+  line-height: 1.6;
+}
+
+/* Divider dorado */
+.cinfo-divider {
+  width: 44px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Ítems de datos de contacto */
+.cinfo-items {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 2;
+}
+
+.cinfo-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.cinfo-item-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  backdrop-filter: blur(6px);
+}
+
+.cinfo-item-label {
+  font-family: "Lato", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+.cinfo-item-value {
+  font-family: "Lato", sans-serif;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* Redes sociales */
+.cinfo-redes-label {
+  font-family: "Lato", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.cinfo-redes {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 2;
+}
+
+.cinfo-red-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cinfo-red-btn:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.18);
+  transform: scale(1.1);
+}
+
+.cinfo-red-btn img {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Mapa */
+.cinfo-mapa {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  flex: 1;
+  min-height: 180px;
+  position: relative;
+  z-index: 2;
+}
+
+.cinfo-mapa iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 180px;
+  display: block;
+  border: none;
+}
+
+/* ── Panel derecho (formulario) ── */
+.contacto-panel-form {
+  background: #ffffff;
+  padding: 50px 46px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cform-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.85rem;
+  color: #2d1a0e;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.cform-subtitle {
+  font-family: "Lato", sans-serif;
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 32px;
+}
+
+/* Fila de 2 columnas */
+.cform-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Grupos de campo */
+.cform-group {
+  margin-bottom: 18px;
+}
+
+.cform-label {
+  display: block;
+  font-family: "Lato", sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #4a4a4a;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 7px;
+}
+
+.cform-input-wrap {
+  position: relative;
+}
+
+.cform-input-icon {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  pointer-events: none;
+  color: #b07d52;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+/* Icono en textarea arriba */
+.cform-input-icon.top {
+  top: 14px;
+  transform: none;
+}
+
+.cform-input {
+  width: 100%;
+  padding: 12px 14px 12px 40px;
+  border: 1.5px solid #e0d8cf;
+  border-radius: 10px;
+  font-family: "Lato", sans-serif;
+  font-size: 0.95rem;
+  color: #333;
+  background: #fdfaf7;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+  outline: none;
+}
+
+.cform-input:focus {
+  border-color: #8c5a35;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(140, 90, 53, 0.1);
+}
+
+.cform-input-wrap:focus-within .cform-input-icon {
+  color: #8c5a35;
+}
+
+/* Textarea */
+.cform-textarea {
+  width: 100%;
+  padding: 12px 14px 12px 40px;
+  border: 1.5px solid #e0d8cf;
+  border-radius: 10px;
+  font-family: "Lato", sans-serif;
+  font-size: 0.95rem;
+  color: #333;
+  background: #fdfaf7;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  outline: none;
+  resize: vertical;
+  min-height: 120px;
+}
+
+.cform-textarea:focus {
+  border-color: #8c5a35;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(140, 90, 53, 0.1);
+}
+
+/* Select */
+.cform-select {
+  width: 100%;
+  padding: 12px 14px 12px 40px;
+  border: 1.5px solid #e0d8cf;
+  border-radius: 10px;
+  font-family: "Lato", sans-serif;
+  font-size: 0.95rem;
+  color: #333;
+  background: #fdfaf7;
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.cform-select:focus {
+  border-color: #8c5a35;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(140, 90, 53, 0.1);
+}
+
+.cform-select-arrow {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #b07d52;
+  font-size: 0.8rem;
+}
+
+/* Botón enviar */
+.cform-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #8c5a35, #6b3a1f);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: "Lato", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(140, 90, 53, 0.35);
+  position: relative;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.cform-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.cform-btn:hover::before {
+  left: 100%;
+}
+
+.cform-btn:hover {
+  background: linear-gradient(135deg, #9e6840, #7a4428);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(140, 90, 53, 0.45);
+}
+
+.cform-btn:active {
+  transform: translateY(0);
+}
+.cform-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Spinner */
+.cform-spinner {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: cSpin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+@keyframes cSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Modal de éxito ── */
+.cform-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: cModalIn 0.25s ease;
+}
+
+@keyframes cModalIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.cform-modal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 48px 36px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  max-width: 400px;
+  width: 90%;
+  animation: cModalSlide 0.3s ease;
+}
+
+@keyframes cModalSlide {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.cform-modal-icon {
+  font-size: 3.5rem;
+  margin-bottom: 18px;
+  display: block;
+}
+
+.cform-modal h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.6rem;
+  color: #2d1a0e;
+  margin-bottom: 12px;
+}
+
+.cform-modal p {
+  font-family: "Lato", sans-serif;
+  font-size: 0.92rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  .contacto-card {
+    grid-template-columns: 1fr;
+  }
+
+  .contacto-panel-info {
+    padding: 40px 30px;
+  }
+
+  .cinfo-mapa {
+    min-height: 200px;
+  }
+}
+
+@media (max-width: 540px) {
+  .contacto-page {
+    width: 96%;
+    margin: 28px auto 60px;
+  }
+  .cform-row-2 {
+    grid-template-columns: 1fr;
+  }
+  .contacto-panel-form {
+    padding: 34px 22px;
+  }
+  .cform-title {
+    font-size: 1.55rem;
+  }
+}

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300" role="img">
+  <title>Hotel Quinta Dalam — Logo versión clara</title>
+  <desc>Monograma DL: D grande a la izquierda, L superpuesta a la derecha, círculo ornamental café sobre fondo beige</desc>
+
+  <!-- Fondo y anillos -->
+  <circle cx="150" cy="150" r="145" fill="#fdfaf7"/>
+  <circle cx="150" cy="150" r="138" fill="none" stroke="#8c5a35" stroke-width="1.5"/>
+  <circle cx="150" cy="150" r="126" fill="none" stroke="#8c5a35" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- Diamantes cardinales -->
+  <polygon points="150,8  155,17 150,26 145,17"    fill="#8c5a35" opacity="0.8"/>
+  <polygon points="150,274 155,283 150,292 145,283" fill="#8c5a35" opacity="0.8"/>
+  <polygon points="8,150  17,155 26,150 17,145"    fill="#8c5a35" opacity="0.8"/>
+  <polygon points="274,150 283,155 292,150 283,145" fill="#8c5a35" opacity="0.8"/>
+
+  <!-- D: cuerpo exterior -->
+  <path d="
+    M 70,72
+    L 70,252
+    L 108,252
+    C 188,252 212,218 212,162
+    C 212,106 188,72 108,72
+    Z
+  " fill="#8c5a35"/>
+
+  <!-- D: hueco interior (contador) -->
+  <path d="
+    M 92,96
+    L 92,228
+    L 108,228
+    C 172,228 190,204 190,162
+    C 190,120 172,96 108,96
+    Z
+  " fill="#fdfaf7"/>
+
+  <!-- L: superpuesta, barra vertical dentro del espacio de la D + pie a la derecha -->
+  <path d="
+    M 138,115
+    L 138,252
+    L 220,252
+    L 220,230
+    L 162,230
+    L 162,115
+    Z
+  " fill="#8c5a35"/>
+
+  <!-- Separador ornamental -->
+  <line x1="80" y1="266" x2="220" y2="266" stroke="#8c5a35" stroke-width="0.75" opacity="0.4"/>
+
+  <!-- Texto QUINTA DALAM -->
+  <text x="150" y="284"
+        text-anchor="middle"
+        font-family="'Playfair Display', Georgia, serif"
+        font-size="10.5" font-weight="400" letter-spacing="4"
+        fill="#8c5a35" opacity="0.85">QUINTA DALAM</text>
+
+</svg>

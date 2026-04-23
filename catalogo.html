@@ -5,32 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo de Habitaciones | Hotel Quinta Dalam</title>
     <link rel="stylesheet" href="./css/styles.css">
-    <link rel="icon" type="image/x-icon" href="./img/logo/Logo2.ico">
-    
+    <link rel="stylesheet" href="./css/catalogo.css">
+    <link rel="icon" type="image/svg+xml" href="./img/logo/logo-quinta-dalam-dark.svg">
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <style>
-        @keyframes bounceDown {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
-            40% { transform: translateY(10px) translateX(-50%); }
-            60% { transform: translateY(5px) translateX(-50%); }
-        }
-        
-        /* Oculta la barra de scroll de las miniaturas en el lightbox */
-        .thumbnails-container::-webkit-scrollbar { height: 8px; }
-        .thumbnails-container::-webkit-scrollbar-thumb { background-color: #8c5a35; border-radius: 4px; }
-        .thumbnails-container::-webkit-scrollbar-track { background-color: rgba(255,255,255,0.1); }
-    </style>
 </head>
-<body style="background-color: #f4f1ea;"> <header>
+<body>
+    <header>
         <nav>
-            <div class="Logo">
-                <img src="./img/logo/Logo2.ico" alt="Logo Quinta Dalam">
-                <span>Hotel Quinta Dalam</span>
-            </div>
-            
+             <a href="index.html" class="Logo">
+          <div class="Logo-icon">
+            <img
+              src="./img/logo/logo-quinta-dalam-dark.svg"
+              alt="Logo Hotel Quinta Dalam"
+            />
+          </div>
+          <div class="Logo-text">
+            <strong>Hotel Quinta Dalam</strong>
+            <span>Michoacán · México</span>
+          </div>
+        </a>
+            <button class="nav-hamburger" id="nav-ham-btn"
+             aria-label="Abrir menú" aria-expanded="false">
+             <span class="nav-ham-line"></span>
+             <span class="nav-ham-line"></span>
+             <span class="nav-ham-line"></span>
+             </button>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="nosotros.html">Nosotros</a></li>
@@ -38,7 +39,6 @@
                 <li><a href="contacto.html">Contacto</a></li>
                 <li><a href="reservaciones.html">Reservar</a></li>
             </ul>
-
             <div class="nav-actions">
                 <div class="dropdown">
                     <a href="#" class="dropbtn">Idioma 🌐</a>
@@ -47,33 +47,29 @@
                         <li><a href="catalogo-en.html">English</a></li>
                     </ul>
                 </div>
+                <div id="nav-auth-slot"></div>
             </div>
         </nav>
     </header>
-
+    <div class="nav-mobile-overlay" id="nav-overlay"></div>
     <main>
-        <div style="padding: 60px 20px 40px; text-align: center; position: relative; z-index: 2;">
-            <div style="background-color: #fff; max-width: 750px; margin: 0 auto; padding: 40px 30px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.06); position: relative;">
-                <h1 style="color: #333; font-size: 2.5rem; margin-bottom: 15px; font-weight: 800; letter-spacing: -0.5px;">Nuestras Habitaciones</h1>
-                <p style="color: #666; font-size: 1.1rem; margin-bottom: 0; line-height: 1.6;">Descubre el confort y la tradición en cada uno de nuestros espacios. Encuentra el refugio perfecto para tu próxima estancia en Michoacán.</p>
-
-                <div style="position: absolute; bottom: -25px; left: 50%; width: 50px; height: 50px; background-color: #8c5a35; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 5px 15px rgba(140, 90, 53, 0.4); animation: bounceDown 2s infinite;">
-                    ↓
-                </div>
+        <div class="pagina-intro">
+            <div class="pagina-intro__card">
+                <h1 class="pagina-intro__titulo">Nuestras Habitaciones</h1>
+                <p class="pagina-intro__desc">Descubre el confort y la tradición en cada uno de nuestros espacios. Encuentra el refugio perfecto para tu próxima estancia en Michoacán.</p>
+                <div class="pagina-intro__flecha">↓</div>
             </div>
         </div>
 
-        <div id="root-catalogo" style="max-width: 1300px; margin: 20px auto 60px auto; position: relative; z-index: 10; padding: 0 20px;"></div>
+        <div id="root-catalogo"></div>
     </main>
 
     <footer class="site-footer">
         <div class="footer-container">
-            
             <div class="footer-column brand-col">
                 <h1>Hotel Quinta-Dalam</h1>
                 <p>Tu refugio temático en el corazón de Michoacán. Vive la cultura, el confort y la tradición en cada estancia.</p>
             </div>
-
             <div class="footer-column links-col">
                 <h1>Enlaces Rápidos</h1>
                 <ul>
@@ -84,225 +80,28 @@
                     <li><a href="reservaciones.html">Reservar</a></li>
                 </ul>
             </div>
-
             <div class="footer-column contact-col">
                 <h1>Contáctanos</h1>
                 <p>📍 Michoacán, México</p>
                 <p>📞 +52 (443) 000-0000</p>
                 <p>✉️ reservaciones@quintadalam.com</p>
             </div>
-
         </div>
-
         <div class="footer-bottom">
             <p>&copy; 2026 Hotel Quinta-Dalam. Todos los derechos reservados.</p>
-            
-            <div class="w3c-badges" style="margin-top: 15px; display: flex; justify-content: center; gap: 15px; align-items: center;">
-                
+            <div class="w3c-badges">
                 <a href="https://validator.w3.org/nu/?doc=https://progangel.github.io/hotel-quinta-dalam/" target="_blank">
                     <img src="https://www.w3.org/html/logo/badge/html5-badge-h-solo.png" width="45" height="45" alt="HTML5 Válido" title="Código HTML5 Válido">
                 </a>
-
                 <a href="https://jigsaw.w3.org/css-validator/validator?lang=es&profile=css3svg&uri=https%3A%2F%2Fprogangel.github.io%2Fhotel-quinta-dalam%2Fnosotros.html&usermedium=all&vextwarning=&warning=1">
-                <img style="border:0;width:88px;height:31px"
-                src="https://jigsaw.w3.org/css-validator/images/vcss"
-                alt="¡CSS Válido!" /></a>
-
+                    <img class="vcss-badge" src="https://jigsaw.w3.org/css-validator/images/vcss" alt="¡CSS Válido!">
+                </a>
             </div>
         </div>
     </footer>
 
-    <script type="text/babel">
-        const { useState } = React;
-
-        // Función auxiliar para crear imágenes de relleno (placeholders) para la galería.
-        // NOTA: Cuando tengas tus fotos reales, puedes borrar esta función y agregar 
-        // directamente tu arreglo de objetos { url: '...', etiqueta: '...' } a cada habitación.
-        const generarGaleriaPlaceholder = (nombreHabitacion) => {
-            const nombreM = nombreHabitacion.replace(' ', '+');
-            return [
-                { url: `https://via.placeholder.com/1200x800/e0d5c1/8c5a35?text=${nombreM}+-+Recámara`, etiqueta: 'Recámara Principal' },
-                { url: `https://via.placeholder.com/1200x800/fdf8f5/333333?text=${nombreM}+-+Baño`, etiqueta: 'Baño Completo' },
-                { url: `https://via.placeholder.com/1200x800/e0d5c1/8c5a35?text=${nombreM}+-+Vista`, etiqueta: 'Vista al exterior' },
-                { url: `https://via.placeholder.com/1200x800/fdf8f5/333333?text=${nombreM}+-+Detalles`, etiqueta: 'Detalles y Amenidades' }
-            ];
-        };
-
-        const habitacionesData = [
-            { id: 1, nombre: 'Tzintzuntzan', precio: 800, maxPersonas: 4, imagen: './img/habitaciones/habitacion101.jpg', tipo: 'Estándar', disponibilidad: 'Última disponible', desc: 'Vista panorámica al lago • 35 m²', camas: '2 Matrimoniales', amenidades: ['📶 Wi-Fi', '❄️ A/C', '📺 Smart TV', '☕ Cafetera'], resena: { estrellas: 5, comentario: 'Una experiencia mágica. La decoración artesanal es preciosa.', autor: 'María G.' }, galeria: generarGaleriaPlaceholder('Tzintzuntzan') },
-            { id: 2, nombre: 'Pátzcuaro', precio: 1200, maxPersonas: 5, imagen: './img/habitaciones/habitacion104.jpg', tipo: 'Familiar', disponibilidad: 'Disponible', desc: 'Vista al patio central • 40 m²', camas: '2 Matrimoniales, 1 Individual', amenidades: ['📶 Wi-Fi', '❄️ A/C', '📺 TV Cable'], resena: { estrellas: 5, comentario: 'Camas muy cómodas y ambiente súper tranquilo. 10/10.', autor: 'Carlos R.' }, galeria: generarGaleriaPlaceholder('Pátzcuaro') },
-            { id: 3, nombre: 'Coeneo', precio: 1000, maxPersonas: 3, imagen: './img/habitaciones/habitacion105.jpg', tipo: 'Suite', disponibilidad: 'Disponible', desc: 'Balcón privado • 30 m²', camas: '1 King Size, 1 Sofá Cama', amenidades: ['📶 Wi-Fi', '❄️ A/C', '🥂 Frigobar', '🛁 Jacuzzi'], resena: { estrellas: 5, comentario: 'Ideal para relajarse. El jacuzzi es un plus increíble.', autor: 'Ana P.' }, galeria: generarGaleriaPlaceholder('Coeneo') },
-            { id: 4, nombre: 'Tacámbaro', precio: 1500, maxPersonas: 6, imagen: './img/habitaciones/habitacion203.jpg', tipo: 'Master Familiar', disponibilidad: 'Últimas 2', desc: 'Rodeada de naturaleza • 55 m²', camas: '3 Matrimoniales', amenidades: ['📶 Wi-Fi', '🔥 Chimenea', '🍳 Cocineta'], resena: { estrellas: 4, comentario: 'Muy acogedora. Perfecta para toda la familia.', autor: 'Luis F.' }, galeria: generarGaleriaPlaceholder('Tacámbaro') },
-            { id: 5, nombre: 'Uruapan', precio: 1500, maxPersonas: 6, imagen: './img/habitaciones/habitacion204.jpg', tipo: 'Master Familiar', disponibilidad: 'Disponible', desc: 'Vista a la alberca • 55 m²', camas: '3 Matrimoniales', amenidades: ['📶 Wi-Fi', '❄️ A/C', '📺 Smart TV', '☕ Cafetera'], resena: { estrellas: 5, comentario: 'Excelente atención y la habitación impecable. Muy recomendado.', autor: 'Elena M.' }, galeria: generarGaleriaPlaceholder('Uruapan') },
-            { id: 6, nombre: 'Tlalpujahua', precio: 1200, maxPersonas: 4, imagen: './img/habitaciones/habitacion205.jpg', tipo: 'Suite Deluxe', disponibilidad: 'Solo 1', desc: 'Terraza privada panorámica • 45 m²', camas: '2 Matrimoniales', amenidades: ['📶 Wi-Fi', '❄️ A/C', '🍽️ Comedor', '🍷 Frigobar'], resena: { estrellas: 5, comentario: 'Espacio hermoso con detalles increíbles.', autor: 'Familia Ruiz' }, galeria: generarGaleriaPlaceholder('Tlalpujahua') },
-            { id: 7, nombre: 'Paracho', precio: 800, maxPersonas: 4, imagen: './img/habitaciones/habitacion102.jpg', tipo: 'Estándar', disponibilidad: 'Disponible', desc: 'Insonorizada • 35 m²', camas: '2 Matrimoniales', amenidades: ['📶 Wi-Fi', '❄️ A/C', '🎵 Altavoz Bluetooth'], resena: { estrellas: 4, comentario: 'Un silencio total, descansamos como hace tiempo no lo hacíamos.', autor: 'Karen y José' }, galeria: generarGaleriaPlaceholder('Paracho') },
-            { id: 8, nombre: 'Yunuen', precio: 1200, maxPersonas: 5, imagen: './img/habitaciones/habitacion103.jpg', tipo: 'Familiar', disponibilidad: 'Disponible', desc: 'Cerca del área común • 40 m²', camas: '2 Matrimoniales, 1 Individual', amenidades: ['📶 Wi-Fi', '❄️ A/C', '📺 TV Cable'], resena: { estrellas: 5, comentario: 'Perfecta para viaje con amigos. El internet es muy rápido.', autor: 'Diana C.' }, galeria: generarGaleriaPlaceholder('Yunuen') },
-            { id: 9, nombre: 'Cuitzeo', precio: 1000, maxPersonas: 3, imagen: './img/habitaciones/habitacion206.jpg', tipo: 'Suite', disponibilidad: 'Última disponible', desc: 'Vista al amanecer • 35 m²', camas: '1 King Size, 1 Individual', amenidades: ['📶 Wi-Fi', '❄️ A/C', '🛁 Tina', '🥂 Frigobar'], resena: { estrellas: 5, comentario: 'El desayuno en la terraza viendo el amanecer no tiene precio.', autor: 'Sofía T.' }, galeria: generarGaleriaPlaceholder('Cuitzeo') },
-            { id: 10, nombre: 'Janitzio', precio: 1000, maxPersonas: 3, imagen: './img/habitaciones/habitacion106.jpg', tipo: 'Suite', disponibilidad: 'Disponible', desc: 'Jardín privado trasero • 35 m²', camas: '1 King Size, 1 Individual', amenidades: ['📶 Wi-Fi', '🔥 Chimenea', '📺 Smart TV'], resena: { estrellas: 5, comentario: 'El jardín es hermoso, pasamos una tarde muy agradable.', autor: 'Jorge L.' }, galeria: generarGaleriaPlaceholder('Janitzio') },
-            { id: 11, nombre: 'Suite Quinceo', precio: 2200, maxPersonas: 2, imagen: './img/habitaciones/habitacion201.jpg', tipo: 'Suite Presidencial', disponibilidad: 'Solo 1', desc: 'Lujo y exclusividad máxima • 60 m²', camas: '1 King Size Extra', amenidades: ['📶 Wi-Fi Premium', '❄️ A/C', '🛁 Jacuzzi Privado', '🍾 Champán'], resena: { estrellas: 5, comentario: 'Increíble para nuestra luna de miel. Servicio de primera clase.', autor: 'Roberto V.' }, galeria: generarGaleriaPlaceholder('Suite Quinceo') },
-            { id: 12, nombre: 'Morelia', precio: 1200, maxPersonas: 5, imagen: './img/habitaciones/habitacion202.jpg', tipo: 'Ejecutiva', disponibilidad: 'Últimas 2', desc: 'Centro de negocios integrado • 45 m²', camas: '2 Queen Size, 1 Individual', amenidades: ['📶 Wi-Fi', '❄️ A/C', '💻 Escritorio', '☕ Cafetera'], resena: { estrellas: 5, comentario: 'Muy espaciosa y cómoda para viajes de negocios grupales.', autor: 'Paty H.' }, galeria: generarGaleriaPlaceholder('Morelia') },
-            { id: 13, nombre: 'Cuanajo', precio: 1180, maxPersonas: 6, imagen: './img/habitaciones/habitacion207.jpg', tipo: 'Master Familiar', disponibilidad: 'Disponible', desc: 'Muebles artesanales tallados • 50 m²', camas: '3 Matrimoniales', amenidades: ['📶 Wi-Fi', '❄️ A/C', '📺 Smart TV', '🥐 Desayuno'], resena: { estrellas: 5, comentario: 'Los muebles son una obra de arte. Muy espaciosa.', autor: 'Armando B.' }, galeria: generarGaleriaPlaceholder('Cuanajo') }
-        ];
-
-        function Catalogo() {
-            // Estado para controlar el Lightbox
-            const [lightbox, setLightbox] = useState({ 
-                abierto: false, 
-                habitacionActual: null, 
-                indiceFoto: 0 
-            });
-
-            const formatoMoneda = (cantidad) => cantidad.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            const renderEstrellas = (cantidad) => Array(cantidad).fill('⭐').join('');
-
-            // --- FUNCIONES DEL LIGHTBOX ---
-            const abrirGaleria = (habitacion) => {
-                setLightbox({ abierto: true, habitacionActual: habitacion, indiceFoto: 0 });
-                document.body.style.overflow = 'hidden'; // Evita que el fondo haga scroll
-            };
-
-            const cerrarGaleria = () => {
-                setLightbox({ abierto: false, habitacionActual: null, indiceFoto: 0 });
-                document.body.style.overflow = 'auto'; // Restaura el scroll
-            };
-
-            const fotoSiguiente = (e) => {
-                e.stopPropagation(); // Evita que se cierre el modal al hacer clic en las flechas
-                setLightbox(prev => ({ 
-                    ...prev, 
-                    indiceFoto: (prev.indiceFoto + 1) % prev.habitacionActual.galeria.length 
-                }));
-            };
-
-            const fotoAnterior = (e) => {
-                e.stopPropagation();
-                setLightbox(prev => ({ 
-                    ...prev, 
-                    indiceFoto: (prev.indiceFoto - 1 + prev.habitacionActual.galeria.length) % prev.habitacionActual.galeria.length 
-                }));
-            };
-
-            const irAFoto = (e, index) => {
-                e.stopPropagation();
-                setLightbox(prev => ({ ...prev, indiceFoto: index }));
-            };
-
-            return (
-                <div>
-                    {/* CUADRÍCULA DE TARJETAS */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '30px' }}>
-                        {habitacionesData.map((hab) => (
-                            <div key={hab.id} style={{ backgroundColor: '#fff', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 8px 20px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', transition: 'transform 0.3s, box-shadow 0.3s' }}
-                            onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-5px)'; e.currentTarget.style.boxShadow = '0 12px 25px rgba(0,0,0,0.12)'; }}
-                            onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.05)'; }}>
-                                
-                                {/* IMAGEN Y BADGES (Con clic para abrir galería) */}
-                                <div onClick={() => abrirGaleria(hab)} style={{ position: 'relative', height: '230px', backgroundColor: '#e0d5c1', cursor: 'zoom-in' }}>
-                                    <img src={hab.imagen} alt={hab.nombre} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.target.src = 'https://via.placeholder.com/400x250?text=Habitación+Sin+Foto'; }} />
-                                    
-                                    <span style={{ position: 'absolute', top: '15px', left: '15px', backgroundColor: 'rgba(0,0,0,0.7)', color: '#fff', padding: '5px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold' }}>{hab.tipo}</span>
-                                    <span style={{ position: 'absolute', top: '15px', right: '15px', backgroundColor: hab.disponibilidad.includes('Última') || hab.disponibilidad.includes('Solo 1') ? '#d9534f' : '#2ecc71', color: '#fff', padding: '5px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold' }}>{hab.disponibilidad}</span>
-                                    
-                                    {/* Indicador visual de Galería */}
-                                    <div style={{ position: 'absolute', bottom: '15px', right: '15px', backgroundColor: 'rgba(0,0,0,0.6)', color: '#fff', padding: '6px 12px', borderRadius: '5px', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '5px', backdropFilter: 'blur(4px)' }}>
-                                        📷 Ver fotos
-                                    </div>
-                                </div>
-
-                                {/* CONTENIDO PRINCIPAL */}
-                                <div style={{ padding: '25px', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
-                                        <h2 style={{ fontSize: '1.4rem', color: '#333', margin: 0 }}>{hab.nombre}</h2>
-                                        <div style={{ textAlign: 'right' }}>
-                                            <h3 style={{ fontSize: '1.2rem', color: '#8c5a35', margin: 0, fontWeight: 'bold' }}>${formatoMoneda(hab.precio)}</h3>
-                                            <span style={{ fontSize: '0.8rem', color: '#777' }}>/ noche</span>
-                                        </div>
-                                    </div>
-
-                                    <p style={{ color: '#666', fontSize: '0.95rem', marginBottom: '15px' }}>{hab.desc}</p>
-
-                                    <div style={{ display: 'flex', gap: '15px', marginBottom: '15px', color: '#444', fontSize: '0.9rem', fontWeight: 'bold' }}>
-                                        <span>👥 Máx: {hab.maxPersonas} pers.</span>
-                                        <span>🛏️ {hab.camas}</span>
-                                    </div>
-
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
-                                        {hab.amenidades.map((amenidad, index) => (
-                                            <span key={index} style={{ backgroundColor: '#fdf8f5', border: '1px solid #e0d5c1', color: '#8c5a35', padding: '4px 10px', borderRadius: '20px', fontSize: '0.8rem' }}>{amenidad}</span>
-                                        ))}
-                                    </div>
-
-                                    <div style={{ flexGrow: 1 }}></div>
-
-                                    <div style={{ backgroundColor: '#f9f9f9', padding: '15px', borderRadius: '8px', borderLeft: '4px solid #8c5a35', marginBottom: '20px' }}>
-                                        <div style={{ marginBottom: '5px', fontSize: '0.9rem' }}>{renderEstrellas(hab.resena.estrellas)}</div>
-                                        <p style={{ fontStyle: 'italic', fontSize: '0.85rem', color: '#555', margin: '0 0 8px 0' }}>"{hab.resena.comentario}"</p>
-                                        <p style={{ fontSize: '0.8rem', color: '#333', fontWeight: 'bold', margin: 0 }}>— {hab.resena.autor}</p>
-                                    </div>
-
-                                    <a href="reservaciones.html" style={{ display: 'block', textAlign: 'center', backgroundColor: '#8c5a35', color: '#fff', padding: '12px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold', transition: 'background-color 0.2s' }}
-                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#6e4528'}
-                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#8c5a35'}>
-                                        Seleccionar Fechas
-                                    </a>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* === LIGHTBOX A PANTALLA COMPLETA === */}
-                    {lightbox.abierto && (
-                        <div onClick={cerrarGaleria} style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.92)', zIndex: 9999, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                            
-                            {/* Botón de Cerrar Superior */}
-                            <button onClick={cerrarGaleria} style={{ position: 'absolute', top: '25px', right: '30px', background: 'none', border: 'none', color: '#fff', fontSize: '2.5rem', cursor: 'pointer', zIndex: 10000, padding: '10px' }}>✕</button>
-
-                            {/* Contenedor de la foto grande y flechas */}
-                            <div onClick={(e) => e.stopPropagation()} style={{ position: 'relative', width: '90%', maxWidth: '1000px', height: '65vh', display: 'flex', justifyContent: 'center', alignItems: 'center', userSelect: 'none' }}>
-                                
-                                <button onClick={fotoAnterior} style={{ position: 'absolute', left: '-20px', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: '3rem', cursor: 'pointer', padding: '10px 20px', borderRadius: '10px', transition: '0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background='rgba(255,255,255,0.3)'} onMouseLeave={(e) => e.currentTarget.style.background='rgba(255,255,255,0.1)'}>‹</button>
-                                
-                                {/* Imagen principal del Lightbox */}
-                                <img src={lightbox.habitacionActual.galeria[lightbox.indiceFoto].url} style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', borderRadius: '8px', boxShadow: '0 10px 40px rgba(0,0,0,0.5)' }} />
-
-                                <button onClick={fotoSiguiente} style={{ position: 'absolute', right: '-20px', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: '3rem', cursor: 'pointer', padding: '10px 20px', borderRadius: '10px', transition: '0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background='rgba(255,255,255,0.3)'} onMouseLeave={(e) => e.currentTarget.style.background='rgba(255,255,255,0.1)'}>›</button>
-
-                                {/* Información inferior: Etiqueta y Contador */}
-                                <div style={{ position: 'absolute', bottom: '-45px', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#fff' }}>
-                                    <h4 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 'normal', letterSpacing: '1px' }}>
-                                        {lightbox.habitacionActual.galeria[lightbox.indiceFoto].etiqueta}
-                                    </h4>
-                                    <span style={{ fontSize: '1rem', backgroundColor: 'rgba(255,255,255,0.2)', padding: '5px 12px', borderRadius: '20px' }}>
-                                        {lightbox.indiceFoto + 1} / {lightbox.habitacionActual.galeria.length}
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* Tira de Miniaturas Inferior */}
-                            <div className="thumbnails-container" onClick={(e) => e.stopPropagation()} style={{ display: 'flex', gap: '15px', marginTop: '80px', overflowX: 'auto', maxWidth: '90%', padding: '10px 5px', userSelect: 'none' }}>
-                                {lightbox.habitacionActual.galeria.map((img, i) => (
-                                    <img 
-                                        key={i} 
-                                        src={img.url} 
-                                        onClick={(e) => irAFoto(e, i)} 
-                                        style={{ 
-                                            width: '100px', height: '70px', objectFit: 'cover', borderRadius: '6px', cursor: 'pointer', transition: 'all 0.2s ease',
-                                            border: lightbox.indiceFoto === i ? '3px solid #8c5a35' : '3px solid transparent',
-                                            opacity: lightbox.indiceFoto === i ? 1 : 0.4,
-                                            transform: lightbox.indiceFoto === i ? 'scale(1.05)' : 'scale(1)'
-                                        }} 
-                                    />
-                                ))}
-                            </div>
-
-                        </div>
-                    )}
-                </div>
-            );
-        }
-
-        const root = ReactDOM.createRoot(document.getElementById('root-catalogo'));
-        root.render(<Catalogo />);
-    </script>
+    <script type="text/babel" src="./js/catalogo.js"></script>
+    <script src="./js/nav-auth.js"></script>
+    <script src="./js/mobile-nav.js"></script>
 </body>
 </html>

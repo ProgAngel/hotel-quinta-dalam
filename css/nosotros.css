@@ -1,0 +1,346 @@
+/* ── Historia ── */
+.ns-historia {
+  max-width: 1100px;
+  width: 90%;
+  margin: 60px auto;
+}
+.ns-historia__inner {
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.07);
+  padding: 60px;
+  display: flex;
+  gap: 50px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.ns-historia__texto {
+  flex: 1.5;
+  min-width: 300px;
+}
+.ns-historia__etiqueta {
+  display: inline-block;
+  background-color: #fdf8f5;
+  border: 1px solid #e0d5c1;
+  color: #8c5a35;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.ns-historia__titulo {
+  color: #8c5a35;
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+}
+.ns-historia__parrafo {
+  color: #555;
+  line-height: 1.8;
+  font-size: 1.05rem;
+  margin-bottom: 15px;
+}
+.ns-historia__tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 25px;
+}
+.ns-tag {
+  background-color: #f4f1ea;
+  color: #555;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+.ns-historia__img-wrap {
+  flex: 1;
+  min-width: 280px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+.ns-historia__img-wrap img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  display: block;
+}
+.ns-historia__img-badge {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  background-color: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  backdrop-filter: blur(4px);
+}
+
+/* ── Estadisticas ── */
+.ns-stats {
+  background-color: #2b3329;
+  padding: 75px 20px;
+}
+.ns-stats__inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+}
+.ns-stat {
+  flex: 1;
+  min-width: 180px;
+  text-align: center;
+  padding: 20px 30px;
+}
+.ns-stat__icono {
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 12px;
+}
+.ns-stat__numero {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #e0d5c1;
+  display: block;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.ns-stat__label {
+  font-size: 0.95rem;
+  color: #8f9b8c;
+  letter-spacing: 0.5px;
+}
+.ns-stat__divisor {
+  width: 1px;
+  height: 80px;
+  background-color: rgba(255, 255, 255, 0.12);
+  align-self: center;
+}
+
+/* ── Mision y vision ── */
+.ns-mision {
+  max-width: 1100px;
+  width: 90%;
+  margin: 70px auto;
+}
+.ns-mision__header {
+  text-align: center;
+  margin-bottom: 45px;
+}
+.ns-mision__titulo {
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+.ns-mision__subtitulo {
+  color: #777;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.ns-mision__grid {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+.ns-mv-card {
+  flex: 1;
+  min-width: 300px;
+  background-color: #fff;
+  border-radius: 18px;
+  padding: 45px 40px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+  border-top: 5px solid #8c5a35;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.ns-mv-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+.ns-mv-card__icono {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 20px;
+}
+.ns-mv-card__titulo {
+  color: #8c5a35;
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+}
+.ns-mv-card__texto {
+  color: #666;
+  line-height: 1.75;
+  font-size: 1.05rem;
+}
+
+/* ── Valores ── */
+.ns-valores {
+  background-color: #fff;
+  padding: 75px 20px;
+  border-top: 1px solid #e0d5c1;
+  border-bottom: 1px solid #e0d5c1;
+}
+.ns-valores__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+.ns-valores__titulo {
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+.ns-valores__subtitulo {
+  color: #777;
+  font-size: 1.1rem;
+  margin-bottom: 50px;
+}
+.ns-valores__grid {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.ns-valor {
+  flex: 1;
+  min-width: 180px;
+  max-width: 220px;
+  padding: 35px 25px;
+  border-radius: 16px;
+  border: 2px solid #f4f1ea;
+  background-color: #fff;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+.ns-valor:hover {
+  border-color: #8c5a35;
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(140, 90, 53, 0.15);
+}
+.ns-valor__icono {
+  font-size: 2.8rem;
+  display: block;
+  margin-bottom: 15px;
+}
+.ns-valor__titulo {
+  color: #8c5a35;
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+}
+.ns-valor__texto {
+  color: #777;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+/* ── Equipo ── */
+.ns-equipo {
+  max-width: 1100px;
+  width: 90%;
+  margin: 70px auto;
+}
+.ns-equipo__header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+.ns-equipo__titulo {
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+.ns-equipo__subtitulo {
+  color: #777;
+  font-size: 1.1rem;
+}
+.ns-equipo__grid {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.ns-miembro {
+  flex: 1;
+  min-width: 270px;
+  max-width: 340px;
+  background-color: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+.ns-miembro:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+.ns-miembro__avatar-wrap {
+  background-color: #f4f1ea;
+  padding: 40px 20px 30px;
+}
+.ns-miembro__avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 2rem;
+  margin: 0 auto;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+.ns-miembro__info {
+  padding: 25px 30px 35px;
+}
+.ns-miembro__nombre {
+  color: #333;
+  font-size: 1.25rem;
+  margin-bottom: 6px;
+}
+.ns-miembro__cargo {
+  color: #8c5a35;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 14px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.ns-miembro__bio {
+  color: #666;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+/* ── Responsive ── */
+@media screen and (max-width: 768px) {
+  .ns-historia__inner {
+    flex-direction: column;
+    padding: 35px 25px;
+  }
+  .ns-stat__divisor {
+    display: none;
+  }
+  .ns-stats__inner {
+    gap: 30px;
+  }
+  .ns-mision__grid,
+  .ns-equipo__grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  .ns-mv-card,
+  .ns-miembro {
+    max-width: 100%;
+  }
+}

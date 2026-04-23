@@ -1,0 +1,289 @@
+/* ── Contenedor principal del splash ── */
+#qd-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0d0604;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: "Lato", Arial, sans-serif;
+  transition:
+    opacity 0.8s ease,
+    visibility 0.8s ease;
+}
+
+#qd-intro.qd-hiding {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ── Particulas de fondo (puntos dorados flotantes) ── */
+.qd-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.qd-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: #c49a6c;
+  opacity: 0;
+  animation: qd-float linear infinite;
+}
+
+@keyframes qd-float {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.35;
+  }
+  90% {
+    opacity: 0.15;
+  }
+  100% {
+    transform: translateY(-20px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* ── Contenido centrado ── */
+.qd-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 30px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Logo ── */
+.qd-logo-wrap {
+  opacity: 0;
+  transform: scale(0.75) translateY(20px);
+  animation: qd-logo-in 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
+  margin-bottom: 36px;
+}
+
+@keyframes qd-logo-in {
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.qd-logo-wrap svg {
+  width: 130px;
+  height: 130px;
+  filter: drop-shadow(0 0 20px rgba(196, 154, 108, 0.35));
+}
+
+/* Pulso suave del logo */
+.qd-logo-wrap svg circle:first-child {
+  animation: qd-pulse 3s ease-in-out 1.5s infinite;
+}
+
+@keyframes qd-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 20px rgba(196, 154, 108, 0.35));
+  }
+  50% {
+    filter: drop-shadow(0 0 35px rgba(232, 201, 138, 0.55));
+  }
+}
+
+/* ── Linea decorativa dorada ── */
+.qd-line {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #c49a6c,
+    #e8c98a,
+    #c49a6c,
+    transparent
+  );
+  margin: 0 auto 28px;
+  animation: qd-line-grow 0.7s ease 1s forwards;
+}
+
+@keyframes qd-line-grow {
+  to {
+    width: 180px;
+  }
+}
+
+/* ── Texto "Bienvenido a" ── */
+.qd-welcome-text {
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: rgba(196, 154, 108, 0.75);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: qd-text-in 0.6s ease 1.1s forwards;
+  margin-bottom: 10px;
+}
+
+/* ── Nombre del hotel ── */
+.qd-hotel-name {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.15;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: qd-text-in 0.7s ease 1.4s forwards;
+  margin-bottom: 6px;
+  /* Efecto shimmer dorado en el texto */
+  background: linear-gradient(
+    90deg,
+    #fff 0%,
+    #e8c98a 40%,
+    #fff 60%,
+    #c49a6c 80%,
+    #fff 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation:
+    qd-text-in 0.7s ease 1.4s forwards,
+    qd-shimmer 3.5s linear 2.2s infinite;
+}
+
+@keyframes qd-text-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes qd-shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* ── Subtitulo / tagline ── */
+.qd-tagline {
+  font-size: 0.82rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: qd-text-in 0.6s ease 1.9s forwards;
+  margin-top: 4px;
+  margin-bottom: 40px;
+}
+
+/* ── Barra de progreso ── */
+.qd-progress-wrap {
+  width: 200px;
+  opacity: 0;
+  animation: qd-text-in 0.5s ease 2.2s forwards;
+  margin-bottom: 20px;
+}
+
+.qd-progress-track {
+  width: 100%;
+  height: 1.5px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.qd-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #8c5a35, #e8c98a, #c49a6c);
+  border-radius: 2px;
+  width: 0%;
+  animation: qd-progress-fill 3s linear 2.4s forwards;
+}
+
+@keyframes qd-progress-fill {
+  to {
+    width: 100%;
+  }
+}
+
+/* ── Boton Saltar ── */
+.qd-skip-btn {
+  background: none;
+  border: none;
+  color: rgba(196, 154, 108, 0.55);
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 8px 20px;
+  transition: color 0.2s ease;
+  opacity: 0;
+  animation: qd-text-in 0.5s ease 2.5s forwards;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.qd-skip-btn:hover {
+  color: rgba(232, 201, 138, 0.9);
+}
+
+.qd-skip-btn::after {
+  content: "›";
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+}
+
+.qd-skip-btn:hover::after {
+  transform: translateX(4px);
+}
+
+/* ── Overlay vignette en bordes ── */
+#qd-intro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .qd-logo-wrap svg {
+    width: 100px;
+    height: 100px;
+  }
+  .qd-welcome-text {
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+  }
+  .qd-tagline {
+    font-size: 0.72rem;
+    letter-spacing: 1.5px;
+  }
+  .qd-progress-wrap {
+    width: 150px;
+  }
+}

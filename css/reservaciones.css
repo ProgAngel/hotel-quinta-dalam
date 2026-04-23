@@ -1,0 +1,461 @@
+/* ── Layout de 3 columnas ── */
+.reserva-layout {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+.reserva-col {
+  flex: 1;
+  min-width: 300px;
+  height: 550px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  transition: opacity 0.3s;
+}
+.reserva-col--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.reserva-col__titulo {
+  color: #8c5a35;
+  border-bottom: 2px solid #e0d5c1;
+  padding-bottom: 10px;
+  flex-shrink: 0;
+}
+
+/* ── Campos ── */
+.reserva-campo-grupo {
+  margin-top: 20px;
+}
+.reserva-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.reserva-date-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+}
+.reserva-huespedes-fila {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.reserva-huesped-grupo label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.reserva-contador {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.reserva-contador__btn {
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.reserva-estado-box {
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-top: auto;
+}
+.reserva-estado-box p {
+  margin: 5px 0;
+}
+.reserva-estado-box--inicial {
+  background-color: #f9f9f9;
+}
+.reserva-estado-box--valido {
+  background-color: #e6ffe6;
+}
+.reserva-estado-box--error {
+  background-color: #ffe6e6;
+}
+.reserva-estado-box--error .reserva-estado-msg {
+  color: red;
+}
+.reserva-noches {
+  font-weight: bold;
+  color: #8c5a35;
+}
+
+/* ── Mini-grid habitaciones (Paso 2) ── */
+.hab-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+.hab-mini-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  text-align: center;
+  transition: all 0.2s;
+}
+.hab-mini-card--seleccionada {
+  border: 2px solid #8c5a35;
+  background-color: #fdf8f5;
+  box-shadow: 0 4px 8px rgba(140, 90, 53, 0.2);
+}
+.hab-mini-card img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  background-color: #e0d5c1;
+}
+.hab-mini-card h4 {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #333;
+}
+.hab-mini-precio {
+  margin: 0;
+  color: #8c5a35;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+.hab-mini-max {
+  margin: 5px 0 0 0;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+/* ── Resumen (Paso 3) ── */
+.resumen-cuerpo {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.resumen-nombre {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+.resumen-detalle {
+  margin: 5px 0;
+  color: #555;
+}
+.resumen-hr-dashed {
+  border: none;
+  border-top: 1px dashed #ccc;
+  margin: 20px 0;
+}
+.resumen-hr-solid {
+  border: none;
+  border-top: 2px solid #e0d5c1;
+  margin: 20px 0;
+}
+.resumen-linea {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  color: #666;
+}
+.resumen-total-fila {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.reserva-acciones {
+  margin-top: auto;
+}
+
+.btn-confirmar-reserva {
+  width: 100%;
+  background-color: #8c5a35;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.btn-confirmar-reserva:hover {
+  background-color: #6e4528;
+}
+.btn-limpiar-reserva {
+  width: 100%;
+  background-color: transparent;
+  color: #d9534f;
+  padding: 10px;
+  border: 1px solid #d9534f;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+.btn-limpiar-reserva:hover {
+  background-color: #d9534f;
+  color: #fff;
+}
+
+/* ── Modal formulario reserva ── */
+.modal-reserva-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 20px;
+}
+.modal-reserva-box {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal-reserva-titulo {
+  color: #8c5a35;
+  border-bottom: 2px solid #e0d5c1;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.modal-form-fila {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.modal-form-campo {
+  flex: 1;
+}
+.modal-campo-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+  font-size: 0.9rem;
+}
+.modal-campo-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+}
+.modal-select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+.modal-tel-fila {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.modal-tel-pais {
+  width: 35%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.modal-tel-numero {
+  width: 65%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* ── Paneles de pago ── */
+.pago-panel {
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 25px;
+}
+.pago-panel--tarjeta {
+  background-color: #f9f9f9;
+  border: 1px solid #e0d5c1;
+}
+.pago-panel--paypal {
+  background-color: #eef6fa;
+  border: 1px solid #b6d4ea;
+  text-align: center;
+  color: #003087;
+}
+.pago-panel--spei {
+  background-color: #fdf8f5;
+  border: 1px solid #e0d5c1;
+  color: #333;
+}
+.pago-panel--recepcion {
+  background-color: #e6ffe6;
+  border: 1px solid #b3ccb3;
+  text-align: center;
+  color: #2d662d;
+}
+.pago-tarjeta-num {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+.pago-tarjeta-fila {
+  display: flex;
+  gap: 15px;
+}
+.pago-tarjeta-campo {
+  flex: 1;
+}
+.pago-campo-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 0.85rem;
+}
+.pago-campo-input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.modal-total-box {
+  background-color: #fdf8f5;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid #e0d5c1;
+}
+.modal-total-label {
+  color: #666;
+  font-size: 0.9rem;
+}
+.modal-total-monto {
+  color: #8c5a35;
+  margin: 5px 0 0 0;
+}
+
+.modal-acciones {
+  display: flex;
+  gap: 15px;
+}
+.btn-modal-cancelar {
+  flex: 1;
+  background-color: #fff;
+  color: #d9534f;
+  padding: 12px;
+  border: 1px solid #d9534f;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-modal-confirmar {
+  flex: 1;
+  background-color: #8c5a35;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-modal-confirmar:hover {
+  background-color: #6e4528;
+}
+
+/* ── Modal de cancelacion ── */
+.modal-cancelar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1500;
+}
+.modal-cancelar-box {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+.modal-cancelar-icono {
+  font-size: 60px;
+  margin-bottom: 15px;
+}
+.modal-cancelar-titulo {
+  color: #d9534f;
+  margin-bottom: 15px;
+}
+.modal-cancelar-texto {
+  color: #555;
+  margin-bottom: 25px;
+}
+.modal-cancelar-acciones {
+  display: flex;
+  gap: 15px;
+}
+.btn-volver {
+  flex: 1;
+  background-color: #f1f1f1;
+  color: #333;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-cancelar-confirm {
+  flex: 1;
+  background-color: #d9534f;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* ── Responsive ── */
+@media screen and (max-width: 768px) {
+  .reserva-layout {
+    flex-direction: column;
+  }
+  .reserva-col {
+    height: auto;
+    min-height: 300px;
+  }
+}

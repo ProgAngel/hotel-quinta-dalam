@@ -1,0 +1,471 @@
+/* ── Hero ── */
+.hero-react {
+  position: relative;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
+    url("../img/habitaciones/habitacion104.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+  padding: 0 20px;
+}
+.hero-react__titulo {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+.hero-react__desc {
+  font-size: 1.3rem;
+  margin-bottom: 40px;
+  max-width: 700px;
+  line-height: 1.6;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+.hero-react__botones {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.hero-scroll-arrow {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  animation: bounceDown 2s infinite;
+}
+
+.btn-hero-primario {
+  background-color: #8c5a35;
+  color: #fff;
+  padding: 16px 35px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(140, 90, 53, 0.4);
+}
+.btn-hero-primario:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(140, 90, 53, 0.6);
+}
+
+.btn-hero-secundario {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 14px 35px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+.btn-hero-secundario:hover {
+  background-color: #fff;
+  color: #333;
+  transform: translateY(-4px);
+}
+
+/* ── Buscador ── */
+.buscador-wrap {
+  max-width: 1000px;
+  margin: -50px auto 60px auto;
+  position: relative;
+  z-index: 10;
+  padding: 0 20px;
+}
+.buscador-form {
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 15px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.buscador-campo {
+  flex: 1;
+  min-width: 200px;
+}
+.buscador-campo label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #555;
+  font-size: 0.9rem;
+}
+.buscador-campo input,
+.buscador-campo select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+.btn-buscar {
+  flex: 0.8;
+  min-width: 150px;
+  background-color: #8c5a35;
+  color: #fff;
+  padding: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.05rem;
+  transition: all 0.3s ease;
+}
+.btn-buscar:hover {
+  background-color: #6e4528;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(140, 90, 53, 0.3);
+}
+
+/* ── Habitaciones destacadas ── */
+.destacadas-seccion {
+  max-width: 1200px;
+  margin: 0 auto 80px auto;
+  padding: 0 20px;
+}
+.destacadas-seccion__header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.destacadas-seccion__titulo {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+.destacadas-seccion__desc {
+  color: #666;
+  font-size: 1.1rem;
+}
+.destacadas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+.destacadas-cta {
+  text-align: center;
+  margin-top: 40px;
+}
+.btn-ver-catalogo {
+  display: inline-block;
+  background-color: transparent;
+  color: #8c5a35;
+  border: 2px solid #8c5a35;
+  padding: 12px 30px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.btn-ver-catalogo:hover {
+  background-color: #8c5a35;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* ── Servicios ── */
+.servicios-seccion {
+  background-color: #fff;
+  padding: 80px 20px;
+  border-top: 1px solid #e0d5c1;
+  border-bottom: 1px solid #e0d5c1;
+}
+.servicios-seccion__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+.servicios-seccion__titulo {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 50px;
+}
+.servicios-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+.servicio-card {
+  flex: 1;
+  min-width: 220px;
+  max-width: 280px;
+  border: 2px solid #f4f1ea;
+  border-radius: 15px;
+  padding: 30px 20px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+.servicio-card:hover {
+  transform: translateY(-8px);
+  border-color: #8c5a35;
+  box-shadow: 0 10px 25px rgba(140, 90, 53, 0.15);
+}
+.servicio-card__icono {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+.servicio-card__titulo {
+  color: #8c5a35;
+  margin-bottom: 10px;
+}
+.servicio-card__desc {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ── Reseñas ── */
+.resenas-seccion {
+  max-width: 1000px;
+  margin: 80px auto;
+  padding: 0 20px;
+}
+.resenas-seccion__titulo {
+  font-size: 2.5rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 40px;
+}
+.resenas-grid {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+.resena-card {
+  flex: 1;
+  min-width: 300px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+.resena-card__comilla {
+  font-size: 4rem;
+  color: #e0d5c1;
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  opacity: 0.5;
+  line-height: 1;
+}
+.resena-card__estrellas {
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 1;
+}
+.resena-card__texto {
+  color: #555;
+  font-size: 1.1rem;
+  font-style: italic;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+.resena-card__autor {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.resena-card__avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #8c5a35;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+.resena-card__nombre {
+  margin: 0;
+  color: #333;
+}
+.resena-card__tipo {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+/* ── Ubicacion ── */
+.ubicacion-seccion {
+  background-color: #fff;
+  padding: 60px 20px;
+}
+.ubicacion-seccion__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: center;
+}
+.ubicacion-seccion__texto {
+  flex: 1;
+  min-width: 300px;
+}
+.ubicacion-seccion__titulo {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+.ubicacion-seccion__desc {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+.ubicacion-seccion__lista {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px 0;
+  color: #555;
+  font-size: 1.05rem;
+}
+.ubicacion-seccion__lista li {
+  margin-bottom: 10px;
+}
+.btn-google-maps {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f1f1f1;
+  color: #333;
+  padding: 12px 25px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  transition: all 0.3s ease;
+}
+.btn-google-maps:hover {
+  background-color: #e5e5e5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.ubicacion-mapa {
+  flex: 1.5;
+  min-width: 350px;
+  height: 400px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+.ubicacion-mapa iframe {
+  border: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── CTA Final ── */
+.cta-final-wrap {
+  max-width: 1000px;
+  margin: 80px auto;
+  padding: 0 20px;
+}
+.cta-final-box {
+  border-radius: 20px;
+  padding: 70px 40px;
+  text-align: center;
+  color: #fff;
+  background-image: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+  animation: floatSubtle 4s ease-in-out infinite;
+}
+.cta-final-box__titulo {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #fff;
+}
+.cta-final-box__desc {
+  font-size: 1.2rem;
+  color: #e0d5c1;
+  margin: 0 auto 40px auto;
+  max-width: 600px;
+}
+.btn-cta-final {
+  background-color: #8c5a35;
+  color: #fff;
+  padding: 16px 40px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+.btn-cta-final:hover {
+  transform: scale(1.05);
+  background-color: #a3683d;
+  box-shadow: 0 10px 25px rgba(140, 90, 53, 0.4);
+}
+
+/* ── Responsive ── */
+@media screen and (max-width: 768px) {
+  .hero-react__titulo {
+    font-size: 2.2rem;
+  }
+  .hero-react__desc {
+    font-size: 1rem;
+  }
+  .hero-react {
+    height: 70vh;
+  }
+  .buscador-wrap {
+    margin-top: -30px;
+  }
+  .destacadas-grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .ubicacion-seccion__inner {
+    flex-direction: column;
+  }
+  .ubicacion-mapa {
+    min-width: unset;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 480px) {
+  .hero-react__titulo {
+    font-size: 1.7rem;
+  }
+  .hero-react {
+    height: 60vh;
+  }
+  .cta-final-box {
+    padding: 50px 24px;
+  }
+  .cta-final-box__titulo {
+    font-size: 1.8rem;
+  }
+}
