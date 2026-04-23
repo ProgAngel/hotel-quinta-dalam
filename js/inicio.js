@@ -89,7 +89,7 @@ function PaginaInicio() {
                         <div key={hab.id} className="hab-card">
 
                             <div className="hab-card__img-wrap" onClick={() => abrirGaleria(hab)}>
-                                <img src={hab.imagen} alt={hab.nombre}
+                                <img src={hab.imagen} alt={hab.nombre} loading="lazy"
                                     onError={(e) => { e.target.src = 'https://via.placeholder.com/400x250?text=Habitación'; }} />
                                 <span className="hab-badge hab-badge--tipo">{hab.tipo}</span>
                                 <span className="hab-badge hab-badge--estado hab-badge--disponible">Destacada</span>
@@ -170,7 +170,7 @@ function PaginaInicio() {
                 </div>
             </div>
 
-            {/* ── UBICACIÓN ── */}
+            {/* ── UBICACION ── */}
             <div className="ubicacion-seccion">
                 <div className="ubicacion-seccion__inner">
                     <div className="ubicacion-seccion__texto">

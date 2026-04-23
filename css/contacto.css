@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap");
 
-/* ── Wrapper de página ── */
+/* ── Wrapper de pagina ── */
 .contacto-page {
   max-width: 1060px;
   width: 92%;
@@ -16,7 +16,7 @@
   }
 }
 
-/* ── Encabezado de página — tarjeta flotante ── */
+/* ── Encabezado de pagina — tarjeta flotante ── */
 .contacto-hero {
   text-align: center;
   margin-bottom: 44px;
@@ -60,7 +60,7 @@
   pointer-events: none;
 }
 
-/* Línea ornamental superior */
+/* Linea ornamental superior */
 .contacto-hero-card::after {
   content: "";
   position: absolute;
@@ -93,7 +93,7 @@
   z-index: 2;
 }
 
-/* Línea decorativa */
+/* Linea decorativa */
 .contacto-hero-line {
   width: 50px;
   height: 2px;
@@ -201,7 +201,7 @@
   border-radius: 50%;
 }
 
-/* Título del panel */
+/* Titulo del panel */
 .cinfo-title {
   font-family: "Playfair Display", Georgia, serif;
   font-size: 1.7rem;
@@ -239,7 +239,7 @@
   z-index: 2;
 }
 
-/* Ítems de datos de contacto */
+/* items de datos de contacto */
 .cinfo-items {
   display: flex;
   flex-direction: column;
@@ -473,6 +473,36 @@
   box-shadow: 0 0 0 3px rgba(140, 90, 53, 0.1);
 }
 
+/* Estado de error en inputs y textarea */
+.cform-input--error {
+  border-color: #e74c3c !important;
+  background: #fff8f8 !important;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.08) !important;
+}
+
+/* Mensaje de error bajo el campo */
+.cform-field-error {
+  font-family: "Lato", sans-serif;
+  font-size: 0.78rem;
+  color: #e74c3c;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  animation: cErrorPop 0.25s ease;
+}
+
+@keyframes cErrorPop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Select */
 .cform-select {
   width: 100%;
@@ -507,7 +537,7 @@
   font-size: 0.8rem;
 }
 
-/* Botón enviar */
+/* Boton enviar */
 .cform-btn {
   width: 100%;
   padding: 14px;
@@ -582,7 +612,7 @@
   }
 }
 
-/* ── Modal de éxito ── */
+/* ── Modal de exito ── */
 .cform-modal-overlay {
   position: fixed;
   inset: 0;

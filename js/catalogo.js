@@ -46,7 +46,7 @@ function Catalogo() {
                     <div key={hab.id} className="hab-card">
 
                         <div className="hab-card__img-wrap" onClick={() => abrirGaleria(hab)}>
-                            <img src={hab.imagen} alt={hab.nombre} onError={(e) => { e.target.src = 'https://via.placeholder.com/400x250?text=Sin+Foto'; }} />
+                            <img src={hab.imagen} alt={hab.nombre} loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/400x250?text=Sin+Foto'; }} />
                             <span className="hab-badge hab-badge--tipo">{hab.tipo}</span>
                             <span className={`hab-badge hab-badge--estado ${esUrgente(hab.disponibilidad) ? 'hab-badge--urgente' : 'hab-badge--disponible'}`}>{hab.disponibilidad}</span>
                             <div className="hab-foto-hint">📷 Ver fotos</div>

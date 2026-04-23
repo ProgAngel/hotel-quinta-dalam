@@ -6,7 +6,7 @@ const habitacionesCatalogo = [
     { id: 3,  nombre: 'Coeneo',        precio: 1000, maxPersonas: 3, imagen: './img/habitaciones/habitacion105.jpg' },
     { id: 4,  nombre: 'Tacámbaro',     precio: 1500, maxPersonas: 6, imagen: './img/habitaciones/habitacion203.jpg' },
     { id: 5,  nombre: 'Uruapan',       precio: 1500, maxPersonas: 6, imagen: './img/habitaciones/habitacion204.jpg' },
-    { id: 6,  nombre: 'Tlalpujahua',   precio: 1200, maxPersonas: 4, imagen: './img/habitaciones/habitacionn205.jpg' },
+    { id: 6,  nombre: 'Tlalpujahua',   precio: 1200, maxPersonas: 4, imagen: './img/habitaciones/habitacion205.jpg' },
     { id: 7,  nombre: 'Paracho',       precio: 800,  maxPersonas: 4, imagen: './img/habitaciones/habitacion102.jpg' },
     { id: 8,  nombre: 'Yunuen',        precio: 1200, maxPersonas: 5, imagen: './img/habitaciones/habitacion103.jpg' },
     { id: 9,  nombre: 'Cuitzeo',       precio: 1000, maxPersonas: 3, imagen: './img/habitaciones/habitacion206.jpg' },
