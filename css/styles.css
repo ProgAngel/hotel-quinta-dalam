@@ -1,3 +1,6 @@
+/* ================================================
+   BASE Y RESET GLOBAL
+   ================================================ */
 * {
   margin: 0;
   padding: 0;
@@ -8,8 +11,8 @@ body {
   background-color: #f4f1ea;
 }
 
-/* Tipografia editorial — aplica Playfair Display
-   a todos los titulos de todas las paginas         */
+/* Tipografía editorial — aplica Playfair Display
+   a todos los títulos de todas las páginas         */
 h1,
 h2,
 h3,
@@ -19,7 +22,9 @@ h6 {
   font-family: "Playfair Display", Georgia, serif;
 }
 
-/* Animacion Global */
+/* ================================================
+   ANIMACIONES GLOBALES
+   ================================================ */
 @keyframes bounceDown {
   0%,
   20%,
@@ -47,7 +52,9 @@ h6 {
   }
 }
 
-/* Navegacion */
+/* ================================================
+   COMPONENTE: NAVEGACIÓN
+   ================================================ */
 header {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -167,7 +174,9 @@ nav {
   border-bottom: 2px solid #8c5a35;
 }
 
-/* Idioma */
+/* ================================================
+   COMPONENTE: DROPDOWN IDIOMA
+   ================================================ */
 .dropdown {
   position: relative;
 }
@@ -216,7 +225,9 @@ nav {
   transform: translateX(-50%) translateY(0);
 }
 
-/* Nav minimalista */
+/* ================================================
+   NAV MÍNIMO — login.html y registro.html
+   ================================================ */
 .nav-minimal {
   display: flex;
   align-items: center;
@@ -255,7 +266,9 @@ nav {
   transform: translateX(-3px);
 }
 
-/* Boton dinamico de sesion -> Login*/
+/* ================================================
+   NAV-AUTH — Botón dinámico de sesión
+   ================================================ */
 #nav-auth-slot a.nav-auth-link {
   font-size: large;
   text-decoration: none;
@@ -400,7 +413,9 @@ nav {
   color: #e74c3c !important;
 }
 
-/* Nav movil */
+/* ================================================
+   NAV HAMBURGUESA (móvil)
+   ================================================ */
 .nav-hamburger {
   display: none;
   background: none;
@@ -445,7 +460,9 @@ nav.nav-open ~ .nav-mobile-overlay {
   display: block;
 }
 
-/* Footer */
+/* ================================================
+   COMPONENTE: FOOTER
+   ================================================ */
 .site-footer {
   background: linear-gradient(
     160deg,
@@ -556,7 +573,9 @@ nav.nav-open ~ .nav-mobile-overlay {
   display: block;
 }
 
-/* Componentes en comun */
+/* ================================================
+   COMPONENTES COMPARTIDOS
+   ================================================ */
 .page-header {
   background-size: cover;
   background-position: center;
@@ -605,7 +624,7 @@ nav.nav-open ~ .nav-mobile-overlay {
   border-radius: 24px;
   position: relative;
   overflow: hidden;
-  /* Gradiente oscuro cafe — mismo que el CTA y footer */
+  /* Gradiente oscuro café — mismo ADN que el CTA y footer */
   background: linear-gradient(
     145deg,
     #2a1206 0%,
@@ -633,7 +652,7 @@ nav.nav-open ~ .nav-mobile-overlay {
     );
   pointer-events: none;
 }
-/* Linea dorada en la parte superior */
+/* Línea ornamental dorada en la parte superior */
 .pagina-intro__card::after {
   content: "";
   position: absolute;
@@ -865,7 +884,9 @@ nav.nav-open ~ .nav-mobile-overlay {
   font-size: 0.95rem;
 }
 
-/* Tarjetas de habitacion */
+/* ================================================
+   TARJETAS DE HABITACIÓN (compartido inicio + catálogo)
+   ================================================ */
 .hab-card {
   background-color: #fff;
   border-radius: 12px;
@@ -1026,7 +1047,9 @@ nav.nav-open ~ .nav-mobile-overlay {
   background-color: #6e4528;
 }
 
-/* Resnsivo para todo */
+/* ================================================
+   RESPONSIVE GLOBAL
+   ================================================ */
 @media screen and (max-width: 768px) {
   .cta-final-box {
     padding: 50px 30px;
@@ -1070,6 +1093,11 @@ nav.nav-open ~ .nav-mobile-overlay {
     padding: 12px 24px;
     font-size: 1rem;
     border-bottom: none !important;
+    color: #4a4a4a; /* ← fuerza el color, evita verde de Samsung/Android */
+    text-decoration: none;
+  }
+  .nav-links a.active {
+    color: #8c5a35;
   }
   .nav-links a::after {
     display: none;
@@ -1077,6 +1105,7 @@ nav.nav-open ~ .nav-mobile-overlay {
   .nav-links a:hover {
     background: rgba(140, 90, 53, 0.06);
     padding-left: 30px;
+    color: #8c5a35;
   }
   .nav-actions {
     display: flex;
