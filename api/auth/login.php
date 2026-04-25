@@ -117,6 +117,17 @@ if (!password_verify($contrasena, $usuario['contrasena'])) {
 }
 
 // ── Login exitoso ───────────────────────────────────────────
+// Iniciar sesión PHP — aquí guardamos el fingerprint
+// del navegador para el sistema de seguridad (validate.php)
+session_start();
+session_regenerate_id(true); // previene session fixation
+
+$_SESSION['usuario_id']      = (int) $usuario['id'];
+$_SESSION['rol']             = $usuario['rol'];
+$_SESSION['ua_hash']         = hash('sha256', $_SERVER['HTTP_USER_AGENT'] ?? '');
+$_SESSION['ultima_actividad'] = time();
+$_SESSION['created_at']      = time();
+
 // Nunca devolver la contraseña (ni el hash) al frontend
 http_response_code(200);
 echo json_encode([

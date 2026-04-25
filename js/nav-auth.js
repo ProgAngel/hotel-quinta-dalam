@@ -1,7 +1,20 @@
+// ============================================================
+//  nav-auth.js — Hotel Quinta Dalam
+//  Botón dinámico del nav — usa QDSession (session.js)
+//
+//  DEPENDE DE: js/session.js (debe cargarse antes)
+//  Se incluye en todas las páginas excepto login y registro.
+// ============================================================
+
 (function () {
     'use strict';
 
     function getSesion() {
+        // Usa QDSession si está disponible (session.js cargado)
+        // Fallback a sessionStorage directo si no está
+        if (window.QDSession) {
+            return window.QDSession.obtener();
+        }
         try {
             const raw = sessionStorage.getItem('qdSession');
             return raw ? JSON.parse(raw) : null;
@@ -9,8 +22,14 @@
     }
 
     function cerrarSesion() {
-        sessionStorage.removeItem('qdSession');
-        window.location.href = 'login.html';
+        if (window.QDSession) {
+            // QDSession.cerrar() limpia la sesión, llama al endpoint
+            // de logout y redirige a login.html
+            window.QDSession.cerrar(false);
+        } else {
+            sessionStorage.removeItem('qdSession');
+            window.location.href = 'login.html';
+        }
     }
 
     function renderNavAuth() {
@@ -20,15 +39,17 @@
         const sesion = getSesion();
 
         if (!sesion) {
+            // Sin sesión — mostrar botón de iniciar sesión
             slot.innerHTML = `
                 <a href="login.html" class="nav-auth-link">
                     🔑 Iniciar Sesión
                 </a>
             `;
         } else {
+            // Con sesión — mostrar avatar con dropdown
             const iniciales = sesion.nombre
                 ? sesion.nombre.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
-                : 'AD';
+                : 'QD';
 
             const rolLabel   = sesion.rol === 'admin' ? '🛡️ Administrador' : '🧳 Huésped';
             const perfilHref = sesion.rol === 'admin' ? 'dashboard.html' : 'perfil.html';
@@ -59,9 +80,16 @@
 
             document.getElementById('btn-cerrar-sesion')
                 .addEventListener('click', cerrarSesion);
+
+            // Iniciar listeners de inactividad si QDSession está disponible
+            // y aún no se han iniciado (por si nav-auth carga antes que session.js)
+            if (window.QDSession) {
+                window.QDSession.iniciarListeners();
+            }
         }
     }
 
+    // Esperar al DOM
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', renderNavAuth);
     } else {

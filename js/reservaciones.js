@@ -1,326 +1,438 @@
-const { useState, useEffect } = React;
+// ============================================================
+//  reservaciones.js — Hotel Quinta Dalam
+//  Conectado a api/habitaciones/listar.php y
+//  api/reservaciones/crear.php
+//
+//  REQUIERE sesión activa — la página tiene QDSession.guardarPagina()
+//  en el HTML. El usuario llega aquí ya autenticado.
+// ============================================================
 
-const habitacionesCatalogo = [
-    { id: 1,  nombre: 'Tzintzuntzan',  precio: 800,  maxPersonas: 4, imagen: './img/habitaciones/habitacion101.jpg' },
-    { id: 2,  nombre: 'Pátzcuaro',     precio: 1200, maxPersonas: 5, imagen: './img/habitaciones/habitacion104.jpg' },
-    { id: 3,  nombre: 'Coeneo',        precio: 1000, maxPersonas: 3, imagen: './img/habitaciones/habitacion105.jpg' },
-    { id: 4,  nombre: 'Tacámbaro',     precio: 1500, maxPersonas: 6, imagen: './img/habitaciones/habitacion203.jpg' },
-    { id: 5,  nombre: 'Uruapan',       precio: 1500, maxPersonas: 6, imagen: './img/habitaciones/habitacion204.jpg' },
-    { id: 6,  nombre: 'Tlalpujahua',   precio: 1200, maxPersonas: 4, imagen: './img/habitaciones/habitacionn205.jpg' },
-    { id: 7,  nombre: 'Paracho',       precio: 800,  maxPersonas: 4, imagen: './img/habitaciones/habitacion102.jpg' },
-    { id: 8,  nombre: 'Yunuen',        precio: 1200, maxPersonas: 5, imagen: './img/habitaciones/habitacion103.jpg' },
-    { id: 9,  nombre: 'Cuitzeo',       precio: 1000, maxPersonas: 3, imagen: './img/habitaciones/habitacion206.jpg' },
-    { id: 10, nombre: 'Janitzio',      precio: 1000, maxPersonas: 3, imagen: './img/habitaciones/habitacion106.jpg' },
-    { id: 11, nombre: 'Suite Quinceo', precio: 2200, maxPersonas: 2, imagen: './img/habitaciones/habitacion201.jpg' },
-    { id: 12, nombre: 'Morelia',       precio: 1200, maxPersonas: 5, imagen: './img/habitaciones/habitacion202.jpg' },
-    { id: 13, nombre: 'Cuanajo',       precio: 1180, maxPersonas: 6, imagen: './img/habitaciones/habitacion207.jpg' }
-];
+const { useState, useEffect, useRef } = React;
+
+const API_HABITACIONES = './api/habitaciones/listar.php';
+const API_RESERVAR     = './api/reservaciones/crear.php';
 
 function ModuloReservaciones() {
-    const [checkIn, setCheckIn] = useState('');
-    const [checkOut, setCheckOut] = useState('');
-    const [adultos, setAdultos] = useState(1);
-    const [ninos, setNinos] = useState(0);
-    const [habitacionSeleccionada, setHabitacionSeleccionada] = useState(null);
-    const [errorFechas, setErrorFechas] = useState('');
-    const [noches, setNoches] = useState(0);
 
-    const [mostrarModal, setMostrarModal] = useState(false);
-    const [reservaExitosa, setReservaExitosa] = useState(false);
-    const [mostrarConfirmacionCancelar, setMostrarConfirmacionCancelar] = useState(false);
-    const [cancelacionExitosa, setCancelacionExitosa] = useState(false);
+    // ── Sesión ────────────────────────────────────────────────
+    const sesion = (window.QDSession && window.QDSession.obtener()) || (() => {
+        try { return JSON.parse(sessionStorage.getItem('qdSession') || '{}'); }
+        catch { return {}; }
+    })();
 
-    const [datosCliente, setDatosCliente] = useState({
-        nombre: '', apellido: '', correo: '', codigoPais: '+52', telefono: '',
-        metodoPago: 'tarjeta', numeroTarjeta: '', fechaExpiracion: '', cvv: ''
-    });
+    // ── Habitaciones de la API ────────────────────────────────
+    const [habitaciones,   setHabitaciones]   = useState([]);
+    const [cargandoHabs,   setCargandoHabs]   = useState(true);
+
+    // ── Paso 1: Fechas y huéspedes ────────────────────────────
+    const [checkIn,   setCheckIn]   = useState('');
+    const [checkOut,  setCheckOut]  = useState('');
+    const [adultos,   setAdultos]   = useState(1);
+    const [ninos,     setNinos]     = useState(0);
+    const [noches,    setNoches]    = useState(0);
+    const [errFechas, setErrFechas] = useState('');
+
+    // ── Paso 2: Habitación seleccionada ───────────────────────
+    const [habSeleccionada, setHabSeleccionada] = useState(null);
+
+    // ── Paso 3: Notas adicionales ─────────────────────────────
+    const [notas, setNotas] = useState('');
+
+    // ── Modal y estados ───────────────────────────────────────
+    const [mostrarModal,  setMostrarModal]  = useState(false);
+    const [enviando,      setEnviando]      = useState(false);
+    const [mostrarCancel, setMostrarCancel] = useState(false);
+
+    const submittingRef = useRef(false);
 
     const fechaHoy = new Date().toISOString().split('T')[0];
+    const fmt = n => Number(n).toLocaleString('es-MX', { minimumFractionDigits: 2 });
 
+    // ── Cargar habitaciones disponibles desde la API ──────────
     useEffect(() => {
-        if (checkIn && checkOut) {
-            const diff = Math.ceil((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24));
-            if (diff <= 0) {
-                setErrorFechas('La fecha de salida debe ser posterior a la de llegada.');
-                setNoches(0);
-                setHabitacionSeleccionada(null);
-            } else {
-                setErrorFechas('');
-                setNoches(diff);
+        fetch(API_HABITACIONES + '?estado=disponible')
+            .then(r => r.json())
+            .then(data => {
+                if (data.ok) setHabitaciones(data.habitaciones);
+                else window.QDToast && window.QDToast.error('Error al cargar habitaciones.');
+            })
+            .catch(() => {
+                window.QDToast && window.QDToast.error('No se pudo conectar con el servidor.');
+            })
+            .finally(() => setCargandoHabs(false));
+    }, []);
+
+    // ── Leer params de URL (viene del catálogo o buscador) ────
+    useEffect(() => {
+        const p = new URLSearchParams(window.location.search);
+        if (p.get('checkIn'))    setCheckIn(p.get('checkIn'));
+        if (p.get('checkOut'))   setCheckOut(p.get('checkOut'));
+        if (p.get('huespedes'))  setAdultos(parseInt(p.get('huespedes')) || 1);
+        if (p.get('hab')) {
+            // Pre-seleccionar habitación si viene del catálogo
+            const habId = parseInt(p.get('hab'));
+            if (habId) {
+                fetch(API_HABITACIONES)
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.ok) {
+                            const h = data.habitaciones.find(h => h.id === habId);
+                            if (h) setHabSeleccionada(h);
+                        }
+                    })
+                    .catch(() => {});
             }
-        } else {
-            setErrorFechas('');
+        }
+    }, []);
+
+    // ── Calcular noches ───────────────────────────────────────
+    useEffect(() => {
+        if (!checkIn || !checkOut) { setNoches(0); setErrFechas(''); return; }
+        const diff = Math.ceil((new Date(checkOut) - new Date(checkIn)) / 86400000);
+        if (diff <= 0) {
+            setErrFechas('La fecha de salida debe ser posterior a la de llegada.');
             setNoches(0);
-            setHabitacionSeleccionada(null);
+            setHabSeleccionada(null);
+        } else {
+            setErrFechas('');
+            setNoches(diff);
         }
     }, [checkIn, checkOut]);
 
-    const sumarAdulto = () => setAdultos(p => p < 4 ? p + 1 : p);
-    const restarAdulto = () => setAdultos(p => p > 1 ? p - 1 : p);
-    const sumarNino   = () => setNinos(p => p < 3 ? p + 1 : p);
-    const restarNino  = () => setNinos(p => p > 0 ? p - 1 : p);
+    // ── Cálculos del resumen ──────────────────────────────────
+    const huespedesTotales     = adultos + ninos;
+    const habsParaHuespedes    = habitaciones.filter(h => h.capacidad >= huespedesTotales);
+    const subtotal = habSeleccionada && noches > 0 ? habSeleccionada.precio_noche * noches : 0;
+    const ish    = subtotal * 0.03;
+    const iva    = subtotal * 0.16;
+    const total  = subtotal + ish + iva;
 
-    const limpiarDatos = () => {
+    const estadoValidacion = (!checkIn || !checkOut) ? 'inicial'
+        : (noches > 0 && !errFechas ? 'valido' : 'error');
+
+    // ── Limpiar formulario ────────────────────────────────────
+    function limpiar() {
         setCheckIn(''); setCheckOut(''); setAdultos(1); setNinos(0);
-        setHabitacionSeleccionada(null); setErrorFechas(''); setNoches(0);
-        setDatosCliente({ nombre: '', apellido: '', correo: '', codigoPais: '+52', telefono: '', metodoPago: 'tarjeta', numeroTarjeta: '', fechaExpiracion: '', cvv: '' });
-    };
+        setHabSeleccionada(null); setNotas('');
+        setErrFechas(''); setNoches(0);
+        setMostrarModal(false); setMostrarCancel(false);
+    }
 
-    const formatoMoneda = (n) => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-    const procesarReserva = (e) => {
+    // ── Confirmar reserva — API real ──────────────────────────
+    async function procesarReserva(e) {
         e.preventDefault();
-        new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3').play().catch(() => {});
-        setMostrarModal(false);
-        setReservaExitosa(true);
-        setTimeout(() => { setReservaExitosa(false); limpiarDatos(); }, 4000);
-    };
+        if (submittingRef.current || !habSeleccionada || noches <= 0) return;
 
-    const intentarCancelar    = () => setMostrarConfirmacionCancelar(true);
-    const abortarCancelacion  = () => setMostrarConfirmacionCancelar(false);
-    const confirmarCancelacion = () => {
-        new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3').play().catch(() => {});
-        setMostrarConfirmacionCancelar(false);
-        setMostrarModal(false);
-        setCancelacionExitosa(true);
-        setTimeout(() => { setCancelacionExitosa(false); limpiarDatos(); }, 3000);
-    };
+        // Verificar sesión activa antes de enviar
+        if (!sesion.id) {
+            window.QDToast && window.QDToast.aviso(
+                'Tu sesión expiró. Por favor inicia sesión nuevamente.'
+            );
+            setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+            return;
+        }
 
-    const huespedesTotales   = adultos + ninos;
-    const habitacionesDisponibles = habitacionesCatalogo.filter(h => h.maxPersonas >= huespedesTotales);
-    const subtotal = habitacionSeleccionada ? habitacionSeleccionada.precio * noches : 0;
-    const ish = subtotal * 0.03;
-    const iva = subtotal * 0.16;
-    const total = subtotal + ish + iva;
+        submittingRef.current = true;
+        setEnviando(true);
 
-    const estadoValidacion = (!checkIn || !checkOut) ? 'inicial' : (noches > 0 && !errorFechas ? 'valido' : 'error');
+        try {
+            const res = await fetch(API_RESERVAR, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({
+                    usuario_id:    sesion.id,
+                    habitacion_id: habSeleccionada.id,
+                    fecha_entrada: checkIn,
+                    fecha_salida:  checkOut,
+                    num_huespedes: huespedesTotales,
+                    notas:         notas.trim() || null,
+                })
+            });
 
+            const data = await res.json();
+
+            if (!data.ok) {
+                // La habitación ya no está disponible en esas fechas
+                window.QDToast && window.QDToast.error(
+                    data.mensaje || 'No se pudo procesar la reservación.'
+                );
+                return;
+            }
+
+            // ── Éxito ──────────────────────────────────────────
+            const codigo = data.reservacion?.codigo || 'R-XXXX';
+            setMostrarModal(false);
+            window.QDToast && window.QDToast.exito(
+                `✅ ¡Reservación creada! Código: ${codigo}`, 7000
+            );
+
+            // Actualizar lista (quitar la habitación recién reservada)
+            setHabitaciones(prev => prev.filter(h => h.id !== habSeleccionada.id));
+            limpiar();
+
+        } catch {
+            window.QDToast && window.QDToast.error(
+                'Error de conexión. Verifica tu internet e intenta de nuevo.'
+            );
+        } finally {
+            setEnviando(false);
+            submittingRef.current = false;
+        }
+    }
+
+    // ── Render ────────────────────────────────────────────────
     return (
         <div className="reserva-layout">
 
-            {/* PASO 1 */}
+            {/* ════════════════════════════════════
+                PASO 1: FECHAS Y HUÉSPEDES
+            ════════════════════════════════════ */}
             <div className="reserva-col">
                 <h3 className="reserva-col__titulo">PASO 1: Fechas y Huéspedes</h3>
+
                 <div className="reserva-campo-grupo">
                     <label className="reserva-label">Llegada (Check-in)</label>
-                    <input type="date" className="reserva-date-input" value={checkIn} min={fechaHoy} onChange={(e) => setCheckIn(e.target.value)} />
+                    <input type="date" className="reserva-date-input"
+                        value={checkIn} min={fechaHoy}
+                        onChange={e => setCheckIn(e.target.value)} />
 
                     <label className="reserva-label">Salida (Check-out)</label>
-                    <input type="date" className="reserva-date-input" value={checkOut} min={checkIn || fechaHoy} onChange={(e) => setCheckOut(e.target.value)} />
+                    <input type="date" className="reserva-date-input"
+                        value={checkOut} min={checkIn || fechaHoy}
+                        onChange={e => setCheckOut(e.target.value)} />
                 </div>
 
                 <div className="reserva-huespedes-fila">
                     <div className="reserva-huesped-grupo">
                         <label>Adultos</label>
                         <div className="reserva-contador">
-                            <button className="reserva-contador__btn" onClick={restarAdulto}>-</button>
+                            <button className="reserva-contador__btn" onClick={() => setAdultos(p => Math.max(1, p - 1))}>-</button>
                             <span>{adultos}</span>
-                            <button className="reserva-contador__btn" onClick={sumarAdulto}>+</button>
+                            <button className="reserva-contador__btn" onClick={() => setAdultos(p => Math.min(8, p + 1))}>+</button>
                         </div>
                     </div>
                     <div className="reserva-huesped-grupo">
                         <label>Niños</label>
                         <div className="reserva-contador">
-                            <button className="reserva-contador__btn" onClick={restarNino}>-</button>
+                            <button className="reserva-contador__btn" onClick={() => setNinos(p => Math.max(0, p - 1))}>-</button>
                             <span>{ninos}</span>
-                            <button className="reserva-contador__btn" onClick={sumarNino}>+</button>
+                            <button className="reserva-contador__btn" onClick={() => setNinos(p => Math.min(4, p + 1))}>+</button>
                         </div>
                     </div>
                 </div>
 
                 <div className={`reserva-estado-box reserva-estado-box--${estadoValidacion}`}>
                     <p className="reserva-estado-msg">
-                        {estadoValidacion === 'inicial' && '📅 Seleccione fechas de llegada y salida'}
+                        {estadoValidacion === 'inicial' && '📅 Selecciona las fechas de llegada y salida'}
                         {estadoValidacion === 'valido'  && '✅ Fechas válidas'}
-                        {estadoValidacion === 'error'   && `❌ ${errorFechas}`}
+                        {estadoValidacion === 'error'   && `❌ ${errFechas}`}
                     </p>
-                    <p>✅ Huéspedes: {huespedesTotales}</p>
-                    {noches > 0 && <p className="reserva-noches">Total de noches: {noches}</p>}
+                    <p>👥 Huéspedes: {huespedesTotales}</p>
+                    {noches > 0 && <p className="reserva-noches">🌙 Total de noches: {noches}</p>}
                 </div>
             </div>
 
-            {/* PASO 2 */}
+            {/* ════════════════════════════════════
+                PASO 2: SELECCIONAR HABITACIÓN
+            ════════════════════════════════════ */}
             <div className={`reserva-col ${noches === 0 ? 'reserva-col--disabled' : ''}`}>
                 <h3 className="reserva-col__titulo">PASO 2: Elija su Habitación</h3>
+
                 {noches === 0 ? (
-                    <p>Complete el Paso 1 para ver las habitaciones disponibles.</p>
+                    <p style={{ fontFamily:"'Lato',sans-serif", color:'#aaa', fontSize:'0.9rem' }}>
+                        Complete el Paso 1 para ver las habitaciones disponibles.
+                    </p>
+                ) : cargandoHabs ? (
+                    <p style={{ fontFamily:"'Lato',sans-serif", color:'#aaa' }}>Cargando habitaciones...</p>
+                ) : habsParaHuespedes.length === 0 ? (
+                    <div style={{ textAlign:'center', padding:'30px 20px', fontFamily:"'Lato',sans-serif" }}>
+                        <p style={{ fontSize:'1.5rem', marginBottom:'10px' }}>😕</p>
+                        <p style={{ color:'#888' }}>No hay habitaciones disponibles para {huespedesTotales} huéspedes en estas fechas.</p>
+                        <p style={{ color:'#aaa', fontSize:'0.85rem', marginTop:'8px' }}>
+                            Intenta con menos huéspedes o cambia las fechas.
+                        </p>
+                    </div>
                 ) : (
                     <div className="hab-mini-grid">
-                        {habitacionesDisponibles.map(hab => (
-                            <div key={hab.id} onClick={() => setHabitacionSeleccionada(hab)}
-                                className={`hab-mini-card ${habitacionSeleccionada?.id === hab.id ? 'hab-mini-card--seleccionada' : ''}`}>
-                                <img src={hab.imagen} alt={hab.nombre} onError={(e) => { e.target.src = 'https://via.placeholder.com/150?text=Sin+Imagen'; }} />
+                        {habsParaHuespedes.map(hab => (
+                            <div key={hab.id}
+                                className={`hab-mini-card ${habSeleccionada?.id === hab.id ? 'hab-mini-card--seleccionada' : ''}`}
+                                onClick={() => setHabSeleccionada(hab)}>
+                                <img src={hab.imagen_url || `./img/habitaciones/habitacion${hab.numero}.jpg`}
+                                    alt={hab.nombre} loading="lazy"
+                                    onError={e => { e.target.src = 'https://via.placeholder.com/150/e0d5c1/8c5a35?text=Sin+Foto'; }} />
                                 <h4>{hab.nombre}</h4>
-                                <p className="hab-mini-precio">${formatoMoneda(hab.precio)}</p>
-                                <p className="hab-mini-max">Máx: {hab.maxPersonas} pers.</p>
+                                <p style={{ fontFamily:"'Lato',sans-serif", fontSize:'0.72rem', color:'#aaa', margin:'2px 0' }}>
+                                    {hab.tipo}
+                                </p>
+                                <p className="hab-mini-precio">${fmt(hab.precio_noche)}/noche</p>
+                                <p className="hab-mini-max">👥 Máx: {hab.capacidad} pers.</p>
                             </div>
                         ))}
                     </div>
                 )}
             </div>
 
-            {/* PASO 3 */}
-            <div className={`reserva-col ${!habitacionSeleccionada ? 'reserva-col--disabled' : ''}`}>
-                <h3 className="reserva-col__titulo">PASO 3: Resumen y confirmación</h3>
-                {habitacionSeleccionada && noches > 0 ? (
+            {/* ════════════════════════════════════
+                PASO 3: RESUMEN Y CONFIRMACIÓN
+            ════════════════════════════════════ */}
+            <div className={`reserva-col ${!habSeleccionada ? 'reserva-col--disabled' : ''}`}>
+                <h3 className="reserva-col__titulo">PASO 3: Resumen y Confirmación</h3>
+
+                {habSeleccionada && noches > 0 ? (
                     <div className="resumen-cuerpo">
+                        {/* Resumen */}
                         <div>
-                            <h4 className="resumen-nombre">Habitación {habitacionSeleccionada.nombre}</h4>
-                            <p className="resumen-detalle"><strong>Llegada:</strong> {checkIn}</p>
-                            <p className="resumen-detalle"><strong>Salida:</strong> {checkOut}</p>
-                            <p className="resumen-detalle"><strong>Estancia:</strong> {noches} noche(s)</p>
-                            <p className="resumen-detalle"><strong>Huéspedes:</strong> {adultos} Adulto(s), {ninos} Niño(s)</p>
+                            <h4 className="resumen-nombre">Habitación {habSeleccionada.nombre}</h4>
+                            <p style={{ fontFamily:"'Lato',sans-serif", fontSize:'0.78rem', color:'#aaa', marginBottom:'12px' }}>
+                                {habSeleccionada.tipo}
+                            </p>
+                            <p className="resumen-detalle"><strong>Llegada:</strong>   {checkIn}</p>
+                            <p className="resumen-detalle"><strong>Salida:</strong>    {checkOut}</p>
+                            <p className="resumen-detalle"><strong>Estancia:</strong>  {noches} noche{noches !== 1 ? 's' : ''}</p>
+                            <p className="resumen-detalle"><strong>Huéspedes:</strong> {adultos} Adulto{adultos !== 1 ? 's' : ''}, {ninos} Niño{ninos !== 1 ? 's' : ''}</p>
+                            <p className="resumen-detalle">
+                                <strong>Reservado por:</strong>{' '}
+                                <span style={{ color:'#8c5a35', fontWeight:700 }}>{sesion.nombre || 'Tu cuenta'}</span>
+                            </p>
+
                             <hr className="resumen-hr-dashed" />
-                            <div className="resumen-linea"><span>Subtotal ({noches} noches):</span><span>${formatoMoneda(subtotal)}</span></div>
-                            <div className="resumen-linea"><span>ISH (3%):</span><span>${formatoMoneda(ish)}</span></div>
-                            <div className="resumen-linea"><span>IVA (16%):</span><span>${formatoMoneda(iva)}</span></div>
+                            <div className="resumen-linea"><span>Subtotal ({noches} noches):</span><span>${fmt(subtotal)}</span></div>
+                            <div className="resumen-linea"><span>ISH (3%):</span><span>${fmt(ish)}</span></div>
+                            <div className="resumen-linea"><span>IVA (16%):</span><span>${fmt(iva)}</span></div>
                             <hr className="resumen-hr-solid" />
-                            <div className="resumen-total-fila"><span>TOTAL:</span><span>${formatoMoneda(total)} MXN</span></div>
+                            <div className="resumen-total-fila">
+                                <span>TOTAL:</span>
+                                <span>${fmt(total)} MXN</span>
+                            </div>
                         </div>
+
+                        {/* Notas */}
+                        <div style={{ marginTop:'16px' }}>
+                            <label style={{ fontFamily:"'Lato',sans-serif", fontSize:'0.78rem', fontWeight:700, color:'#4a4a4a', textTransform:'uppercase', letterSpacing:'0.8px', display:'block', marginBottom:'6px' }}>
+                                Notas especiales (opcional)
+                            </label>
+                            <textarea value={notas} onChange={e => setNotas(e.target.value)}
+                                placeholder="Ej: celebración de aniversario, llegada tardía..."
+                                maxLength={300}
+                                style={{ width:'100%', padding:'10px 12px', borderRadius:'8px',
+                                    border:'1.5px solid #e0d8cf', fontFamily:"'Lato',sans-serif",
+                                    fontSize:'0.88rem', resize:'vertical', minHeight:'70px',
+                                    outline:'none', background:'#fdfaf7', boxSizing:'border-box' }} />
+                        </div>
+
                         <div className="reserva-acciones">
-                            <button className="btn-confirmar-reserva" onClick={() => setMostrarModal(true)}>Confirmar Reserva</button>
-                            <button className="btn-limpiar-reserva" onClick={limpiarDatos}>Limpiar Datos</button>
+                            <button className="btn-confirmar-reserva" onClick={() => setMostrarModal(true)}>
+                                Confirmar Reserva
+                            </button>
+                            <button className="btn-limpiar-reserva" onClick={limpiar}>
+                                Limpiar Datos
+                            </button>
                         </div>
                     </div>
                 ) : (
-                    <p>Seleccione fechas y una habitación para ver el desglose completo.</p>
+                    <p style={{ fontFamily:"'Lato',sans-serif", color:'#aaa', fontSize:'0.9rem' }}>
+                        Seleccione fechas y una habitación para ver el desglose completo.
+                    </p>
                 )}
             </div>
 
-            {/* Modal de formulario */}
-            {mostrarModal && (
+            {/* ════════════════════════════════════
+                MODAL: CONFIRMAR RESERVA
+            ════════════════════════════════════ */}
+            {mostrarModal && habSeleccionada && (
                 <div className="modal-reserva-overlay">
                     <div className="modal-reserva-box">
-                        <h2 className="modal-reserva-titulo">Finalizar Reserva</h2>
-                        <form onSubmit={procesarReserva}>
-                            <div className="modal-form-fila">
-                                <div className="modal-form-campo">
-                                    <label className="modal-campo-label">Nombre(s)</label>
-                                    <input type="text" required pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" title="Solo letras"
-                                        className="modal-campo-input" placeholder="Ej. Juan"
-                                        value={datosCliente.nombre} onChange={(e) => setDatosCliente({...datosCliente, nombre: e.target.value})} />
-                                </div>
-                                <div className="modal-form-campo">
-                                    <label className="modal-campo-label">Apellido(s)</label>
-                                    <input type="text" required pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" title="Solo letras"
-                                        className="modal-campo-input" placeholder="Ej. Pérez"
-                                        value={datosCliente.apellido} onChange={(e) => setDatosCliente({...datosCliente, apellido: e.target.value})} />
-                                </div>
-                            </div>
+                        <h2 className="modal-reserva-titulo">Confirmar Reservación</h2>
 
-                            <label className="modal-campo-label">Correo Electrónico</label>
-                            <input type="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-                                title="Por favor ingresa un correo válido"
-                                className="modal-campo-input" placeholder="ejemplo@correo.com"
-                                value={datosCliente.correo} onChange={(e) => setDatosCliente({...datosCliente, correo: e.target.value})} />
+                        {/* Resumen compacto */}
+                        <div style={{
+                            background:'linear-gradient(135deg,#2a1206,#6b3a1f)',
+                            borderRadius:'12px', padding:'16px 20px', marginBottom:'20px',
+                            color:'#fff', fontFamily:"'Lato',sans-serif", fontSize:'0.88rem'
+                        }}>
+                            <p style={{ fontFamily:"'Playfair Display',serif", fontSize:'1rem', fontWeight:700, marginBottom:'8px', color:'#e8c98a' }}>
+                                🛏️ {habSeleccionada.nombre} — {habSeleccionada.tipo}
+                            </p>
+                            <p>📅 {checkIn} → {checkOut} ({noches} noche{noches !== 1 ? 's' : ''})</p>
+                            <p>👥 {huespedesTotales} huéspedes</p>
+                            <p style={{ marginTop:'10px', fontSize:'1.1rem', fontWeight:700 }}>
+                                Total: ${fmt(total)} MXN
+                            </p>
+                        </div>
 
-                            <label className="modal-campo-label">Teléfono Móvil</label>
-                            <div className="modal-tel-fila">
-                                <select className="modal-tel-pais" value={datosCliente.codigoPais} onChange={(e) => setDatosCliente({...datosCliente, codigoPais: e.target.value})}>
-                                    <option value="+52">🇲🇽 MX (+52)</option>
-                                    <option value="+1">🇺🇸 US (+1)</option>
-                                    <option value="+1">🇨🇦 CA (+1)</option>
-                                    <option value="+34">🇪🇸 ES (+34)</option>
-                                    <option value="+54">🇦🇷 AR (+54)</option>
-                                    <option value="+51">🇵🇪 PE (+51)</option>
-                                    <option value="+57">🇨🇴 CO (+57)</option>
-                                </select>
-                                <input type="tel" required pattern="[0-9]{10}" title="Exactamente 10 dígitos"
-                                    className="modal-tel-numero" placeholder="10 dígitos" maxLength="10"
-                                    value={datosCliente.telefono} onChange={(e) => setDatosCliente({...datosCliente, telefono: e.target.value})} />
-                            </div>
+                        {/* Info del usuario (pre-llenada, readonly) */}
+                        <div style={{ marginBottom:'16px', fontFamily:"'Lato',sans-serif", fontSize:'0.85rem', color:'#555' }}>
+                            <p style={{ marginBottom:'4px' }}>
+                                <strong>Reservado a nombre de:</strong> {sesion.nombre}
+                            </p>
+                            <p>
+                                <strong>Correo:</strong> {sesion.correo}
+                            </p>
+                        </div>
 
-                            <label className="modal-campo-label">Forma de Pago</label>
-                            <select className="modal-select" value={datosCliente.metodoPago} onChange={(e) => setDatosCliente({...datosCliente, metodoPago: e.target.value})}>
-                                <option value="tarjeta">💳 Tarjeta de Crédito / Débito</option>
-                                <option value="paypal">🅿️ PayPal</option>
-                                <option value="transferencia">🏦 Transferencia Bancaria (SPEI)</option>
-                                <option value="recepcion">🏨 Pagar en Recepción (Efectivo)</option>
-                            </select>
+                        {/* Método de pago */}
+                        <label style={{ fontFamily:"'Lato',sans-serif", fontSize:'0.78rem', fontWeight:700, color:'#4a4a4a', textTransform:'uppercase', letterSpacing:'0.8px', display:'block', marginBottom:'6px' }}>
+                            Forma de Pago
+                        </label>
+                        <select className="modal-select" defaultValue="recepcion">
+                            <option value="recepcion">🏨 Pagar en Recepción (Efectivo)</option>
+                            <option value="transferencia">🏦 Transferencia Bancaria (SPEI)</option>
+                            <option value="tarjeta" disabled>💳 Tarjeta — (Próximamente vía Mercado Pago)</option>
+                        </select>
 
-                            {datosCliente.metodoPago === 'tarjeta' && (
-                                <div className="pago-panel pago-panel--tarjeta">
-                                    <label className="pago-campo-label">Número de Tarjeta</label>
-                                    <input type="text" required pattern="[0-9]{16}" title="16 dígitos"
-                                        className="pago-tarjeta-num" placeholder="0000 0000 0000 0000" maxLength="16"
-                                        value={datosCliente.numeroTarjeta} onChange={(e) => setDatosCliente({...datosCliente, numeroTarjeta: e.target.value})} />
-                                    <div className="pago-tarjeta-fila">
-                                        <div className="pago-tarjeta-campo">
-                                            <label className="pago-campo-label">Expiración (MM/AA)</label>
-                                            <input type="text" required pattern="(0[1-9]|1[0-2])\/[0-9]{2}" title="Formato MM/AA"
-                                                className="pago-campo-input" placeholder="MM/AA" maxLength="5"
-                                                value={datosCliente.fechaExpiracion} onChange={(e) => setDatosCliente({...datosCliente, fechaExpiracion: e.target.value})} />
-                                        </div>
-                                        <div className="pago-tarjeta-campo">
-                                            <label className="pago-campo-label">CVV</label>
-                                            <input type="text" required pattern="[0-9]{3,4}" title="3 o 4 dígitos"
-                                                className="pago-campo-input" placeholder="123" maxLength="4"
-                                                value={datosCliente.cvv} onChange={(e) => setDatosCliente({...datosCliente, cvv: e.target.value})} />
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                            {datosCliente.metodoPago === 'paypal' && (
-                                <div className="pago-panel pago-panel--paypal"><p><strong>Se te redirigirá a PayPal.</strong></p></div>
-                            )}
-                            {datosCliente.metodoPago === 'transferencia' && (
-                                <div className="pago-panel pago-panel--spei"><p><strong>Banco: BBVA<br/>CLABE: 012345678901234567</strong></p></div>
-                            )}
-                            {datosCliente.metodoPago === 'recepcion' && (
-                                <div className="pago-panel pago-panel--recepcion"><p><strong>Pago en Recepción.</strong></p></div>
-                            )}
+                        {notas.trim() && (
+                            <p style={{ marginTop:'12px', fontFamily:"'Lato',sans-serif", fontSize:'0.83rem', color:'#888' }}>
+                                📝 <em>{notas}</em>
+                            </p>
+                        )}
 
-                            <div className="modal-total-box">
-                                <span className="modal-total-label">Total a pagar:</span>
-                                <h3 className="modal-total-monto">${formatoMoneda(total)} MXN</h3>
-                            </div>
-
-                            <div className="modal-acciones">
-                                <button type="button" className="btn-modal-cancelar" onClick={intentarCancelar}>Cancelar</button>
-                                <button type="submit" className="btn-modal-confirmar">Confirmar Pago</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
-
-            {/* Modal de cancelacion */}
-            {mostrarConfirmacionCancelar && (
-                <div className="modal-cancelar-overlay">
-                    <div className="modal-cancelar-box">
-                        <div className="modal-cancelar-icono">⚠️</div>
-                        <h3 className="modal-cancelar-titulo">¿Cancelar reservación?</h3>
-                        <p className="modal-cancelar-texto">Se perderán los datos ingresados y la habitación seleccionada.</p>
-                        <div className="modal-cancelar-acciones">
-                            <button className="btn-volver" onClick={abortarCancelacion}>No, volver</button>
-                            <button className="btn-cancelar-confirm" onClick={confirmarCancelacion}>Sí, cancelar</button>
+                        <div className="modal-acciones">
+                            <button type="button" className="btn-modal-cancelar"
+                                onClick={() => { setMostrarCancel(true); }}>
+                                Cancelar
+                            </button>
+                            <button type="button" className="btn-modal-confirmar"
+                                disabled={enviando} onClick={procesarReserva}>
+                                {enviando
+                                    ? <><span style={{ display:'inline-block', width:'14px', height:'14px', border:'2px solid rgba(255,255,255,0.4)', borderTopColor:'#fff', borderRadius:'50%', animation:'spin 0.7s linear infinite', verticalAlign:'middle', marginRight:'6px' }}></span>Procesando...</>
+                                    : '✅ Confirmar Reserva'
+                                }
+                            </button>
                         </div>
                     </div>
                 </div>
             )}
 
-            {/* Modal exito */}
-            {reservaExitosa && (
-                <div className="modal-overlay">
-                    <div className="modal-box">
-                        <div className="modal-box__icono modal-box__icono--exito">✅</div>
-                        <h2 className="modal-box__titulo--exito">¡Reservación Exitosa!</h2>
-                        <p className="modal-box__texto">Gracias, <strong>{datosCliente.nombre}</strong>.</p>
-                        <p className="modal-box__subtexto">Hemos enviado los detalles a:<br/><strong>{datosCliente.correo}</strong></p>
+            {/* ════════════════════════════════════
+                MODAL: CONFIRMAR CANCELACIÓN
+            ════════════════════════════════════ */}
+            {mostrarCancel && (
+                <div className="modal-cancelar-overlay">
+                    <div className="modal-cancelar-box">
+                        <div className="modal-cancelar-icono">⚠️</div>
+                        <h3 className="modal-cancelar-titulo">¿Cancelar proceso?</h3>
+                        <p className="modal-cancelar-texto">
+                            Se perderán los datos ingresados y la habitación seleccionada quedará disponible.
+                        </p>
+                        <div className="modal-cancelar-acciones">
+                            <button className="btn-volver" onClick={() => setMostrarCancel(false)}>
+                                No, volver
+                            </button>
+                            <button className="btn-cancelar-confirm" onClick={() => {
+                                setMostrarCancel(false);
+                                limpiar();
+                                window.QDToast && window.QDToast.info('Reservación cancelada. Los datos fueron limpiados.');
+                            }}>
+                                Sí, cancelar
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
 
-            {/* Modal de cancelacion */}
-            {cancelacionExitosa && (
-                <div className="modal-overlay">
-                    <div className="modal-box">
-                        <div className="modal-box__icono modal-box__icono--error">❌</div>
-                        <h2 className="modal-box__titulo--error">Reservación Cancelada</h2>
-                        <p className="modal-box__texto">El proceso se detuvo de forma segura.</p>
-                    </div>
-                </div>
-            )}
+            <style>{'@keyframes spin{to{transform:rotate(360deg)}}'}</style>
         </div>
     );
 }

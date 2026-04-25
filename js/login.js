@@ -1,6 +1,17 @@
+// ============================================================
+//  login.js — Hotel Quinta Dalam
+//  Conectado a api/auth/login.php
+// ============================================================
+
 const { useState, useEffect, useRef } = React;
 
-// ── Íconos SVG ─────────────────────────────────────────────────
+// ── URL base de la API ──────────────────────────────────────
+// En XAMPP local apunta a localhost.
+// En Hostinger simplemente cambia a '/api/auth/login.php'
+// porque el dominio ya es el correcto.
+const API_LOGIN = './api/auth/login.php';
+
+// ── Íconos SVG ─────────────────────────────────────────────
 const IconEmail = () => (
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -8,7 +19,6 @@ const IconEmail = () => (
         <path d="M2 7l10 7 10-7"/>
     </svg>
 );
-
 const IconLock = () => (
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -16,7 +26,6 @@ const IconLock = () => (
         <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
     </svg>
 );
-
 const IconEye = () => (
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -24,7 +33,6 @@ const IconEye = () => (
         <circle cx="12" cy="12" r="3"/>
     </svg>
 );
-
 const IconEyeOff = () => (
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -33,21 +41,18 @@ const IconEyeOff = () => (
         <line x1="1" y1="1" x2="23" y2="23"/>
     </svg>
 );
-
 const IconShield = () => (
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
     </svg>
 );
-
 const IconCheck = () => (
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
          strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="20 6 9 17 4 12"/>
     </svg>
 );
-
 const IconAlert = () => (
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
          strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -57,7 +62,7 @@ const IconAlert = () => (
     </svg>
 );
 
-// ── Componente Principal ────────────────────────────────────────
+// ── Componente Principal ────────────────────────────────────
 function LoginPage() {
 
     const [correo,     setCorreo]     = useState('');
@@ -71,38 +76,40 @@ function LoginPage() {
 
     const submittingRef = useRef(false);
 
-    // Limpiar alerta automáticamente después de 5 s
+    // Si ya hay sesión activa, redirigir directamente
+    useEffect(() => {
+        const sesion = window.QDSession && window.QDSession.obtener();
+        if (sesion) {
+            window.location.href = sesion.rol === 'admin'
+                ? 'dashboard.html'
+                : 'index.html';
+        }
+    }, []);
+
+    // Limpiar alerta automáticamente después de 5s
     useEffect(() => {
         if (!alert) return;
         const t = setTimeout(() => setAlert(null), 5000);
         return () => clearTimeout(t);
     }, [alert]);
 
-    // ── Validación ─────────────────────────────────────────────
+    // ── Validación del lado cliente ──────────────────────────
     function validar() {
         const errs = {};
         const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!correo.trim()) {
-            errs.correo = 'El correo es obligatorio.';
-        } else if (!emailRx.test(correo)) {
-            errs.correo = 'Ingresa un correo válido.';
-        }
+        if (!correo.trim())              errs.correo   = 'El correo es obligatorio.';
+        else if (!emailRx.test(correo))  errs.correo   = 'Ingresa un correo válido.';
 
-        if (!password) {
-            errs.password = 'La contraseña es obligatoria.';
-        } else if (password.length < 6) {
-            errs.password = 'Mínimo 6 caracteres.';
-        }
+        if (!password)                   errs.password = 'La contraseña es obligatoria.';
+        else if (password.length < 6)    errs.password = 'Mínimo 6 caracteres.';
 
-        if (!captchaOk) {
-            errs.captcha = 'Por favor confirma que no eres un robot.';
-        }
+        if (!captchaOk)                  errs.captcha  = 'Por favor confirma que no eres un robot.';
 
         return errs;
     }
 
-    // ── Submit ──────────────────────────────────────────────────
+    // ── Submit — conectado a la API real ─────────────────────
     async function handleSubmit(e) {
         e.preventDefault();
         if (submittingRef.current) return;
@@ -116,51 +123,66 @@ function LoginPage() {
         setAlert(null);
 
         try {
-            // TODO: Reemplazar con fetch real para API PHP:
-            // const res = await fetch('/api/auth/login', {
-            //   method: 'POST',
-            //   headers: { 'Content-Type': 'application/json' },
-            //   body: JSON.stringify({ correo, password })
-            // });
-            // const data = await res.json();
-            // if (!data.ok) throw new Error(data.mensaje);
+            // ── Petición real a la API PHP ───────────────────
+            const res = await fetch(API_LOGIN, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({
+                    correo:     correo.trim().toLowerCase(),
+                    contrasena: password
+                })
+            });
 
-            // Simulación de respuesta exitosa del servidor
-            await new Promise(r => setTimeout(r, 1500));
+            const data = await res.json();
 
-            const usuarioSimulado = {
-                nombre: 'Carlos García',
-                correo: correo,
-                rol: correo.toLowerCase().includes('admin') ? 'admin' : 'cliente'
-            };
+            // Si la API devuelve ok: false → mostrar el error
+            if (!data.ok) {
+                setAlert({ tipo: 'error', msg: data.mensaje || 'Credenciales incorrectas.' });
+                return;
+            }
 
-            // Guardar sesión en sessionStorage (se borra al cerrar el navegador,
-            // no es transferible a otro navegador/pestaña, por ahora funcioa pero debo de ajustarlo)
-            sessionStorage.setItem('qdSession', JSON.stringify(usuarioSimulado));
+            // ── Login exitoso ────────────────────────────────
+            // Guardar sesión usando el gestor compartido
+            // QDSession activa automáticamente el temporizador
+            // de inactividad de 20 minutos
+            if (window.QDSession) {
+                window.QDSession.guardar(data.usuario);
+                window.QDSession.iniciarListeners();
+            } else {
+                // Fallback si session.js no cargó
+                sessionStorage.setItem('qdSession', JSON.stringify(data.usuario));
+            }
 
-            setAlert({ tipo: 'success', msg: `¡Bienvenido, ${usuarioSimulado.nombre}! Redirigiendo...` });
+            setAlert({
+                tipo: 'success',
+                msg:  `¡Bienvenido, ${data.usuario.nombre}! Redirigiendo...`
+            });
 
-            // Redirigir según rol
+            // Redirigir según rol después de 1.2s
             setTimeout(() => {
-                window.location.href = usuarioSimulado.rol === 'admin'
+                window.location.href = data.usuario.rol === 'admin'
                     ? 'dashboard.html'
                     : 'index.html';
             }, 1200);
 
         } catch (err) {
-            setAlert({ tipo: 'error', msg: 'Correo o contraseña incorrectos. Intenta de nuevo.' });
+            // Error de red o servidor caído
+            setAlert({
+                tipo: 'error',
+                msg:  'No se pudo conectar con el servidor. Verifica tu conexión.'
+            });
         } finally {
             setLoading(false);
             submittingRef.current = false;
         }
     }
 
-    // ── Render ──────────────────────────────────────────────────
+    // ── Render ───────────────────────────────────────────────
     return (
         <div className="login-page-wrapper">
             <div className="login-card">
 
-                {/* ── Panel Izquierdo — Branding ────────────────── */}
+                {/* ── Panel Izquierdo — Branding ── */}
                 <div className="login-panel-brand">
                     <div className="brand-ornament"></div>
                     <div className="brand-ornament-bottom"></div>
@@ -171,8 +193,9 @@ function LoginPage() {
 
                     <div className="brand-logo-wrap">
                         <div className="brand-logo-circle">
-                            <img src="./img/logo/logo-quinta-dalam-dark.svg" alt="Hotel Quinta Dalam" style={{width: '89px', height: '89px'}}
-                                 onError={e => { e.target.style.display = 'none'; }} />
+                            {/* Logo actualizado — SVG nuevo */}
+                            <img src="./img/logo/logo-quinta-dalam-dark.svg"
+                                 alt="Logo Hotel Quinta Dalam" />
                         </div>
                     </div>
 
@@ -188,7 +211,7 @@ function LoginPage() {
                     </p>
                 </div>
 
-                {/* ── Panel Derecho — Formulario ────────────────── */}
+                {/* ── Panel Derecho — Formulario ── */}
                 <div className="login-panel-form">
 
                     <h1 className="login-form-title">Iniciar Sesión</h1>
@@ -218,7 +241,7 @@ function LoginPage() {
                                     value={correo}
                                     onChange={e => {
                                         setCorreo(e.target.value);
-                                        if (errors.correo) setErrors(p => ({ ...p, correo: '' }));
+                                        if (errors.correo) setErrors(p => ({...p, correo: ''}));
                                     }}
                                     autoComplete="email"
                                 />
@@ -245,7 +268,7 @@ function LoginPage() {
                                     value={password}
                                     onChange={e => {
                                         setPassword(e.target.value);
-                                        if (errors.password) setErrors(p => ({ ...p, password: '' }));
+                                        if (errors.password) setErrors(p => ({...p, password: ''}));
                                     }}
                                     autoComplete="current-password"
                                 />
@@ -289,7 +312,7 @@ function LoginPage() {
                                 checked={captchaOk}
                                 onChange={e => {
                                     setCaptchaOk(e.target.checked);
-                                    if (errors.captcha) setErrors(p => ({ ...p, captcha: '' }));
+                                    if (errors.captcha) setErrors(p => ({...p, captcha: ''}));
                                 }}
                                 aria-label="No soy un robot"
                             />
