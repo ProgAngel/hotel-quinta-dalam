@@ -123,11 +123,8 @@ function ModuloReservaciones() {
         e.preventDefault();
         if (submittingRef.current || !habSeleccionada || noches <= 0) return;
 
-        // Verificar sesión activa antes de enviar
         if (!sesion.id) {
-            window.QDToast && window.QDToast.aviso(
-                'Tu sesión expiró. Por favor inicia sesión nuevamente.'
-            );
+            window.QDToast && window.QDToast.aviso('Tu sesión expiró. Por favor inicia sesión nuevamente.');
             setTimeout(() => { window.location.href = 'login.html'; }, 2000);
             return;
         }
@@ -136,7 +133,8 @@ function ModuloReservaciones() {
         setEnviando(true);
 
         try {
-            const res = await fetch(API_RESERVAR, {
+            // ── Paso 1: Crear la reservación en la BD ─────────
+            const resReserva = await fetch(API_RESERVAR, {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -150,31 +148,54 @@ function ModuloReservaciones() {
                 })
             });
 
-            const data = await res.json();
+            const dataReserva = await resReserva.json();
 
-            if (!data.ok) {
-                // La habitación ya no está disponible en esas fechas
-                window.QDToast && window.QDToast.error(
-                    data.mensaje || 'No se pudo procesar la reservación.'
-                );
+            if (!dataReserva.ok) {
+                window.QDToast && window.QDToast.error(dataReserva.mensaje || 'No se pudo crear la reservación.');
                 return;
             }
 
-            // ── Éxito ──────────────────────────────────────────
-            const codigo = data.reservacion?.codigo || 'R-XXXX';
-            setMostrarModal(false);
-            window.QDToast && window.QDToast.exito(
-                `✅ ¡Reservación creada! Código: ${codigo}`, 7000
-            );
+            const reservacionId    = dataReserva.reservacion.id;
+            const reservacionCodigo = dataReserva.reservacion.codigo;
 
-            // Actualizar lista (quitar la habitación recién reservada)
-            setHabitaciones(prev => prev.filter(h => h.id !== habSeleccionada.id));
-            limpiar();
+            // ── Paso 2: Verificar método de pago seleccionado ─
+            const metodoPago = document.getElementById('modal-metodo-pago')?.value || 'recepcion';
+
+            if (metodoPago === 'tarjeta') {
+                // ── Pago en línea con Mercado Pago ─────────────
+                window.QDToast && window.QDToast.info('Conectando con Mercado Pago...', 3000);
+
+                const resPago = await fetch('./api/pagos/crear-preferencia.php', {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ reservacion_id: reservacionId })
+                });
+
+                const dataPago = await resPago.json();
+
+                if (!dataPago.ok) {
+                    window.QDToast && window.QDToast.error(dataPago.mensaje || 'Error al conectar con Mercado Pago.');
+                    return;
+                }
+
+                // Redirigir al checkout de Mercado Pago
+                // La BD se actualiza cuando llega el WEBHOOK, no aquí
+                window.location.href = dataPago.init_point;
+
+            } else {
+                // ── Pago en recepción — reserva creada sin pago online ─
+                window.QDToast && window.QDToast.exito(
+                    `✅ Reservación creada. Código: ${reservacionCodigo} — Paga al llegar al hotel.`,
+                    7000
+                );
+                setHabitaciones(prev => prev.filter(h => h.id !== habSeleccionada.id));
+                setMostrarModal(false);
+                limpiar();
+            }
 
         } catch {
-            window.QDToast && window.QDToast.error(
-                'Error de conexión. Verifica tu internet e intenta de nuevo.'
-            );
+            window.QDToast && window.QDToast.error('Error de conexión. Verifica tu internet e intenta de nuevo.');
         } finally {
             setEnviando(false);
             submittingRef.current = false;
@@ -362,24 +383,19 @@ function ModuloReservaciones() {
                             </p>
                         </div>
 
-                        {/* Info del usuario (pre-llenada, readonly) */}
+                        {/* Info del usuario */}
                         <div style={{ marginBottom:'16px', fontFamily:"'Lato',sans-serif", fontSize:'0.85rem', color:'#555' }}>
-                            <p style={{ marginBottom:'4px' }}>
-                                <strong>Reservado a nombre de:</strong> {sesion.nombre}
-                            </p>
-                            <p>
-                                <strong>Correo:</strong> {sesion.correo}
-                            </p>
+                            <p style={{ marginBottom:'4px' }}><strong>Reservado a nombre de:</strong> {sesion.nombre}</p>
+                            <p><strong>Correo:</strong> {sesion.correo}</p>
                         </div>
 
                         {/* Método de pago */}
                         <label style={{ fontFamily:"'Lato',sans-serif", fontSize:'0.78rem', fontWeight:700, color:'#4a4a4a', textTransform:'uppercase', letterSpacing:'0.8px', display:'block', marginBottom:'6px' }}>
                             Forma de Pago
                         </label>
-                        <select className="modal-select" defaultValue="recepcion">
-                            <option value="recepcion">🏨 Pagar en Recepción (Efectivo)</option>
-                            <option value="transferencia">🏦 Transferencia Bancaria (SPEI)</option>
-                            <option value="tarjeta" disabled>💳 Tarjeta — (Próximamente vía Mercado Pago)</option>
+                        <select className="modal-select" id="modal-metodo-pago" defaultValue="recepcion">
+                            <option value="recepcion">🏨 Pagar en Recepción (Efectivo / SPEI)</option>
+                            <option value="tarjeta">💳 Pagar en línea con Mercado Pago</option>
                         </select>
 
                         {notas.trim() && (
