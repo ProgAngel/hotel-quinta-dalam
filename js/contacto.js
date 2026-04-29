@@ -50,30 +50,86 @@ function ModuloContacto() {
         mensaje:  ''
     });
 
-    const [enviando,      setEnviando]      = useState(false);
-    const [mensajeEnviado, setMensajeEnviado] = useState(false);
+    const [errores,        setErrores]        = useState({});
+    const [enviando,       setEnviando]        = useState(false);
+    const [mensajeEnviado, setMensajeEnviado]  = useState(false);
+
+    // ── Validación ─────────────────────────────────────────────
+    function validar() {
+        const e = {};
+        if (!datos.nombre.trim())
+            e.nombre = 'El nombre es obligatorio.';
+        else if (!/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]+$/.test(datos.nombre.trim()))
+            e.nombre = 'Solo se permiten letras y espacios.';
+        else if (datos.nombre.trim().length < 3)
+            e.nombre = 'Mínimo 3 caracteres.';
+
+        if (!datos.telefono.trim())
+            e.telefono = 'El teléfono es obligatorio.';
+        else if (!/^[0-9]{10}$/.test(datos.telefono.trim()))
+            e.telefono = 'Exactamente 10 dígitos numéricos.';
+
+        if (!datos.correo.trim())
+            e.correo = 'El correo es obligatorio.';
+        else if (!/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/.test(datos.correo.trim()))
+            e.correo = 'Ingresa un correo válido.';
+
+        if (!datos.mensaje.trim())
+            e.mensaje = 'El mensaje es obligatorio.';
+        else if (datos.mensaje.trim().length < 15)
+            e.mensaje = 'Mínimo 15 caracteres.';
+
+        return e;
+    }
+
+    // Validar campo individual al salir (onBlur)
+    function validarCampo(campo, valor) {
+        const tmp = { ...datos, [campo]: valor };
+        const todos = validarTodo(tmp);
+        setErrores(prev => ({ ...prev, [campo]: todos[campo] || null }));
+    }
+
+    function validarTodo(d) {
+        const e = {};
+        if (!d.nombre.trim())                                           e.nombre   = 'El nombre es obligatorio.';
+        else if (!/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]+$/.test(d.nombre.trim())) e.nombre   = 'Solo letras y espacios.';
+        else if (d.nombre.trim().length < 3)                            e.nombre   = 'Mínimo 3 caracteres.';
+        if (!d.telefono.trim())                                         e.telefono = 'El teléfono es obligatorio.';
+        else if (!/^[0-9]{10}$/.test(d.telefono.trim()))               e.telefono = 'Exactamente 10 dígitos.';
+        if (!d.correo.trim())                                           e.correo   = 'El correo es obligatorio.';
+        else if (!/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/.test(d.correo.trim())) e.correo = 'Correo inválido.';
+        if (!d.mensaje.trim())                                          e.mensaje  = 'El mensaje es obligatorio.';
+        else if (d.mensaje.trim().length < 15)                          e.mensaje  = 'Mínimo 15 caracteres.';
+        return e;
+    }
 
     // ── Envío del formulario ───────────────────────────────────
     async function procesarEnvio(e) {
         e.preventDefault();
+
+        const erroresActuales = validar();
+        if (Object.keys(erroresActuales).length > 0) {
+            setErrores(erroresActuales);
+            return;
+        }
+
+        setErrores({});
         setEnviando(true);
 
-        // Sonido de éxito (opcional)
         try {
             const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
             audio.play().catch(() => {});
         } catch (err) {}
 
-        // Simulación de envío (reemplazar con fetch real a la API)
         await new Promise(r => setTimeout(r, 1200));
 
         setEnviando(false);
         setMensajeEnviado(true);
 
-        // Limpiar y cerrar modal después de 4 segundos
         setTimeout(() => {
             setMensajeEnviado(false);
             setDatos({ nombre: '', correo: '', telefono: '', asunto: 'Información General', mensaje: '' });
+            setErrores({});
         }, 4000);
     }
 
@@ -185,16 +241,15 @@ function ModuloContacto() {
                                 <div className="cform-input-wrap">
                                     <input
                                         type="text"
-                                        className="cform-input"
-                                        required
-                                        pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+"
-                                        title="Solo letras"
+                                        className={`cform-input${errores.nombre ? ' cform-input--error' : ''}`}
                                         placeholder="Ej. Juan Pérez"
                                         value={datos.nombre}
-                                        onChange={e => setDatos({...datos, nombre: e.target.value})}
+                                        onChange={e => { setDatos({...datos, nombre: e.target.value}); setErrores(p => ({...p, nombre: null})); }}
+                                        onBlur={e => validarCampo('nombre', e.target.value)}
                                     />
                                     <span className="cform-input-icon"><IconUser /></span>
                                 </div>
+                                {errores.nombre && <p className="cform-field-error">⚠ {errores.nombre}</p>}
                             </div>
 
                             <div className="cform-group">
@@ -202,17 +257,16 @@ function ModuloContacto() {
                                 <div className="cform-input-wrap">
                                     <input
                                         type="tel"
-                                        className="cform-input"
-                                        required
-                                        pattern="[0-9]{10}"
-                                        title="10 dígitos numéricos"
+                                        className={`cform-input${errores.telefono ? ' cform-input--error' : ''}`}
                                         maxLength="10"
                                         placeholder="10 dígitos"
                                         value={datos.telefono}
-                                        onChange={e => setDatos({...datos, telefono: e.target.value})}
+                                        onChange={e => { setDatos({...datos, telefono: e.target.value.replace(/\D/g,'')}); setErrores(p => ({...p, telefono: null})); }}
+                                        onBlur={e => validarCampo('telefono', e.target.value)}
                                     />
                                     <span className="cform-input-icon"><IconPhone /></span>
                                 </div>
+                                {errores.telefono && <p className="cform-field-error">⚠ {errores.telefono}</p>}
                             </div>
                         </div>
 
@@ -222,16 +276,15 @@ function ModuloContacto() {
                             <div className="cform-input-wrap">
                                 <input
                                     type="email"
-                                    className="cform-input"
-                                    required
-                                    pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
-                                    title="Correo válido"
+                                    className={`cform-input${errores.correo ? ' cform-input--error' : ''}`}
                                     placeholder="ejemplo@correo.com"
                                     value={datos.correo}
-                                    onChange={e => setDatos({...datos, correo: e.target.value})}
+                                    onChange={e => { setDatos({...datos, correo: e.target.value}); setErrores(p => ({...p, correo: null})); }}
+                                    onBlur={e => validarCampo('correo', e.target.value)}
                                 />
                                 <span className="cform-input-icon"><IconEmail /></span>
                             </div>
+                            {errores.correo && <p className="cform-field-error">⚠ {errores.correo}</p>}
                         </div>
 
                         {/* Asunto */}
@@ -258,16 +311,18 @@ function ModuloContacto() {
                             <label className="cform-label">Mensaje *</label>
                             <div className="cform-input-wrap">
                                 <textarea
-                                    className="cform-textarea"
-                                    required
-                                    minLength="15"
-                                    title="Mínimo 15 caracteres"
+                                    className={`cform-textarea${errores.mensaje ? ' cform-input--error' : ''}`}
                                     placeholder="Escribe aquí tu mensaje detallado..."
                                     value={datos.mensaje}
-                                    onChange={e => setDatos({...datos, mensaje: e.target.value})}
+                                    onChange={e => { setDatos({...datos, mensaje: e.target.value}); setErrores(p => ({...p, mensaje: null})); }}
+                                    onBlur={e => validarCampo('mensaje', e.target.value)}
                                 />
                                 <span className="cform-input-icon top"><IconMessage /></span>
                             </div>
+                            {errores.mensaje && <p className="cform-field-error">⚠ {errores.mensaje}</p>}
+                            <p style={{ fontFamily:"'Lato',sans-serif", fontSize:'0.75rem', color:'#aaa', marginTop:'4px', textAlign:'right' }}>
+                                {datos.mensaje.length}/15 mínimo
+                            </p>
                         </div>
 
                         {/* Botón enviar */}

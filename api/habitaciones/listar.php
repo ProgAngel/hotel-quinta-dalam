@@ -52,18 +52,16 @@ if (!empty($_GET['capacidad']) && is_numeric($_GET['capacidad'])) {
 }
 
 // ── Paginación ───────────────────────────────────────────────
-// limit:  máximo de resultados por página (default 50, max 100)
-// pagina: número de página base 1 (default 1)
 $limit  = isset($_GET['limit'])  && is_numeric($_GET['limit'])  ? min((int) $_GET['limit'],  100) : 50;
 $pagina = isset($_GET['pagina']) && is_numeric($_GET['pagina']) ? max((int) $_GET['pagina'],  1)  : 1;
 $offset = ($pagina - 1) * $limit;
 
-// ── Contar total de registros (para el frontend saber cuántas páginas hay) ─
+// ── Contar total con los mismos filtros ──────────────────────
 $sqlCount = 'SELECT COUNT(*) FROM habitaciones';
 if (!empty($where)) $sqlCount .= ' WHERE ' . implode(' AND ', $where);
-$totalRegistros = (int) $pdo->prepare($sqlCount)->execute($params) ? $pdo->query(
-    'SELECT COUNT(*) FROM habitaciones' . (!empty($where) ? ' WHERE ' . implode(' AND ', $where) : '')
-)->fetchColumn() : 0;
+$stmtCount = $pdo->prepare($sqlCount);
+$stmtCount->execute($params);
+$totalRegistros = (int) $stmtCount->fetchColumn();
 
 // ── Consulta principal con LIMIT y OFFSET ───────────────────
 $sql = 'SELECT id, numero, nombre, tipo, precio_noche,
@@ -71,16 +69,11 @@ $sql = 'SELECT id, numero, nombre, tipo, precio_noche,
         FROM habitaciones';
 
 if (!empty($where)) $sql .= ' WHERE ' . implode(' AND ', $where);
-
 $sql .= ' ORDER BY CAST(numero AS UNSIGNED) ASC';
 $sql .= ' LIMIT :limit OFFSET :offset';
 
 $stmt = $pdo->prepare($sql);
-
-// Bind por tipo para LIMIT y OFFSET (PDO requiere PDO::PARAM_INT)
-foreach ($params as $key => $val) {
-    $stmt->bindValue($key, $val);
-}
+foreach ($params as $key => $val) { $stmt->bindValue($key, $val); }
 $stmt->bindValue(':limit',  $limit,  PDO::PARAM_INT);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();

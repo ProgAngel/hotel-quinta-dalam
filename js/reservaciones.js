@@ -9,8 +9,16 @@
 
 const { useState, useEffect, useRef } = React;
 
-const API_HABITACIONES = './api/habitaciones/listar.php';
-const API_RESERVAR     = './api/reservaciones/crear.php';
+const API_HABITACIONES = '/Hotel-quinta-dalam/api/habitaciones/listar.php';
+const API_RESERVAR     = '/Hotel-quinta-dalam/api/reservaciones/crear.php';
+
+// ── Helper: scroll suave a un elemento ───────────────────────
+function scrollA(ref) {
+    if (!ref?.current) return;
+    setTimeout(() => {
+        ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+}
 
 function ModuloReservaciones() {
 
@@ -19,6 +27,11 @@ function ModuloReservaciones() {
         try { return JSON.parse(sessionStorage.getItem('qdSession') || '{}'); }
         catch { return {}; }
     })();
+
+    // ── Refs para anclas de cada paso ─────────────────────────
+    const refPaso1 = useRef(null);
+    const refPaso2 = useRef(null);
+    const refPaso3 = useRef(null);
 
     // ── Habitaciones de la API ────────────────────────────────
     const [habitaciones,   setHabitaciones]   = useState([]);
@@ -60,7 +73,26 @@ function ModuloReservaciones() {
                 window.QDToast && window.QDToast.error('No se pudo conectar con el servidor.');
             })
             .finally(() => setCargandoHabs(false));
+
+        // Scroll al paso 1 al cargar la página (ancla de entrada)
+        scrollA(refPaso1);
     }, []);
+
+    // Auto-scroll al paso 2 cuando las fechas son válidas
+    useEffect(() => {
+        if (noches > 0 && !errFechas) scrollA(refPaso2);
+    }, [noches]);
+
+    // Auto-scroll al paso 3 cuando selecciona habitación
+    useEffect(() => {
+        if (habSeleccionada) scrollA(refPaso3);
+    }, [habSeleccionada]);
+
+    // Bloquear/desbloquear scroll del body cuando el modal está abierto
+    useEffect(() => {
+        document.body.style.overflow = mostrarModal ? 'hidden' : '';
+        return () => { document.body.style.overflow = ''; };
+    }, [mostrarModal]);
 
     // ── Leer params de URL (viene del catálogo o buscador) ────
     useEffect(() => {
@@ -209,7 +241,7 @@ function ModuloReservaciones() {
             {/* ════════════════════════════════════
                 PASO 1: FECHAS Y HUÉSPEDES
             ════════════════════════════════════ */}
-            <div className="reserva-col">
+            <div className="reserva-col" id="paso-1" ref={refPaso1}>
                 <h3 className="reserva-col__titulo">PASO 1: Fechas y Huéspedes</h3>
 
                 <div className="reserva-campo-grupo">
@@ -257,7 +289,7 @@ function ModuloReservaciones() {
             {/* ════════════════════════════════════
                 PASO 2: SELECCIONAR HABITACIÓN
             ════════════════════════════════════ */}
-            <div className={`reserva-col ${noches === 0 ? 'reserva-col--disabled' : ''}`}>
+            <div className={`reserva-col ${noches === 0 ? 'reserva-col--disabled' : ''}`} id="paso-2" ref={refPaso2}>
                 <h3 className="reserva-col__titulo">PASO 2: Elija su Habitación</h3>
 
                 {noches === 0 ? (
@@ -298,7 +330,7 @@ function ModuloReservaciones() {
             {/* ════════════════════════════════════
                 PASO 3: RESUMEN Y CONFIRMACIÓN
             ════════════════════════════════════ */}
-            <div className={`reserva-col ${!habSeleccionada ? 'reserva-col--disabled' : ''}`}>
+            <div className={`reserva-col ${!habSeleccionada ? 'reserva-col--disabled' : ''}`} id="paso-3" ref={refPaso3}>
                 <h3 className="reserva-col__titulo">PASO 3: Resumen y Confirmación</h3>
 
                 {habSeleccionada && noches > 0 ? (

@@ -7,9 +7,9 @@ const { useState, useEffect, useRef } = React;
 
 // ── URL base de la API ──────────────────────────────────────
 // En XAMPP local apunta a localhost.
-// En Hostinger simplemente cambia a '/api/auth/login.php'
+// En Hostinger simplemente cambia a '/Hotel-quinta-dalam/api/auth/login.php'
 // porque el dominio ya es el correcto.
-const API_LOGIN = './api/auth/login.php';
+const API_LOGIN = '/Hotel-quinta-dalam/api/auth/login.php';
 
 // ── Íconos SVG ─────────────────────────────────────────────
 const IconEmail = () => (

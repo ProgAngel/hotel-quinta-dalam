@@ -5,8 +5,8 @@
 
 const { useState, useEffect, useRef, useCallback } = React;
 
-const API_REGISTRO    = './api/auth/registro.php';
-const API_CHECK_EMAIL = './api/auth/check-email.php';
+const API_REGISTRO    = '/Hotel-quinta-dalam/api/auth/registro.php';
+const API_CHECK_EMAIL = '/Hotel-quinta-dalam/api/auth/check-email.php';
 
 // ── Íconos SVG ─────────────────────────────────────────────
 const IconUser = () => (

@@ -97,7 +97,7 @@ function PaginaInicio() {
                     excepcional diseñado para crear recuerdos inolvidables.
                 </p>
                 <div className="hero-react__botones">
-                    <a href="reservaciones.html" className="btn-hero-primario">Reservar Ahora</a>
+                    <a href="reservaciones.html#paso-1" className="btn-hero-primario">Reservar Ahora</a>
                     <a href="catalogo.html"      className="btn-hero-secundario">Ver Habitaciones</a>
                 </div>
                 <div className="hero-scroll-arrow">↓</div>
@@ -232,6 +232,95 @@ function PaginaInicio() {
                     </div>
                 </div>
             )}
+
+            {/* ── SERVICIOS ── */}
+            <div className="servicios-seccion">
+                <div className="servicios-seccion__inner">
+                    <h2 className="servicios-seccion__titulo">¿Por qué elegirnos?</h2>
+                    <div className="servicios-grid">
+                        {[
+                            { icono:'🏺', titulo:'Arte Purépecha',    desc:'Cada habitación está decorada con artesanías y textiles auténticos de Michoacán.' },
+                            { icono:'🍽️', titulo:'Cocina Tradicional', desc:'Sabores únicos de la gastronomía michoacana preparados con ingredientes locales.' },
+                            { icono:'🌿', titulo:'Entorno Natural',    desc:'Rodeados de naturaleza, en un ambiente tranquilo ideal para el descanso.' },
+                            { icono:'⭐', titulo:'Servicio Premium',   desc:'Atención personalizada para que tu estancia sea verdaderamente memorable.' },
+                        ].map((s, i) => (
+                            <div key={i} className="servicio-card">
+                                <div className="servicio-card__icono">{s.icono}</div>
+                                <h3 className="servicio-card__titulo">{s.titulo}</h3>
+                                <p className="servicio-card__desc">{s.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* ── RESEÑAS ── */}
+            <div className="resenas-seccion">
+                <h2 className="resenas-seccion__titulo">Lo que dicen nuestros huéspedes</h2>
+                <div className="resenas-grid">
+                    {[
+                        { texto:'Una experiencia mágica. La decoración artesanal es preciosa y el servicio excepcional.', autor:'María G.', tipo:'Habitación Tzintzuntzan', iniciales:'MG' },
+                        { texto:'Increíble para nuestra luna de miel. El jacuzzi privado y el servicio de primera clase nos encantaron.', autor:'Roberto V.', tipo:'Suite Quinceo', iniciales:'RV' },
+                        { texto:'Perfecta para toda la familia. Muy acogedora y el personal siempre atento a todo.', autor:'Luis F.', tipo:'Habitación Tacámbaro', iniciales:'LF' },
+                    ].map((r, i) => (
+                        <div key={i} className="resena-card">
+                            <div className="resena-card__comilla">"</div>
+                            <div className="resena-card__estrellas">⭐⭐⭐⭐⭐</div>
+                            <p className="resena-card__texto">{r.texto}</p>
+                            <div className="resena-card__autor">
+                                <div className="resena-card__avatar">{r.iniciales}</div>
+                                <div>
+                                    <p className="resena-card__nombre">{r.autor}</p>
+                                    <p className="resena-card__tipo">{r.tipo}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* ── UBICACIÓN ── */}
+            <div className="ubicacion-seccion">
+                <div className="ubicacion-seccion__inner">
+                    <div className="ubicacion-seccion__texto">
+                        <h2 className="ubicacion-seccion__titulo">¿Cómo llegar?</h2>
+                        <p className="ubicacion-seccion__desc">
+                            Ubicados en el corazón de Michoacán, a pocos minutos de los principales
+                            Pueblos Mágicos y atractivos turísticos de la región.
+                        </p>
+                        <ul className="ubicacion-seccion__lista">
+                            <li>📍 Michoacán, México</li>
+                            <li>✈️ 45 min del Aeropuerto de Morelia</li>
+                            <li>🚗 Acceso por carretera federal</li>
+                            <li>📞 +52 (443) 000-0000</li>
+                        </ul>
+                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer"
+                           className="btn-google-maps">
+                            🗺️ Ver en Google Maps
+                        </a>
+                    </div>
+                    <div className="ubicacion-mapa">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d240281.95989108458!2d-101.3305!3d19.7060!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842d0e5571f5c429%3A0x2f97b14ef52eff0!2sMorelia%2C%20Michoacán!5e0!3m2!1ses!2smx!4v1620000000000"
+                            allowFullScreen="" loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                            title="Ubicación Hotel Quinta Dalam">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
+            {/* ── CTA FINAL ── */}
+            <div className="cta-final-wrap">
+                <div className="cta-final-box">
+                    <h2 className="cta-final-box__titulo">¿Listo para vivir la experiencia?</h2>
+                    <p className="cta-final-box__desc">
+                        Reserva ahora y disfruta de una estancia única en el corazón de Michoacán.
+                        Habitaciones disponibles para tus próximas fechas.
+                    </p>
+                    <a href="reservaciones.html" className="btn-cta-final">Reservar mi Estancia</a>
+                </div>
+            </div>
 
         </div>
     );

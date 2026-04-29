@@ -10,7 +10,7 @@
 
 const { useState, useEffect } = React;
 
-const API_HABITACIONES = './api/habitaciones/listar.php';
+const API_HABITACIONES = '/Hotel-quinta-dalam/api/habitaciones/listar.php';
 
 // ── Datos de presentación estáticos por número de habitación ─
 const ENRIQUECIMIENTO = {

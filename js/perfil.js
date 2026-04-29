@@ -6,8 +6,8 @@
 const { useState, useEffect } = React;
 
 // ── URLs de la API ──────────────────────────────────────────
-const API_PERFIL       = './api/usuarios/perfil.php';
-const API_RESERVACIONES = './api/reservaciones/listar.php';
+const API_PERFIL       = '/Hotel-quinta-dalam/api/usuarios/perfil.php';
+const API_RESERVACIONES = '/Hotel-quinta-dalam/api/reservaciones/listar.php';
 
 // ── Íconos SVG ─────────────────────────────────────────────
 const IconEdit = () => (
@@ -571,7 +571,7 @@ function PerfilPage() {
                 <div className="perfil-card" id="mis-reservaciones">
                     <div className="perfil-card-header">
                         <h2>📋 Mis Reservaciones</h2>
-                        <a href="reservaciones.html" className="perfil-btn-link">
+                        <a href="reservaciones#paso-1.html" className="perfil-btn-link">
                             + Nueva reserva
                         </a>
                     </div>

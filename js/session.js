@@ -20,7 +20,7 @@
     var AVISO_MS     = 18 * 60 * 1000;
     var CLAVE_SESION = 'qdSession';
     var CLAVE_ULTIMA = 'qdLastActivity';
-    var API_VALIDATE = './api/auth/validate.php';
+    var API_VALIDATE = '/Hotel-quinta-dalam/api/auth/validate.php';
 
     var timerExpiracion, timerAviso;
     var avisoVisible       = false;
@@ -126,7 +126,7 @@
             sessionStorage.removeItem(CLAVE_ULTIMA);
             QDSession.ocultarAviso();
             try { localStorage.setItem('qdTabEvt', 'logout|' + Date.now()); } catch(e){}
-            try { fetch('./api/auth/logout.php', { method:'POST', credentials:'include' }).catch(function(){}); } catch(e){}
+            try { fetch('/Hotel-quinta-dalam/api/auth/logout.php', { method:'POST', credentials:'include' }).catch(function(){}); } catch(e){}
             if (!silencioso) window.location.href = 'login.html?expired=1';
         },
 
