@@ -1,10 +1,5 @@
 <?php
-// ============================================================
-//  api/config/env.php — Hotel Quinta Dalam
-//  Carga las variables del archivo .env de forma segura
-// ============================================================
-
-// 🛡️ ESCUDO: Evita que PHP colapse si este archivo se incluye múltiples veces
+// Evita que PHP colapse si este archivo se incluye múltiples veces
 if (!function_exists('env')) {
 
     function cargarEnv(): void {

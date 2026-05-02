@@ -1,33 +1,17 @@
 <?php
-// ============================================================
-//  api/pagos/webhook.php — Hotel Quinta Dalam
-//  Recibe notificaciones de Mercado Pago (servidor a servidor)
-//  y actualiza el estado de la reservación en la BD.
-//
-//  ⚠️  REGLA DE ORO: Este es el ÚNICO lugar donde se confirma
+//REGLA DE ORO: Este es el ÚNICO lugar donde se confirma
 //      un pago. Nunca actualices la BD desde exito.html.
 //      Cualquiera puede visitar exito.html directamente.
-//
-//  CÓMO FUNCIONA:
-//  1. MP hace un POST a esta URL cuando cambia el estado del pago
-//  2. Verificamos que la firma del request es de MP (seguridad)
-//  3. Consultamos la API de MP para confirmar el estado real
-//  4. Si el pago está aprobado → actualizamos la BD
-//
-//  LOG: Todos los eventos se guardan en logs/webhook.log
-//       para auditoría y debugging.
-// ============================================================
-
 require_once __DIR__ . '/../config/database.php';
 
-// Headers para MP (no usar response.php — MP no espera nuestro formato)
+// Headers para MP 
 header('Content-Type: application/json');
 
-// ── Credenciales (mismas que crear-preferencia.php) ──────────
+// ── Credenciales (mismas que crear-preferencia.php)
 define('MP_ACCESS_TOKEN',   'TEST-AQUI_VA_TU_ACCESS_TOKEN_DE_PRUEBA');
 define('MP_WEBHOOK_SECRET', 'TU_CLAVE_SECRETA_WEBHOOK');
 
-// ── Función de logging ────────────────────────────────────────
+// ── Función de logging 
 function wlog(string $msg): void {
     $dir = __DIR__ . '/../../logs';
     if (!is_dir($dir)) mkdir($dir, 0755, true);
@@ -38,13 +22,12 @@ function wlog(string $msg): void {
     );
 }
 
-// ── Leer el cuerpo del request ────────────────────────────────
+// ── Leer el cuerpo del request 
 $body    = file_get_contents('php://input');
 $payload = json_decode($body, true);
 
 wlog('Webhook recibido: ' . $body);
 
-// ── Responder 200 inmediatamente ──────────────────────────────
 // MP requiere una respuesta 200 en menos de 5 segundos.
 // Si tardamos, MP reintentará el webhook creyendo que falló.
 // Procesamos de forma asíncrona después de responder.
@@ -56,9 +39,7 @@ if (function_exists('fastcgi_finish_request')) {
     fastcgi_finish_request();
 }
 
-// ── Verificar firma del webhook (seguridad) ──────────────────
-// MP firma cada notificación con x-signature.
-// Si la firma no coincide, alguien está simulando ser MP.
+// ── Verificar firma del webhook (seguridad) 
 $xSignature  = $_SERVER['HTTP_X_SIGNATURE']  ?? '';
 $xRequestId  = $_SERVER['HTTP_X_REQUEST_ID'] ?? '';
 
@@ -83,7 +64,7 @@ if ($xSignature && MP_WEBHOOK_SECRET) {
     }
 }
 
-// ── Procesar solo eventos de pago ────────────────────────────
+// ── Procesar solo eventos de pago 
 $tipo = $payload['type'] ?? '';
 
 if ($tipo !== 'payment') {
@@ -97,9 +78,7 @@ if (!$pagoId) {
     exit;
 }
 
-// ── Consultar el estado REAL del pago en la API de MP ────────
-// NUNCA confíes en los datos del webhook directamente.
-// Siempre consulta la API de MP para obtener el estado real.
+// ── Consultar el estado REAL del pago en la API de MP 
 $ch = curl_init("https://api.mercadopago.com/v1/payments/{$pagoId}");
 curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
@@ -127,7 +106,7 @@ if (empty($externalRef)) {
     exit;
 }
 
-// ── Actualizar BD según el estado ────────────────────────────
+// ── Actualizar BD según el estado 
 $pdo = getPDO();
 
 // Obtener la reservación por código
@@ -152,7 +131,7 @@ try {
     $pdo->beginTransaction();
 
     if ($estadoPago === 'approved') {
-        // ── Pago aprobado ────────────────────────────────────
+        // ── Pago aprobado 
         // Actualizar reservación a confirmada
         $pdo->prepare(
             'UPDATE reservaciones SET estado = "confirmada" WHERE id = :id'
@@ -173,7 +152,7 @@ try {
         wlog("✅ Reservación {$externalRef} CONFIRMADA — Pago ID: {$pagoId}");
 
     } elseif (in_array($estadoPago, ['rejected', 'cancelled'], true)) {
-        // ── Pago rechazado / cancelado ───────────────────────
+        // ── Pago rechazado / cancelado 
         $pdo->prepare(
             'UPDATE pagos SET estado = "fallido"
              WHERE reservacion_id = :rid ORDER BY id DESC LIMIT 1'
@@ -183,7 +162,7 @@ try {
         wlog("❌ Pago {$pagoId} rechazado para reservación {$externalRef}");
 
     } elseif ($estadoPago === 'in_process' || $estadoPago === 'pending') {
-        // ── Pago pendiente (ej. OXXO, transferencia) ─────────
+        // ── Pago pendiente (ej. OXXO, transferencia)
         $pdo->prepare(
             'UPDATE reservaciones SET estado = "pendiente" WHERE id = :id'
         )->execute([':id' => $reservacion['id']]);

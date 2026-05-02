@@ -1,13 +1,4 @@
 <?php
-// ============================================================
-//  api/reservaciones/cancelar.php — Hotel Quinta Dalam
-//  Cancela una reservación y libera la habitación.
-//  Solo accesible para admin y recepcionista.
-//
-//  Método: POST
-//  Body:   { "reservacion_id": 1, "motivo": "..." }
-// ============================================================
-
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/response.php';
 
@@ -16,7 +7,7 @@ soloMetodo('POST');
 
 session_start();
 
-// ── RBAC: solo admin o recepcionista ─────────────────────────
+// ── RBAC: solo admin o recepcionista 
 $rol = $_SESSION['rol'] ?? '';
 if (!in_array($rol, ['admin', 'recepcionista'], true)) {
     responder(403, ['ok' => false, 'mensaje' => 'Acceso restringido.']);
@@ -47,7 +38,7 @@ if (in_array($reservacion['estado'], ['cancelada', 'completada'], true)) {
     responder(409, ['ok' => false, 'mensaje' => 'Esta reservación ya está ' . $reservacion['estado'] . '.']);
 }
 
-// ── Transacción: cancelar reserva + liberar habitación ───────
+// ── Transacción: cancelar reserva + liberar habitación
 try {
     $pdo->beginTransaction();
 

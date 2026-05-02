@@ -1,15 +1,5 @@
 <?php
-// ============================================================
-//  api/auth/login.php — Hotel Quinta Dalam
-//  Autentica al usuario y devuelve sus datos en JSON
-//
-//  Método:  POST
-//  Body:    { "correo": "...", "contrasena": "..." }
-//  Éxito:   { "ok": true, "usuario": { id, nombre, correo, rol } }
-//  Error:   { "ok": false, "mensaje": "..." }
-// ============================================================
-
-// ── Headers ────────────────────────────────────────────────
+// ── Headers 
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
@@ -28,14 +18,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// ── Configuración de la BD ──────────────────────────────────
+// ── Configuración de la BD 
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'hotel_quinta_dalam');
 define('DB_USER', 'root');
 define('DB_PASS', '');           // En XAMPP local la contraseña es vacía
 define('DB_CHARSET', 'utf8mb4');
 
-// ── Leer y validar el body JSON ─────────────────────────────
+// ── Leer y validar el body JSON 
 $body = json_decode(file_get_contents('php://input'), true);
 
 if (!$body) {
@@ -61,7 +51,7 @@ if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-// ── Conexión a MySQL ────────────────────────────────────────
+// ── Conexión a MySQL
 try {
     $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
     $pdo = new PDO($dsn, DB_USER, DB_PASS, [
@@ -75,7 +65,7 @@ try {
     exit;
 }
 
-// ── Buscar usuario por correo ───────────────────────────────
+// ── Buscar usuario por correo
 // NUNCA buscar por correo Y contraseña directamente —
 // primero traemos el hash y luego lo verificamos con PHP
 try {
@@ -93,7 +83,7 @@ try {
     exit;
 }
 
-// ── Verificar si existe y está activo ───────────────────────
+// ── Verificar si existe y está activo 
 if (!$usuario) {
     http_response_code(401);
     // Mensaje genérico — no revelar si el correo existe o no
@@ -107,7 +97,7 @@ if ($usuario['estado'] !== 'activo') {
     exit;
 }
 
-// ── Verificar contraseña con bcrypt ────────────────────────
+// ── Verificar contraseña con bcrypt 
 // password_verify() compara el texto plano contra el hash
 // de forma segura — nunca almacena ni expone la contraseña
 if (!password_verify($contrasena, $usuario['contrasena'])) {
@@ -116,7 +106,7 @@ if (!password_verify($contrasena, $usuario['contrasena'])) {
     exit;
 }
 
-// ── Login exitoso ───────────────────────────────────────────
+// ── Login exitoso 
 // Iniciar sesión PHP — aquí guardamos el fingerprint
 // del navegador para el sistema de seguridad (validate.php)
 session_start();

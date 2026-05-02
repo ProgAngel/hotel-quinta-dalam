@@ -92,7 +92,7 @@
   color: #8c5a35;
 }
 
-/* ── Mini-grid habitaciones (Paso 2) ── */
+/* ── Mini-grid habitaciones */
 .hab-mini-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -138,7 +138,7 @@
   color: #666;
 }
 
-/* ── Resumen (Paso 3) ── */
+/* Resumen*/
 .resumen-cuerpo {
   margin-top: 20px;
   display: flex;

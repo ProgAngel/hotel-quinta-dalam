@@ -1,11 +1,4 @@
 <?php
-// ============================================================
-//  api/auth/logout.php — Hotel Quinta Dalam
-//  Destruye la sesión PHP del servidor.
-//  La limpieza del sessionStorage la hace session.js (cliente).
-//
-//  Método: POST
-// ============================================================
 
 require_once __DIR__ . '/../config/response.php';
 

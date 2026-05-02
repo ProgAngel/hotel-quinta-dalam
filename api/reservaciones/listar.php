@@ -1,16 +1,4 @@
 <?php
-// ============================================================
-//  api/reservaciones/listar.php — Hotel Quinta Dalam
-//  Lista reservaciones con datos del huésped y habitación.
-//
-//  Método: GET
-//  Params: ?usuario_id=N  (opcional — filtra por usuario)
-//          ?estado=...    (opcional)
-//
-//  LEFT JOIN en usuarios: incluye reservaciones manuales donde
-//  usuario_id puede ser NULL (huésped anónimo de recepción).
-//  COALESCE: usuario registrado → huesped_nombre → "Huésped"
-// ============================================================
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/response.php';

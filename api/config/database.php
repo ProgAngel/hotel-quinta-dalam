@@ -1,9 +1,4 @@
 <?php
-// ============================================================
-//  api/config/database.php — Hotel Quinta Dalam
-//  Conexión PDO reutilizable — se incluye en cada endpoint
-// ============================================================
-
 require_once __DIR__ . '/env.php';  // carga el .env
 
 function getPDO(): PDO {

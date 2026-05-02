@@ -1,20 +1,4 @@
 <?php
-// ============================================================
-//  api/reservaciones/crear.php — Hotel Quinta Dalam
-//  Crea una nueva reservación verificando disponibilidad
-//
-//  Método:  POST
-//  Body:    {
-//             "usuario_id": 1,
-//             "habitacion_id": 3,
-//             "fecha_entrada": "2026-05-10",
-//             "fecha_salida":  "2026-05-13",
-//             "num_huespedes": 2,
-//             "notas": "..." (opcional)
-//           }
-//  Éxito:   201 { "ok": true, "reservacion": {...} }
-//  Error:   400 / 409 / 500
-// ============================================================
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/response.php';
@@ -24,7 +8,7 @@ soloMetodo('POST');
 
 $body = leerBody();
 
-// ── 1. Extraer campos ───────────────────────────────────────
+//  1. Extraer campos
 $usuarioId    = isset($body['usuario_id'])    ? (int) $body['usuario_id']    : 0;
 $habitacionId = isset($body['habitacion_id']) ? (int) $body['habitacion_id'] : 0;
 $fechaEntrada = limpiar($body['fecha_entrada'] ?? '');
@@ -32,7 +16,7 @@ $fechaSalida  = limpiar($body['fecha_salida']  ?? '');
 $numHuespedes = isset($body['num_huespedes'])  ? (int) $body['num_huespedes'] : 1;
 $notas        = limpiar($body['notas']         ?? '');
 
-// ── 2. Validaciones básicas ─────────────────────────────────
+// 2. Validaciones básicas 
 $errores = [];
 
 if ($usuarioId <= 0)    $errores['usuario_id']    = 'ID de usuario inválido.';
@@ -65,14 +49,14 @@ if (!empty($errores)) {
 
 $pdo = getPDO();
 
-// ── 3. Verificar que el usuario existe ──────────────────────
+// 3. Verificar que el usuario existe 
 $stmtU = $pdo->prepare('SELECT id FROM usuarios WHERE id = :id AND estado = "activo" LIMIT 1');
 $stmtU->execute([':id' => $usuarioId]);
 if (!$stmtU->fetch()) {
     responder(404, ['ok' => false, 'mensaje' => 'Usuario no encontrado o inactivo.']);
 }
 
-// ── 4. Verificar que la habitación existe y obtener precio ──
+// 4. Verificar que la habitación existe y obtener precio
 $stmtH = $pdo->prepare(
     'SELECT id, nombre, precio_noche, capacidad, estado
      FROM habitaciones WHERE id = :id LIMIT 1'
@@ -94,8 +78,6 @@ if ($numHuespedes > (int) $habitacion['capacidad']) {
         'mensaje' => "La habitación tiene capacidad máxima de {$habitacion['capacidad']} personas."
     ]);
 }
-
-// ── 5. Verificar disponibilidad en las fechas solicitadas ───
 // Detecta cualquier reserva activa que se solape con las fechas pedidas
 $stmtDisp = $pdo->prepare(
     'SELECT id FROM reservaciones
@@ -118,20 +100,15 @@ if ($stmtDisp->fetch()) {
     ]);
 }
 
-// ── 6. Calcular total ───────────────────────────────────────
+// 6. Calcular total 
 $noches      = $entradaDT->diff($salidaDT)->days;
 $precioNoche = (float) $habitacion['precio_noche'];
 $total       = $noches * $precioNoche;
 
-// ── 7. Generar código único de reservación ──────────────────
+// 7. Generar código único de reservación 
 $codigo = 'R-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -4));
 
-// ── 8. TRANSACCIÓN PDO — evita race conditions ───────────────
-// Si dos usuarios reservan la misma habitación al mismo
-// milisegundo, el segundo encontrará el registro del primero
-// en el SELECT de disponibilidad y recibirá un 409.
-// beginTransaction() + LOCK implícito del SELECT garantiza
-// que solo una de las dos peticiones gane.
+// 8. TRANSACCIÓN PDO — evita race conditions 
 try {
     $pdo->beginTransaction();
 
@@ -193,7 +170,7 @@ try {
     responder(500, ['ok' => false, 'mensaje' => 'Error al procesar la reservación. Intenta de nuevo.']);
 }
 
-// ── 9. Respuesta ─────────────────────────────────────────────
+// 9. Respuesta 
 responder(201, [
     'ok'      => true,
     'mensaje' => 'Reservación creada exitosamente.',

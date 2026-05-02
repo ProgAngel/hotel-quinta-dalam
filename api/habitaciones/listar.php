@@ -1,17 +1,4 @@
 <?php
-// ============================================================
-//  api/habitaciones/listar.php — Hotel Quinta Dalam
-//  Devuelve el listado de habitaciones con filtros y paginación
-//
-//  Método:  GET
-//  Params:  ?estado=disponible    (opcional)
-//           ?tipo=Suite           (opcional)
-//           ?capacidad=3          (opcional, mínimo de personas)
-//           ?limit=3              (opcional, máximo de resultados)
-//           ?pagina=1             (opcional, para paginación)
-//  Éxito:   200 { "ok": true, "total": N, "habitaciones": [...] }
-// ============================================================
-
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/response.php';
 
@@ -20,7 +7,6 @@ soloMetodo('GET');
 
 $pdo = getPDO();
 
-// ── RECOLECTOR DE BASURA — Limpieza pasiva ───────────────────
 // Cada vez que alguien consulta el catálogo, liberamos las
 // habitaciones cuyas reservaciones pendientes llevan más de
 // 15 minutos sin confirmarse (usuario abandonó el pago).
@@ -52,7 +38,7 @@ try {
     if ($pdo->inTransaction()) $pdo->rollBack();
     error_log('Limpieza pasiva error: ' . $e->getMessage());
 }
-// ── Fin recolector
+
 
 $where  = [];
 $params = [];
@@ -85,19 +71,19 @@ if (!empty($_GET['capacidad']) && is_numeric($_GET['capacidad'])) {
     $params[':capacidad']    = $capacidad;
 }
 
-// ── Paginación ───────────────────────────────────────────────
+// ── Paginación 
 $limit  = isset($_GET['limit'])  && is_numeric($_GET['limit'])  ? min((int) $_GET['limit'],  100) : 50;
 $pagina = isset($_GET['pagina']) && is_numeric($_GET['pagina']) ? max((int) $_GET['pagina'],  1)  : 1;
 $offset = ($pagina - 1) * $limit;
 
-// ── Contar total con los mismos filtros ──────────────────────
+// ── Contar total con los mismos filtros 
 $sqlCount = 'SELECT COUNT(*) FROM habitaciones';
 if (!empty($where)) $sqlCount .= ' WHERE ' . implode(' AND ', $where);
 $stmtCount = $pdo->prepare($sqlCount);
 $stmtCount->execute($params);
 $totalRegistros = (int) $stmtCount->fetchColumn();
 
-// ── Consulta principal con LIMIT y OFFSET ───────────────────
+// ── Consulta principal con LIMIT y OFFSET 
 $sql = 'SELECT id, numero, nombre, tipo, precio_noche,
                capacidad, descripcion, estado, imagen_url
         FROM habitaciones';

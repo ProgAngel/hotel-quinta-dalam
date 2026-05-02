@@ -1,17 +1,17 @@
-# ── Dependencias PHP (Composer + SDK Mercado Pago) ───────────
+# ── Dependencias PHP (Composer + SDK Mercado Pago)
 vendor/
 
-# ── Credenciales y variables de entorno ──────────────────────
+# ── Credenciales y variables de entorno
 .env
 config/credenciales.php
 
-# ── Logs de auditoría de pagos ────────────────────────────────
+# ── Logs de auditoria de pagos 
 logs/
 
-# ── Archivos del sistema operativo ───────────────────────────
+# ── Archivos del sistema operativo
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# ── VS Code ───────────────────────────────────────────────────
+# ── VS Code
 .vscode/settings.json

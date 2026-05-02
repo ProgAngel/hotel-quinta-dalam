@@ -2,18 +2,6 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
-// ... aquí sigue el resto de tu código normal (require_once, etc.)
-// ============================================================
-//  api/pagos/crear-preferencia.php — Hotel Quinta Dalam
-//  Crea una preferencia de pago en Mercado Pago usando el SDK
-//  oficial y devuelve la URL del checkout al frontend.
-//
-//  Método: POST
-//  Body:   { "reservacion_id": 1 }
-//  Éxito:  { "ok": true, "init_point": "https://..." }
-// ============================================================
-
 require_once __DIR__ . '/../../vendor/autoload.php'; // SDK de Composer
 require_once __DIR__ . '/../config/database.php';     // carga .env + PDO
 require_once __DIR__ . '/../config/response.php';
@@ -24,17 +12,17 @@ use MercadoPago\MercadoPagoConfig;
 setCorsHeaders();
 soloMetodo('POST');
 
-// ── Verificar sesión activa ──────────────────────────────────
+// ── Verificar sesión activa 
 session_start();
 if (empty($_SESSION['usuario_id'])) {
     responder(401, ['ok' => false, 'mensaje' => 'Debes iniciar sesión para pagar.']);
 }
 
-// ── Credenciales desde .env ──────────────────────────────────
+// ── Credenciales desde .env 
 MercadoPagoConfig::setAccessToken(env('MP_ACCESS_TOKEN'));
 $siteUrl = env('SITE_URL', 'http://localhost/Hotel-quinta-dalam');
 
-// ── Leer y validar el body ───────────────────────────────────
+// ── Leer y validar el body 
 $body          = leerBody();
 $reservacionId = isset($body['reservacion_id']) ? (int) $body['reservacion_id'] : 0;
 
@@ -42,7 +30,7 @@ if ($reservacionId <= 0) {
     responder(400, ['ok' => false, 'mensaje' => 'ID de reservación inválido.']);
 }
 
-// ── Obtener datos de la reservación ─────────────────────────
+// ── Obtener datos de la reservación 
 $pdo  = getPDO();
 $stmt = $pdo->prepare(
     'SELECT r.id, r.codigo, r.total, r.estado, r.usuario_id,
@@ -72,7 +60,7 @@ if ($reservacion['estado'] === 'cancelada') {
     responder(409, ['ok' => false, 'mensaje' => 'Esta reservación fue cancelada.']);
 }
 
-// ── Crear preferencia con SDK oficial ───────────────────────
+// ── Crear preferencia con SDK oficial 
 $client = new PreferenceClient();
 
 try {
@@ -120,7 +108,7 @@ try {
     ]);
 }
 
-// ── Guardar trazabilidad en tabla pagos ──────────────────────
+// ── Guardar trazabilidad en tabla pagos 
 try {
     $pdo->prepare(
         'INSERT INTO pagos (reservacion_id, metodo, monto, estado, referencia)
@@ -134,7 +122,6 @@ try {
     error_log('Pagos insert error: ' . $e->getMessage());
 }
 
-// ── Devolver URL de checkout ─────────────────────────────────
 // En desarrollo usamos sandbox_init_point
 // En producción usamos init_point
 $esSandbox = env('APP_ENV', 'development') === 'development';

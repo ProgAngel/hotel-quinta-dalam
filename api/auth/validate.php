@@ -1,16 +1,4 @@
 <?php
-// ============================================================
-//  api/auth/validate.php — Hotel Quinta Dalam
-//  Valida la sesión PHP activa + fingerprint del navegador.
-//  Llamado por QDSession.validarConServidor() en cada página
-//  protegida. Es el "heartbeat" del sistema de seguridad.
-//
-//  Método:  POST
-//  Cookies: PHPSESSID (automática, enviada con credentials:'include')
-//  Éxito:   { "ok": true, "usuario": { id, nombre, correo, rol } }
-//  Error:   { "ok": false, "razon": "..." }
-// ============================================================
-
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/response.php';
 
@@ -19,7 +7,7 @@ soloMetodo('POST');
 
 session_start();
 
-// ── 1. ¿Existe sesión PHP activa? ───────────────────────────
+// ── 1. Existe sesión PHP activa? 
 if (empty($_SESSION['usuario_id'])) {
     responder(401, ['ok' => false, 'razon' => 'sin_sesion']);
 }
@@ -36,9 +24,7 @@ if (!isset($_SESSION['ua_hash']) || $uaActual !== $_SESSION['ua_hash']) {
     responder(401, ['ok' => false, 'razon' => 'fingerprint_invalido']);
 }
 
-// ── 3. Verificar que la sesión no expiró en el servidor ─────
-//   PHP tiene su propio timeout (php.ini session.gc_maxlifetime).
-//   Aquí añadimos un chequeo explícito de 30 minutos.
+// ── 3. Verificar que la sesión no expiró en el servidor
 $maxInactividad = 30 * 60; // 30 minutos (más amplio que el del cliente)
 $ultimaActividad = $_SESSION['ultima_actividad'] ?? 0;
 
@@ -50,7 +36,7 @@ if ((time() - $ultimaActividad) > $maxInactividad) {
 // Actualizar timestamp de actividad
 $_SESSION['ultima_actividad'] = time();
 
-// ── 4. Obtener datos frescos del usuario desde la BD ────────
+// ── 4. Obtener datos frescos del usuario desde la BD 
 //   Verificamos que el usuario siga activo en la BD.
 //   Esto detecta si un admin desactivó la cuenta mientras
 //   el usuario tenía la sesión abierta.
@@ -71,7 +57,7 @@ if (!$usuario) {
     responder(401, ['ok' => false, 'razon' => 'usuario_inactivo']);
 }
 
-// ── 5. Todo válido — devolver datos del usuario ──────────────
+// ── 5. Todo válido — devolver datos del usuario 
 responder(200, [
     'ok'      => true,
     'usuario' => [

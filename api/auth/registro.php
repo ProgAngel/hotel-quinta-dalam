@@ -12,7 +12,9 @@ $nombre    = limpiar($body['nombre']    ?? '');
 $correo    = limpiar($body['correo']    ?? '');
 $telefono  = limpiar($body['telefono'] ?? '');
 $contrasena = trim($body['contrasena'] ?? '');
-$rol        = limpiar($body['rol']      ?? 'cliente');
+// El rol SIEMPRE es cliente desde el registro público.
+// Los admins y recepcionistas se crean desde el dashboard.
+$rol = 'cliente';
 
 // Validaciones
 $errores = [];
@@ -39,18 +41,12 @@ if (empty($contrasena) || mb_strlen($contrasena) < 8) {
     $errores['contrasena'] = 'La contraseña debe contener al menos un número.';
 }
 
-// Solo se permiten los roles validos; admin requiere codigo especial
-$rolesPermitidos = ['cliente', 'admin'];
-if (!in_array($rol, $rolesPermitidos, true)) {
-    $errores['rol'] = 'Rol no válido.';
-}
-
 // Si hay errores de validacion, devolverlos todos juntos
 if (!empty($errores)) {
     responder(400, ['ok' => false, 'mensaje' => 'Datos inválidos.', 'errores' => $errores]);
 }
 
-// ── 3. Verificar que el correo no este registrado ───────────
+// ── 3. Verificar que el correo no este registrado 
 $pdo  = getPDO();
 
 $stmt = $pdo->prepare('SELECT id FROM usuarios WHERE correo = :correo LIMIT 1');
@@ -60,7 +56,7 @@ if ($stmt->fetch()) {
     responder(409, ['ok' => false, 'mensaje' => 'Este correo ya está registrado.']);
 }
 
-// ── 4. Hashear contraseña y guardar ─────────────────────────
+// ── 4. Hashear contraseña y guardar 
 $hash = password_hash($contrasena, PASSWORD_BCRYPT, ['cost' => 12]);
 
 $insert = $pdo->prepare(
@@ -78,7 +74,7 @@ $insert->execute([
 
 $nuevoId = (int) $pdo->lastInsertId();
 
-// ── 5. Respuesta exitosa (sin devolver la contraseña) ───────
+// ── 5. Respuesta exitosa (sin devolver la contraseña) 
 responder(201, [
     'ok'      => true,
     'mensaje' => 'Cuenta creada exitosamente.',

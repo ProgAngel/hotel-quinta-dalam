@@ -83,8 +83,8 @@ body {
 }
 /* Logo usa el SVG nuevo */
 .dash-sidebar-logo img {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
 }
 /* Ocultar logo cuando colapsado para que el toggle quede centrado */
@@ -982,4 +982,304 @@ body {
   .dash-topbar-btn:not(.primary):not(.dash-topbar-menu-btn) {
     display: none;
   }
+}
+
+/* ============================================================
+   dashboard-additions.css — Hotel Quinta Dalam
+   Agrega al FINAL de dashboard.css
+   ============================================================ */
+
+/* ── Animación fadeInUp para modales ── */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(18px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)     scale(1);    }
+}
+
+/* ── Backdrop blur para overlay de modales ── */
+.modal-dash-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 8, 2, 0.65);
+    z-index: 9000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+/* ── Card base de modales ── */
+.modal-dash-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 36px;
+    max-width: 560px;
+    width: 100%;
+    box-shadow:
+        0 28px 70px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(140, 90, 53, 0.08);
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: fadeInUp 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(140,90,53,0.2) transparent;
+}
+.modal-dash-card::-webkit-scrollbar { width: 4px; }
+.modal-dash-card::-webkit-scrollbar-thumb {
+    background: rgba(140, 90, 53, 0.2);
+    border-radius: 4px;
+}
+
+/* ── Inputs con hover y focus premium ── */
+.modal-dash-inp {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    padding: 11px 14px;
+    border-radius: 9px;
+    border: 1.5px solid #e0d8cf;
+    width: 100%;
+    outline: none;
+    box-sizing: border-box;
+    background: #fdfaf7;
+    color: #2d1a0e;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.modal-dash-inp:hover {
+    border-color: #c9b89f;
+    background: #fefcf9;
+}
+.modal-dash-inp:focus {
+    border-color: #8c5a35;
+    box-shadow: 0 0 0 3px rgba(140, 90, 53, 0.12);
+    background: #fff;
+}
+.modal-dash-inp.error {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+.modal-dash-inp::placeholder { color: #c5b5a0; }
+
+/* ── Botones premium de modal ── */
+.modal-dash-btn-primary {
+    padding: 12px 24px;
+    border-radius: 9px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #fff;
+    background: linear-gradient(135deg, #8c5a35, #6b3a1f);
+    transition: all 0.22s ease;
+    box-shadow: 0 4px 14px rgba(140, 90, 53, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+.modal-dash-btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(140, 90, 53, 0.42);
+    background: linear-gradient(135deg, #9e6840, #7a4428);
+}
+.modal-dash-btn-primary:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(140, 90, 53, 0.25);
+}
+.modal-dash-btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.modal-dash-btn-secondary {
+    padding: 12px 24px;
+    border-radius: 9px;
+    border: 1.5px solid #d4c5b5;
+    background: none;
+    cursor: pointer;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #7a5c3e;
+    transition: all 0.22s ease;
+}
+.modal-dash-btn-secondary:hover {
+    background: rgba(140, 90, 53, 0.07);
+    border-color: #8c5a35;
+    color: #6b3a1f;
+}
+
+.modal-dash-btn-danger {
+    padding: 12px 24px;
+    border-radius: 9px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #fff;
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    transition: all 0.22s ease;
+    box-shadow: 0 4px 14px rgba(231, 76, 60, 0.28);
+}
+.modal-dash-btn-danger:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(231, 76, 60, 0.4);
+}
+
+/* ── Resumen de precio en modal manual ── */
+.modal-precio-resumen {
+    background: linear-gradient(135deg, #2a1206, #6b3a1f);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.88rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: fadeInUp 0.25s ease;
+}
+.modal-precio-resumen strong {
+    font-size: 1.15rem;
+    color: #e8c98a;
+}
+
+/* ── Warning de habitación inactiva ── */
+.modal-warning-inactiva {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.82rem;
+    color: #856404;
+    line-height: 1.5;
+}
+
+/* ── Botones de acción animados en tablas ── */
+.dash-action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    transition: all 0.18s ease;
+    background: transparent;
+}
+.dash-action-btn.view {
+    color: #2563eb;
+    background: rgba(37, 99, 235, 0.07);
+}
+.dash-action-btn.view:hover {
+    background: rgba(37, 99, 235, 0.15);
+    border-color: rgba(37, 99, 235, 0.3);
+    transform: scale(1.12);
+}
+.dash-action-btn.edit {
+    color: #d97706;
+    background: rgba(217, 119, 6, 0.07);
+}
+.dash-action-btn.edit:hover {
+    background: rgba(217, 119, 6, 0.15);
+    border-color: rgba(217, 119, 6, 0.3);
+    transform: scale(1.12);
+}
+.dash-action-btn.delete {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.07);
+}
+.dash-action-btn.delete:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+    transform: scale(1.12);
+}
+.dash-action-btn.pay {
+    color: #27ae60;
+    background: rgba(39, 174, 96, 0.07);
+}
+.dash-action-btn.pay:hover {
+    background: rgba(39, 174, 96, 0.15);
+    border-color: rgba(39, 174, 96, 0.3);
+    transform: scale(1.12);
+}
+.dash-action-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* ── Quick actions — estado hover mejorado ── */
+.dash-quick-btn {
+    position: relative;
+    overflow: hidden;
+}
+.dash-quick-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(140,90,53,0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    border-radius: inherit;
+}
+.dash-quick-btn:hover::after { opacity: 1; }
+
+/* ── Fila pendiente destacada ── */
+.dash-table tbody tr.fila-pendiente {
+    background: #fffbeb;
+}
+.dash-table tbody tr.fila-pendiente:hover {
+    background: #fef9e7;
+}
+
+/* ── Badge amarillo para recepcionista ── */
+.dash-badge.orange {
+    background: rgba(230, 126, 34, 0.1);
+    color: #d35400;
+}
+/* ============================================================
+   📱 RESPONSIVIDAD DE MODALES EN DASHBOARD (MÓVIL DEFINITIVO)
+   ============================================================ */
+@media (max-width: 768px) {
+    /* 1. Destruimos el margen izquierdo fantasma atrapando el z-index 9000 */
+    div[style*="z-index: 9000"], 
+    div[style*="z-index:9000"] {
+        padding: 16px !important; 
+    }
+
+    /* 2. Reducimos el padding de la tarjeta blanca para aprovechar la pantalla */
+    div[style*="padding: 36px"],
+    div[style*="padding:36px"] {
+        padding: 24px 20px !important;
+        max-width: 100% !important;
+    }
+
+    /* 3. Convertimos la cuadrícula (grid) a 1 sola columna */
+    div[style*="grid-template-columns: 1fr 1fr"],
+    div[style*="grid-template-columns:1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    /* 4. Apilamos los botones de acción estilo "App Nativa" (Confirmar arriba, Cancelar abajo) */
+    div[style*="justify-content: flex-end"],
+    div[style*="justify-content:flex-end"] {
+        flex-direction: column-reverse !important;
+        gap: 10px !important;
+    }
+    
+    div[style*="justify-content: flex-end"] > button,
+    div[style*="justify-content:flex-end"] > button {
+        width: 100% !important;
+        padding: 14px !important;
+        margin-left: 0 !important;
+    }
 }

@@ -1,14 +1,4 @@
 <?php
-// ============================================================
-//  api/usuarios/listar.php — Hotel Quinta Dalam
-//  Lista todos los usuarios (solo accesible para admins).
-//  En esta versión valida el rol desde la sesión PHP.
-//
-//  Método: GET
-//  Params: ?rol=cliente|admin  (opcional)
-//          ?estado=activo|inactivo|pendiente (opcional)
-//          ?buscar=texto (opcional, busca en nombre y correo)
-// ============================================================
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/response.php';
@@ -16,7 +6,7 @@ require_once __DIR__ . '/../config/response.php';
 setCorsHeaders();
 soloMetodo('GET');
 
-// ── Verificar que es admin vía sesión PHP ────────────────────
+// ── Verificar que es admin vía sesión PHP 
 session_start();
 if (empty($_SESSION['usuario_id']) || ($_SESSION['rol'] ?? '') !== 'admin') {
     responder(403, ['ok' => false, 'mensaje' => 'Acceso restringido a administradores.']);
@@ -24,7 +14,7 @@ if (empty($_SESSION['usuario_id']) || ($_SESSION['rol'] ?? '') !== 'admin') {
 
 $pdo = getPDO();
 
-// ── Filtros opcionales ───────────────────────────────────────
+// ── Filtros opcionales 
 $where  = [];
 $params = [];
 
@@ -50,12 +40,12 @@ if (!empty($_GET['buscar'])) {
     $params[':buscar']   = $buscar;
 }
 
-// ── Paginación ───────────────────────────────────────────────
+// ── Paginación 
 $limit  = isset($_GET['limit'])  && is_numeric($_GET['limit'])  ? min((int) $_GET['limit'],  200) : 50;
 $pagina = isset($_GET['pagina']) && is_numeric($_GET['pagina']) ? max((int) $_GET['pagina'],  1)  : 1;
 $offset = ($pagina - 1) * $limit;
 
-// ── Construir y ejecutar consulta ────────────────────────────
+// ── Construir y ejecutar consulta 
 $sql = 'SELECT id, nombre, correo, telefono, rol, estado, created_at
         FROM usuarios';
 

@@ -1,17 +1,4 @@
 <?php
-// ============================================================
-//  api/reservaciones/crear-manual.php — Hotel Quinta Dalam
-//  Reservación manual desde el dashboard (huésped en recepción).
-//  Bypasa Mercado Pago — pago en efectivo/transferencia.
-//  Solo admin y recepcionista.
-//
-//  Método: POST
-//  Body: {
-//    habitacion_id, fecha_entrada, fecha_salida,
-//    nombre_huesped, correo_huesped, num_huespedes,
-//    metodo_pago, notas
-//  }
-// ============================================================
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/response.php';
@@ -21,7 +8,7 @@ soloMetodo('POST');
 
 session_start();
 
-// ── RBAC ─────────────────────────────────────────────────────
+// ── RBAC 
 $rol        = $_SESSION['rol']        ?? '';
 $operadorId = $_SESSION['usuario_id'] ?? 0;
 
@@ -31,7 +18,7 @@ if (!in_array($rol, ['admin', 'recepcionista'], true)) {
 
 $body = leerBody();
 
-// ── Validaciones ─────────────────────────────────────────────
+// ── Validaciones 
 $habitacionId  = (int)    ($body['habitacion_id']  ?? 0);
 $fechaEntrada  = limpiar($body['fecha_entrada']    ?? '');
 $fechaSalida   = limpiar($body['fecha_salida']     ?? '');
@@ -45,7 +32,7 @@ if (!$habitacionId || !$fechaEntrada || !$fechaSalida || !$nombreHuesped) {
     responder(400, ['ok' => false, 'mensaje' => 'Faltan campos obligatorios.']);
 }
 
-// ── Validar fechas ────────────────────────────────────────────
+// ── Validar fechas 
 $entradaDT = DateTime::createFromFormat('Y-m-d', $fechaEntrada);
 $salidaDT  = DateTime::createFromFormat('Y-m-d', $fechaSalida);
 
@@ -57,7 +44,7 @@ $noches = $entradaDT->diff($salidaDT)->days;
 
 $pdo = getPDO();
 
-// ── Verificar habitación ──────────────────────────────────────
+// ── Verificar habitación 
 $stmtH = $pdo->prepare(
     'SELECT id, nombre, precio_noche, capacidad, estado
      FROM habitaciones WHERE id = :id LIMIT 1'
@@ -73,7 +60,7 @@ if ($habitacion['estado'] !== 'disponible') {
     responder(409, ['ok' => false, 'mensaje' => 'La habitación no está disponible.']);
 }
 
-// ── Verificar disponibilidad en fechas ────────────────────────
+// ── Verificar disponibilidad en fechas 
 $stmtDisp = $pdo->prepare(
     'SELECT id FROM reservaciones
      WHERE habitacion_id = :hab_id
@@ -92,7 +79,7 @@ if ($stmtDisp->fetch()) {
     responder(409, ['ok' => false, 'mensaje' => 'La habitación no está disponible en esas fechas.']);
 }
 
-// ── Buscar usuario registrado por correo (opcional) ───────────
+// Buscar usuario registrado por correo (opcional) 
 // Si el huésped tiene cuenta, la vinculamos.
 // Si no, la reservación queda con usuario_id = NULL
 // y el nombre se guarda en huesped_nombre.
@@ -110,11 +97,11 @@ $precioNoche = (float) $habitacion['precio_noche'];
 $total       = $noches * $precioNoche;
 $codigo      = 'DASH-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -4));
 
-// ── TRANSACCIÓN: INSERT reserva + pago + UPDATE habitación ────
+// ── TRANSACCIÓN: INSERT reserva + pago + UPDATE habitación 
 try {
     $pdo->beginTransaction();
 
-    // 1. Crear reservación directamente en estado "confirmada"
+    //Crear reservación directamente en estado "confirmada"
     //    Guardamos huesped_nombre siempre para tener trazabilidad
     //    aunque el huésped tenga cuenta registrada.
     $stmtR = $pdo->prepare(
@@ -142,20 +129,20 @@ try {
     $nuevaId = (int) $pdo->lastInsertId();
 
     // 2. Registrar el pago inmediatamente
-    //    La columna reservacion_id tiene UNIQUE KEY,
-    //    ON DUPLICATE KEY UPDATE previene doble registro.
     $pdo->prepare(
         'INSERT INTO pagos (reservacion_id, metodo, monto, estado, referencia)
          VALUES (:rid, :metodo, :monto, "completado", :ref)
          ON DUPLICATE KEY UPDATE
-            estado    = "completado",
-            metodo    = :metodo,
-            referencia = :ref'
+            estado     = "completado",
+            metodo     = :metodo_upd,
+            referencia = :ref_upd'
     )->execute([
-        ':rid'    => $nuevaId,
-        ':metodo' => $metodoPago,
-        ':monto'  => $total,
-        ':ref'    => $codigo,
+        ':rid'        => $nuevaId,
+        ':metodo'     => $metodoPago,
+        ':monto'      => $total,
+        ':ref'        => $codigo,
+        ':metodo_upd' => $metodoPago, // Pasamos el valor por segunda vez para el UPDATE
+        ':ref_upd'    => $codigo,     // Pasamos el valor por segunda vez para el UPDATE
     ]);
 
     // 3. Marcar habitación como ocupada
@@ -185,5 +172,5 @@ try {
 } catch (Exception $e) {
     $pdo->rollBack();
     error_log('Crear manual error: ' . $e->getMessage());
-    responder(500, ['ok' => false, 'mensaje' => 'Error al crear la reservación.']);
+    responder(500, ['ok' => false, 'mensaje' => 'Error SQL: ' . $e->getMessage()]);
 }

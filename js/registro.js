@@ -1,6 +1,7 @@
 // ============================================================
 //  registro.js — Hotel Quinta Dalam
-//  Conectado a api/auth/registro.php
+//  SEGURIDAD: rol siempre 'cliente' — hardcodeado en PHP.
+//  Admins y recepcionistas se crean SOLO desde el dashboard.
 // ============================================================
 
 const { useState, useEffect, useRef, useCallback } = React;
@@ -8,7 +9,6 @@ const { useState, useEffect, useRef, useCallback } = React;
 const API_REGISTRO    = '/Hotel-quinta-dalam/api/auth/registro.php';
 const API_CHECK_EMAIL = '/Hotel-quinta-dalam/api/auth/check-email.php';
 
-// ── Íconos SVG ─────────────────────────────────────────────
 const IconUser = () => (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
@@ -27,11 +27,6 @@ const IconPhone = () => (
 const IconLock = () => (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-    </svg>
-);
-const IconKey = () => (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
     </svg>
 );
 const IconShield = () => (
@@ -61,14 +56,7 @@ const IconAlert = () => (
         <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
     </svg>
 );
-const IconRole = () => (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-    </svg>
-);
 
-// ── Evaluar fuerza de contraseña ────────────────────────────
 function evaluarFuerza(pwd) {
     if (!pwd) return { nivel: 0, texto: '', clase: '' };
     let score = 0;
@@ -84,204 +72,122 @@ function evaluarFuerza(pwd) {
     return                { nivel: 5, texto: 'Excelente',   clase: 'active-strong' };
 }
 
-// ── Modal flotante de resultado ─────────────────────────────
 function ModalResultado({ tipo, nombre, mensaje, onCerrar }) {
     const esExito = tipo === 'exito';
-
     useEffect(() => {
         if (esExito) {
             const t = setTimeout(() => { window.location.href = 'login.html'; }, 3000);
             return () => clearTimeout(t);
         }
     }, [esExito]);
-
     return (
         <div className="reg-modal-overlay">
             <div className="reg-modal-box">
-
                 <div className={`reg-modal-icono-wrap ${esExito ? 'reg-modal--exito' : 'reg-modal--error'}`}>
                     <span className="reg-modal-emoji">{esExito ? '🎉' : '⚠️'}</span>
                 </div>
-
-                <h2 className="reg-modal-titulo">
-                    {esExito ? '¡Cuenta creada!' : 'Algo salió mal'}
-                </h2>
-
+                <h2 className="reg-modal-titulo">{esExito ? '¡Cuenta creada!' : 'Algo salió mal'}</h2>
                 {esExito ? (
                     <>
-                        <p className="reg-modal-texto">
-                            ¡Bienvenido, <strong>{nombre}</strong>!
-                        </p>
-                        <p className="reg-modal-subtexto">
-                            Tu cuenta fue creada exitosamente.<br />
-                            Serás redirigido al inicio de sesión en unos segundos.
-                        </p>
-                        <div className="reg-modal-progress-track">
-                            <div className="reg-modal-progress-bar"></div>
-                        </div>
+                        <p className="reg-modal-texto">¡Bienvenido, <strong>{nombre}</strong>!</p>
+                        <p className="reg-modal-subtexto">Tu cuenta fue creada exitosamente.<br />Serás redirigido al inicio de sesión en unos segundos.</p>
+                        <div className="reg-modal-progress-track"><div className="reg-modal-progress-bar"></div></div>
                         <p className="reg-modal-redir">Redirigiendo a inicio de sesión...</p>
                     </>
                 ) : (
                     <>
                         <p className="reg-modal-texto">{mensaje}</p>
-                        <button className="reg-modal-btn-cerrar" onClick={onCerrar}>
-                            Intentar de nuevo
-                        </button>
+                        <button className="reg-modal-btn-cerrar" onClick={onCerrar}>Intentar de nuevo</button>
                     </>
                 )}
-
             </div>
         </div>
     );
 }
 
-// ── Componente Principal ────────────────────────────────────
 function RegistroPage() {
-
     const [nombre,      setNombre]      = useState('');
     const [apellido,    setApellido]    = useState('');
     const [correo,      setCorreo]      = useState('');
     const [telefono,    setTelefono]    = useState('');
     const [password,    setPassword]    = useState('');
     const [confirmar,   setConfirmar]   = useState('');
-    const [rol,         setRol]         = useState('cliente');
-    const [codigoAdmin, setCodigoAdmin] = useState('');
     const [captchaOk,   setCaptchaOk]   = useState(false);
     const [terminos,    setTerminos]    = useState(false);
-
     const [showPwd,     setShowPwd]     = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [loading,     setLoading]     = useState(false);
     const [errors,      setErrors]      = useState({});
     const [modal,       setModal]       = useState(null);
-
     const [correoStatus, setCorreoStatus] = useState(null);
     const correoTimer = useRef(null);
     const fuerza = evaluarFuerza(password);
 
-    // ── Verificación correo en tiempo real ──────────────────
     const verificarCorreo = useCallback((valor) => {
         clearTimeout(correoTimer.current);
-        if (!valor || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor)) {
-            setCorreoStatus(null);
-            return;
-        }
+        if (!valor || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor)) { setCorreoStatus(null); return; }
         setCorreoStatus('checking');
         correoTimer.current = setTimeout(async () => {
             try {
                 const res  = await fetch(API_CHECK_EMAIL + '?correo=' + encodeURIComponent(valor));
                 const data = await res.json();
                 setCorreoStatus(data.disponible ? 'available' : 'taken');
-            } catch {
-                setCorreoStatus(null);
-            }
+            } catch { setCorreoStatus(null); }
         }, 600);
     }, []);
 
-    // ── Validación ──────────────────────────────────────────
     function validar() {
-        const errs  = {};
+        const errs = {};
         if (!nombre.trim())   errs.nombre   = 'El nombre es obligatorio.';
         if (!apellido.trim()) errs.apellido = 'El apellido es obligatorio.';
-
-        if (!correo.trim())
-            errs.correo = 'El correo es obligatorio.';
-        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo))
-            errs.correo = 'Correo no válido.';
-        else if (correoStatus === 'taken')
-            errs.correo = 'Este correo ya está registrado.';
-
-        if (telefono && !/^[0-9]{10}$/.test(telefono.replace(/\s/g, '')))
-            errs.telefono = 'El teléfono debe tener 10 dígitos.';
-
-        if (!password)              errs.password = 'La contraseña es obligatoria.';
-        else if (password.length < 8) errs.password = 'Mínimo 8 caracteres.';
-        else if (fuerza.nivel < 3)    errs.password = 'La contraseña es muy débil.';
-
-        if (!confirmar)                errs.confirmar = 'Confirma tu contraseña.';
+        if (!correo.trim())        errs.correo = 'El correo es obligatorio.';
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) errs.correo = 'Correo no válido.';
+        else if (correoStatus === 'taken') errs.correo = 'Este correo ya está registrado.';
+        if (telefono && !/^[0-9]{10}$/.test(telefono.replace(/\s/g, ''))) errs.telefono = 'El teléfono debe tener 10 dígitos.';
+        if (!password)               errs.password  = 'La contraseña es obligatoria.';
+        else if (password.length < 8)  errs.password  = 'Mínimo 8 caracteres.';
+        else if (fuerza.nivel < 3)     errs.password  = 'La contraseña es muy débil.';
+        if (!confirmar)                  errs.confirmar = 'Confirma tu contraseña.';
         else if (confirmar !== password) errs.confirmar = 'Las contraseñas no coinciden.';
-
-        if (rol === 'admin' && !codigoAdmin.trim())
-            errs.codigoAdmin = 'Se requiere el código de administrador.';
-
         if (!captchaOk) errs.captcha  = 'Confirma que no eres un robot.';
         if (!terminos)  errs.terminos = 'Debes aceptar los términos y condiciones.';
         return errs;
     }
 
-    // ── Submit — API real ───────────────────────────────────
     async function handleSubmit(e) {
         e.preventDefault();
         const errs = validar();
         setErrors(errs);
         if (Object.keys(errs).length > 0) return;
-
         setLoading(true);
-
         try {
             const res = await fetch(API_REGISTRO, {
-                method:  'POST',
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     nombre:     `${nombre.trim()} ${apellido.trim()}`,
                     correo:     correo.trim().toLowerCase(),
                     telefono:   telefono.trim(),
                     contrasena: password,
-                    rol:        rol,
+                    // rol NO se envía — el backend lo fuerza a 'cliente'
                 })
             });
-
             const data = await res.json();
-
-            if (res.status === 409) {
-                setErrors(p => ({...p, correo: 'Este correo ya está registrado.'}));
-                setCorreoStatus('taken');
-                setLoading(false);
-                return;
-            }
-
-            if (!data.ok) {
-                setModal({ tipo: 'error', mensaje: data.mensaje || 'Error al crear la cuenta.' });
-                setLoading(false);
-                return;
-            }
-
-            // ── Éxito ────────────────────────────────────────
-            const nombreCompleto = data.usuario?.nombre || `${nombre} ${apellido}`;
-            setModal({ tipo: 'exito', nombre: nombreCompleto });
-
-        } catch (err) {
-            setModal({
-                tipo:    'error',
-                mensaje: 'No se pudo conectar con el servidor. Verifica tu conexión.'
-            });
-            setLoading(false);
-        }
+            if (res.status === 409) { setErrors(p => ({...p, correo: 'Este correo ya está registrado.'})); setCorreoStatus('taken'); setLoading(false); return; }
+            if (!data.ok) { setModal({ tipo: 'error', mensaje: data.mensaje || 'Error al crear la cuenta.' }); setLoading(false); return; }
+            setModal({ tipo: 'exito', nombre: data.usuario?.nombre || `${nombre} ${apellido}` });
+        } catch { setModal({ tipo: 'error', mensaje: 'No se pudo conectar con el servidor.' }); setLoading(false); }
     }
 
-    const correoStatusIcon = () => ({ checking: '⏳', available: '✅', taken: '❌' }[correoStatus] || null);
-    const correoMsgClase   = () => ({ available: 'success', taken: 'error', checking: 'info' }[correoStatus] || 'info');
-    const correoMsgTexto   = () => ({
-        checking:  'Verificando disponibilidad...',
-        available: 'Correo disponible ✓',
-        taken:     'Este correo ya está registrado.'
-    }[correoStatus] || null);
+    const correoStatusIcon = () => ({ checking:'⏳', available:'✅', taken:'❌' }[correoStatus] || null);
+    const correoMsgClase   = () => ({ available:'success', taken:'error', checking:'info' }[correoStatus] || 'info');
+    const correoMsgTexto   = () => ({ checking:'Verificando disponibilidad...', available:'Correo disponible ✓', taken:'Este correo ya está registrado.' }[correoStatus] || null);
 
-    // ── Render ───────────────────────────────────────────────
     return (
         <div className="reg-page-wrapper">
-
-            {modal && (
-                <ModalResultado
-                    tipo={modal.tipo}
-                    nombre={modal.nombre}
-                    mensaje={modal.mensaje}
-                    onCerrar={() => { setModal(null); setLoading(false); }}
-                />
-            )}
+            {modal && <ModalResultado tipo={modal.tipo} nombre={modal.nombre} mensaje={modal.mensaje} onCerrar={() => { setModal(null); setLoading(false); }} />}
 
             <div className="reg-card">
-
                 {/* Panel Izquierdo */}
                 <div className="reg-panel-brand">
                     <div className="reg-ornament-top"></div>
@@ -312,15 +218,14 @@ function RegistroPage() {
 
                     <form onSubmit={handleSubmit} noValidate>
 
+                        {/* Nombre + Apellido */}
                         <div className="reg-row-2col">
                             <div className="reg-field-group">
                                 <label className="reg-label" htmlFor="reg-nombre">Nombre</label>
                                 <div className="reg-input-wrap">
-                                    <input id="reg-nombre" type="text"
-                                        className={`reg-input${errors.nombre ? ' input-error' : ''}`}
-                                        placeholder="Ej: Carlos" value={nombre}
-                                        onChange={e => { setNombre(e.target.value); if (errors.nombre) setErrors(p => ({...p, nombre: ''})); }}
-                                        autoComplete="given-name" />
+                                    <input id="reg-nombre" type="text" className={`reg-input${errors.nombre?' input-error':''}`}
+                                        placeholder="Ej: Carlos" value={nombre} autoComplete="given-name"
+                                        onChange={e => { setNombre(e.target.value); if(errors.nombre) setErrors(p=>({...p,nombre:''})); }} />
                                     <span className="reg-input-icon"><IconUser /></span>
                                 </div>
                                 {errors.nombre && <p className="reg-field-msg error"><IconAlert /> {errors.nombre}</p>}
@@ -328,32 +233,23 @@ function RegistroPage() {
                             <div className="reg-field-group">
                                 <label className="reg-label" htmlFor="reg-apellido">Apellido</label>
                                 <div className="reg-input-wrap">
-                                    <input id="reg-apellido" type="text"
-                                        className={`reg-input${errors.apellido ? ' input-error' : ''}`}
-                                        placeholder="Ej: García" value={apellido}
-                                        onChange={e => { setApellido(e.target.value); if (errors.apellido) setErrors(p => ({...p, apellido: ''})); }}
-                                        autoComplete="family-name" />
+                                    <input id="reg-apellido" type="text" className={`reg-input${errors.apellido?' input-error':''}`}
+                                        placeholder="Ej: García" value={apellido} autoComplete="family-name"
+                                        onChange={e => { setApellido(e.target.value); if(errors.apellido) setErrors(p=>({...p,apellido:''})); }} />
                                     <span className="reg-input-icon"><IconUser /></span>
                                 </div>
                                 {errors.apellido && <p className="reg-field-msg error"><IconAlert /> {errors.apellido}</p>}
                             </div>
                         </div>
 
+                        {/* Correo */}
                         <div className="reg-field-group">
                             <label className="reg-label" htmlFor="reg-correo">Correo Electrónico</label>
                             <div className="reg-input-wrap">
                                 <input id="reg-correo" type="email"
-                                    className={`reg-input${
-                                        errors.correo || correoStatus === 'taken' ? ' input-error'
-                                        : correoStatus === 'available' ? ' input-success' : ''}`}
-                                    placeholder="ejemplo@correo.com" value={correo}
-                                    onChange={e => {
-                                        const v = e.target.value;
-                                        setCorreo(v);
-                                        if (errors.correo) setErrors(p => ({...p, correo: ''}));
-                                        verificarCorreo(v);
-                                    }}
-                                    autoComplete="email" />
+                                    className={`reg-input${errors.correo||correoStatus==='taken'?' input-error':correoStatus==='available'?' input-success':''}`}
+                                    placeholder="ejemplo@correo.com" value={correo} autoComplete="email"
+                                    onChange={e => { const v=e.target.value; setCorreo(v); if(errors.correo) setErrors(p=>({...p,correo:''})); verificarCorreo(v); }} />
                                 <span className="reg-input-icon"><IconEmail /></span>
                                 {correoStatus && <span className="reg-input-status">{correoStatusIcon()}</span>}
                             </div>
@@ -364,74 +260,36 @@ function RegistroPage() {
                             )}
                         </div>
 
-                        <div className="reg-row-2col">
-                            <div className="reg-field-group">
-                                <label className="reg-label" htmlFor="reg-telefono">
-                                    Teléfono <span style={{fontWeight:400,fontSize:'0.7rem',color:'#aaa',textTransform:'none'}}>(opcional)</span>
-                                </label>
-                                <div className="reg-input-wrap">
-                                    <input id="reg-telefono" type="tel"
-                                        className={`reg-input${errors.telefono ? ' input-error' : ''}`}
-                                        placeholder="10 dígitos" maxLength="10" value={telefono}
-                                        onChange={e => {
-                                            const v = e.target.value.replace(/\D/g,'');
-                                            setTelefono(v);
-                                            if (errors.telefono) setErrors(p => ({...p, telefono: ''}));
-                                        }}
-                                        autoComplete="tel" />
-                                    <span className="reg-input-icon"><IconPhone /></span>
-                                </div>
-                                {errors.telefono && <p className="reg-field-msg error"><IconAlert /> {errors.telefono}</p>}
+                        {/* Teléfono — ancho completo (ya no comparte fila con rol) */}
+                        <div className="reg-field-group">
+                            <label className="reg-label" htmlFor="reg-telefono">
+                                Teléfono <span style={{fontWeight:400,fontSize:'0.7rem',color:'#aaa',textTransform:'none'}}>(opcional)</span>
+                            </label>
+                            <div className="reg-input-wrap">
+                                <input id="reg-telefono" type="tel" className={`reg-input${errors.telefono?' input-error':''}`}
+                                    placeholder="10 dígitos" maxLength="10" value={telefono} autoComplete="tel"
+                                    onChange={e => { const v=e.target.value.replace(/\D/g,''); setTelefono(v); if(errors.telefono) setErrors(p=>({...p,telefono:''})); }} />
+                                <span className="reg-input-icon"><IconPhone /></span>
                             </div>
-                            <div className="reg-field-group">
-                                <label className="reg-label" htmlFor="reg-rol">Tipo de Cuenta</label>
-                                <div className="reg-input-wrap">
-                                    <select id="reg-rol" className="reg-select" value={rol}
-                                        onChange={e => { setRol(e.target.value); setCodigoAdmin(''); }}>
-                                        <option value="cliente">🧳 Huésped / Cliente</option>
-                                        <option value="admin">🛡️ Administrador</option>
-                                    </select>
-                                    <span className="reg-input-icon"><IconRole /></span>
-                                    <span className="reg-select-arrow">▾</span>
-                                </div>
-                            </div>
+                            {errors.telefono && <p className="reg-field-msg error"><IconAlert /> {errors.telefono}</p>}
                         </div>
 
-                        <div className={`reg-admin-code-wrap${rol === 'admin' ? ' visible' : ''}`}>
-                            <div className="reg-field-group">
-                                <label className="reg-label" htmlFor="reg-codigo-admin">Código de Administrador</label>
-                                <div className="reg-input-wrap">
-                                    <input id="reg-codigo-admin" type="password"
-                                        className={`reg-input${errors.codigoAdmin ? ' input-error' : ''}`}
-                                        placeholder="Código proporcionado por el hotel" value={codigoAdmin}
-                                        onChange={e => { setCodigoAdmin(e.target.value); if (errors.codigoAdmin) setErrors(p => ({...p, codigoAdmin: ''})); }} />
-                                    <span className="reg-input-icon"><IconKey /></span>
-                                </div>
-                                {errors.codigoAdmin && <p className="reg-field-msg error"><IconAlert /> {errors.codigoAdmin}</p>}
-                            </div>
-                        </div>
-
+                        {/* Contraseña */}
                         <div className="reg-field-group">
                             <label className="reg-label" htmlFor="reg-password">Contraseña</label>
                             <div className="reg-input-wrap">
-                                <input id="reg-password" type={showPwd ? 'text' : 'password'}
-                                    className={`reg-input${errors.password ? ' input-error' : ''}`}
-                                    placeholder="Mínimo 8 caracteres" value={password}
-                                    onChange={e => { setPassword(e.target.value); if (errors.password) setErrors(p => ({...p, password: ''})); }}
-                                    autoComplete="new-password" />
+                                <input id="reg-password" type={showPwd?'text':'password'} className={`reg-input${errors.password?' input-error':''}`}
+                                    placeholder="Mínimo 8 caracteres" value={password} autoComplete="new-password"
+                                    onChange={e => { setPassword(e.target.value); if(errors.password) setErrors(p=>({...p,password:''})); }} />
                                 <span className="reg-input-icon"><IconLock /></span>
-                                <button type="button" className="login-pwd-toggle"
-                                    onClick={() => setShowPwd(p => !p)}
-                                    aria-label={showPwd ? 'Ocultar' : 'Mostrar'}>
+                                <button type="button" className="login-pwd-toggle" onClick={() => setShowPwd(p=>!p)} aria-label={showPwd?'Ocultar':'Mostrar'}>
                                     {showPwd ? <IconEyeOff /> : <IconEye />}
                                 </button>
                             </div>
                             {password && (
                                 <>
                                     <div className="reg-strength-bar-wrap">
-                                        {[1,2,3,4,5].map(n => (
-                                            <div key={n} className={`reg-strength-segment${n <= fuerza.nivel ? ' '+fuerza.clase : ''}`} />
-                                        ))}
+                                        {[1,2,3,4,5].map(n => <div key={n} className={`reg-strength-segment${n<=fuerza.nivel?' '+fuerza.clase:''}`} />)}
                                     </div>
                                     <p className="reg-strength-label">{fuerza.texto}</p>
                                 </>
@@ -439,52 +297,41 @@ function RegistroPage() {
                             {errors.password && <p className="reg-field-msg error"><IconAlert /> {errors.password}</p>}
                         </div>
 
+                        {/* Confirmar contraseña */}
                         <div className="reg-field-group">
                             <label className="reg-label" htmlFor="reg-confirmar">Confirmar Contraseña</label>
                             <div className="reg-input-wrap">
-                                <input id="reg-confirmar" type={showConfirm ? 'text' : 'password'}
-                                    className={`reg-input${
-                                        errors.confirmar ? ' input-error'
-                                        : confirmar && confirmar === password ? ' input-success' : ''}`}
-                                    placeholder="Repite tu contraseña" value={confirmar}
-                                    onChange={e => { setConfirmar(e.target.value); if (errors.confirmar) setErrors(p => ({...p, confirmar: ''})); }}
-                                    autoComplete="new-password" />
+                                <input id="reg-confirmar" type={showConfirm?'text':'password'}
+                                    className={`reg-input${errors.confirmar?' input-error':confirmar&&confirmar===password?' input-success':''}`}
+                                    placeholder="Repite tu contraseña" value={confirmar} autoComplete="new-password"
+                                    onChange={e => { setConfirmar(e.target.value); if(errors.confirmar) setErrors(p=>({...p,confirmar:''})); }} />
                                 <span className="reg-input-icon"><IconLock /></span>
-                                <button type="button" className="login-pwd-toggle"
-                                    onClick={() => setShowConfirm(p => !p)}
-                                    aria-label={showConfirm ? 'Ocultar' : 'Mostrar'}>
+                                <button type="button" className="login-pwd-toggle" onClick={() => setShowConfirm(p=>!p)} aria-label={showConfirm?'Ocultar':'Mostrar'}>
                                     {showConfirm ? <IconEyeOff /> : <IconEye />}
                                 </button>
                             </div>
                             {errors.confirmar && <p className="reg-field-msg error"><IconAlert /> {errors.confirmar}</p>}
-                            {!errors.confirmar && confirmar && confirmar === password && (
-                                <p className="reg-field-msg success"><IconCheck /> Las contraseñas coinciden</p>
-                            )}
+                            {!errors.confirmar && confirmar && confirmar===password && <p className="reg-field-msg success"><IconCheck /> Las contraseñas coinciden</p>}
                         </div>
 
-                        <div className={`reg-captcha-box${errors.captcha ? ' captcha-error' : ''}`}
-                             onClick={() => { setCaptchaOk(p => !p); if (errors.captcha) setErrors(p => ({...p, captcha: ''})); }}>
+                        {/* Captcha */}
+                        <div className={`reg-captcha-box${errors.captcha?' captcha-error':''}`}
+                            onClick={() => { setCaptchaOk(p=>!p); if(errors.captcha) setErrors(p=>({...p,captcha:''})); }}>
                             <input type="checkbox" id="reg-captcha" checked={captchaOk} onChange={() => {}} aria-label="No soy un robot" />
                             <label htmlFor="reg-captcha" className="reg-captcha-text">No soy un robot</label>
                             <span className="reg-captcha-logo">🤖</span>
                         </div>
                         {errors.captcha && <p className="reg-field-msg error"><IconAlert /> {errors.captcha}</p>}
 
+                        {/* Términos */}
                         <label className="reg-terms-label">
-                            <input type="checkbox" checked={terminos}
-                                onChange={e => { setTerminos(e.target.checked); if (errors.terminos) setErrors(p => ({...p, terminos: ''})); }} />
-                            Acepto los{' '}
-                            <a href="terminos.html" target="_blank" rel="noopener noreferrer">Términos y Condiciones</a>
-                            {' '}y la{' '}
-                            <a href="privacidad.html" target="_blank" rel="noopener noreferrer">Política de Privacidad</a>
+                            <input type="checkbox" checked={terminos} onChange={e => { setTerminos(e.target.checked); if(errors.terminos) setErrors(p=>({...p,terminos:''})); }} />
+                            Acepto los{' '}<a href="terminos.html" target="_blank" rel="noopener noreferrer">Términos y Condiciones</a>{' '}y la{' '}<a href="privacidad.html" target="_blank" rel="noopener noreferrer">Política de Privacidad</a>
                         </label>
                         {errors.terminos && <p className="reg-field-msg error"><IconAlert /> {errors.terminos}</p>}
 
                         <button type="submit" className="reg-btn-primary" disabled={loading}>
-                            {loading
-                                ? <><span className="reg-spinner"></span>Creando cuenta...</>
-                                : 'Crear Cuenta'
-                            }
+                            {loading ? <><span className="reg-spinner"></span>Creando cuenta...</> : 'Crear Cuenta'}
                         </button>
 
                     </form>
@@ -495,10 +342,7 @@ function RegistroPage() {
                         <div className="reg-separator-line"></div>
                     </div>
 
-                    <p className="reg-login-row">
-                        ¿Ya tienes cuenta?{' '}
-                        <a href="login.html">Inicia sesión aquí</a>
-                    </p>
+                    <p className="reg-login-row">¿Ya tienes cuenta?{' '}<a href="login.html">Inicia sesión aquí</a></p>
 
                     <div className="reg-security-badge">
                         <IconShield />

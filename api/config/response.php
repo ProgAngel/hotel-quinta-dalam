@@ -1,5 +1,5 @@
 <?php
-// ── Headers CORS ────────────────────────────────────────────
+// ── Headers CORS 
 function setCorsHeaders(): void {
     header('Content-Type: application/json; charset=utf-8');
     header('Access-Control-Allow-Origin: *');
@@ -13,21 +13,21 @@ function setCorsHeaders(): void {
     }
 }
 
-// ── Validar método HTTP ─────────────────────────────────────
+// ── Validar método HTTP 
 function soloMetodo(string $metodo): void {
     if ($_SERVER['REQUEST_METHOD'] !== strtoupper($metodo)) {
         responder(405, ['ok' => false, 'mensaje' => 'Método no permitido.']);
     }
 }
 
-// ── Responder JSON y terminar ejecución ─────────────────────
+// ── Responder JSON y terminar ejecución 
 function responder(int $codigo, array $datos): void {
     http_response_code($codigo);
     echo json_encode($datos, JSON_UNESCAPED_UNICODE);
     exit;
 }
 
-// ── Leer body JSON de la petición ───────────────────────────
+// ── Leer body JSON de la petición 
 function leerBody(): array {
     $raw  = file_get_contents('php://input');
     $body = json_decode($raw, true);
@@ -39,7 +39,7 @@ function leerBody(): array {
     return $body;
 }
 
-// ── Sanitizar string ────────────────────────────────────────
+// ── Sanitizar string
 function limpiar(string $valor): string {
     return htmlspecialchars(strip_tags(trim($valor)), ENT_QUOTES, 'UTF-8');
 }

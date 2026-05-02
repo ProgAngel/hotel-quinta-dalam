@@ -1,11 +1,11 @@
 (function () {
-    'use strict';
+  "use strict";
 
-    // ── Si ya se mostró en esta sesión, no hacer nada ──────────
-    if (sessionStorage.getItem('qdIntroVisto')) return;
+  // ── Si ya se mostró en esta sesión, no hacer nada
+  if (sessionStorage.getItem("qdIntroVisto")) return;
 
-    // ── SVG del logo incrustado ─────────────────────────────────
-    const LOGO_SVG = `
+  // ── SVG del logo incrustado
+  const LOGO_SVG = `
     <svg xmlns="http://www.w3.org/2000/svg" width="130" height="130"
          viewBox="0 0 300 300" role="img">
       <title>Hotel Quinta Dalam</title>
@@ -36,36 +36,39 @@
             fill="url(#gold-i)" opacity="0.85">QUINTA DALAM</text>
     </svg>`;
 
-    // ── Partículas de fondo ─────────────────────────────────────
-    function crearParticulas(contenedor) {
-        const cantidad = 18;
-        for (let i = 0; i < cantidad; i++) {
-            const p = document.createElement('span');
-            p.className = 'qd-particle';
-            const size   = Math.random() * 3 + 1.5;
-            const left   = Math.random() * 100;
-            const dur    = Math.random() * 6 + 5;
-            const delay  = Math.random() * 4;
-            const opac   = Math.random() * 0.25 + 0.1;
-            p.style.cssText = `
+  // ── Partículas de fondo
+  function crearParticulas(contenedor) {
+    const cantidad = 18;
+    for (let i = 0; i < cantidad; i++) {
+      const p = document.createElement("span");
+      p.className = "qd-particle";
+      const size = Math.random() * 3 + 1.5;
+      const left = Math.random() * 100;
+      const dur = Math.random() * 6 + 5;
+      const delay = Math.random() * 4;
+      const opac = Math.random() * 0.25 + 0.1;
+      p.style.cssText = `
                 width:${size}px; height:${size}px;
                 left:${left}%;
                 animation-duration:${dur}s;
                 animation-delay:-${delay}s;
                 opacity:${opac};
             `;
-            contenedor.appendChild(p);
-        }
+      contenedor.appendChild(p);
     }
+  }
 
-    // ── Construir el HTML del splash ────────────────────────────
-    function construirIntro() {
-        const wrap = document.createElement('div');
-        wrap.id = 'qd-intro';
-        wrap.setAttribute('role', 'dialog');
-        wrap.setAttribute('aria-label', 'Pantalla de bienvenida Hotel Quinta Dalam');
+  // ── Construir el HTML del splash
+  function construirIntro() {
+    const wrap = document.createElement("div");
+    wrap.id = "qd-intro";
+    wrap.setAttribute("role", "dialog");
+    wrap.setAttribute(
+      "aria-label",
+      "Pantalla de bienvenida Hotel Quinta Dalam",
+    );
 
-        wrap.innerHTML = `
+    wrap.innerHTML = `
             <div class="qd-particles" id="qd-particles-container"></div>
 
             <div class="qd-content">
@@ -103,62 +106,63 @@
             </div>
         `;
 
-        return wrap;
-    }
+    return wrap;
+  }
 
-    // ── Función para ocultar / desmontar el splash ──────────────
-    function cerrarIntro(overlay) {
-        // Marcar como visto para no mostrarlo de nuevo en esta sesión
-        sessionStorage.setItem('qdIntroVisto', '1');
+  // ── Función para ocultar / desmontar el splash
+  function cerrarIntro(overlay) {
+    // Marcar como visto para no mostrarlo de nuevo en esta sesión
+    sessionStorage.setItem("qdIntroVisto", "1");
 
-        // Fade out con CSS
-        overlay.classList.add('qd-hiding');
+    // Fade out con CSS
+    overlay.classList.add("qd-hiding");
 
-        // Remover del DOM después de la transición
-        overlay.addEventListener('transitionend', function handler() {
-            overlay.removeEventListener('transitionend', handler);
-            if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-            // Restaurar scroll del body
-            document.body.style.overflow = '';
-        });
-    }
+    // Remover del DOM después de la transición
+    overlay.addEventListener("transitionend", function handler() {
+      overlay.removeEventListener("transitionend", handler);
+      if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      // Restaurar scroll del body
+      document.body.style.overflow = "";
+    });
+  }
 
-    // ── Inicializar cuando el DOM esté listo ────────────────────
-    function init() {
-        // Bloquear scroll mientras el splash esté visible
-        document.body.style.overflow = 'hidden';
+  // ── Inicializar cuando el DOM esté listo
+  function init() {
+    // Bloquear scroll mientras el splash esté visible
+    document.body.style.overflow = "hidden";
 
-        // Crear e insertar el overlay
-        const overlay = construirIntro();
-        document.body.insertBefore(overlay, document.body.firstChild);
+    // Crear e insertar el overlay
+    const overlay = construirIntro();
+    document.body.insertBefore(overlay, document.body.firstChild);
 
-        // Agregar partículas
-        crearParticulas(document.getElementById('qd-particles-container'));
+    // Agregar partículas
+    crearParticulas(document.getElementById("qd-particles-container"));
 
-        // Botón Saltar
-        document.getElementById('qd-skip-btn').addEventListener('click', function () {
-            cerrarIntro(overlay);
-        });
+    // Botón Saltar
+    document
+      .getElementById("qd-skip-btn")
+      .addEventListener("click", function () {
+        cerrarIntro(overlay);
+      });
 
-        // Auto-cerrar después de 3.2 segundos
-        setTimeout(function () {
-            cerrarIntro(overlay);
-        }, 3200);
+    // Auto-cerrar después de 3.2 segundos
+    setTimeout(function () {
+      cerrarIntro(overlay);
+    }, 3200);
 
-        // Accesibilidad: cerrar con tecla Escape
-        document.addEventListener('keydown', function handler(e) {
-            if (e.key === 'Escape') {
-                document.removeEventListener('keydown', handler);
-                cerrarIntro(overlay);
-            }
-        });
-    }
+    // Accesibilidad: cerrar con tecla Escape
+    document.addEventListener("keydown", function handler(e) {
+      if (e.key === "Escape") {
+        document.removeEventListener("keydown", handler);
+        cerrarIntro(overlay);
+      }
+    });
+  }
 
-    // ── Ejecutar ────────────────────────────────────────────────
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
-
+  // ── Ejecutar
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();

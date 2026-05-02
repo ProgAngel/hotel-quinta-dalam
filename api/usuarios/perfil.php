@@ -6,7 +6,7 @@ setCorsHeaders();
 
 $metodo = $_SERVER['REQUEST_METHOD'];
 
-// ── GET: obtener perfil ─────────────────────────────────────
+// ── GET: obtener perfil 
 if ($metodo === 'GET') {
 
     if (empty($_GET['id']) || !is_numeric($_GET['id'])) {
@@ -47,7 +47,7 @@ if ($metodo === 'GET') {
     responder(200, ['ok' => true, 'usuario' => $usuario]);
 }
 
-// ── PUT: actualizar perfil ──────────────────────────────────
+// ── PUT: actualizar perfil
 if ($metodo === 'PUT') {
 
     $body = leerBody();
@@ -74,7 +74,7 @@ if ($metodo === 'PUT') {
     $params = [':id' => $id];
     $errores = [];
 
-    // ── Actualizar nombre ─────────────────────────────────
+    // ── Actualizar nombre 
     if (isset($body['nombre'])) {
         $nombre = limpiar($body['nombre']);
         if (mb_strlen($nombre) < 3) {
@@ -87,7 +87,7 @@ if ($metodo === 'PUT') {
         }
     }
 
-    // ── Actualizar teléfono ───────────────────────────────
+    // ── Actualizar teléfono 
     if (isset($body['telefono'])) {
         $telefono = limpiar($body['telefono']);
         if (!empty($telefono) && !preg_match('/^[0-9]{10}$/', $telefono)) {
@@ -98,7 +98,7 @@ if ($metodo === 'PUT') {
         }
     }
 
-    // ── Cambiar contraseña ────────────────────────────────
+    // ── Cambiar contraseña 
     if (isset($body['contrasena_nueva'])) {
         $actual = trim($body['contrasena_actual'] ?? '');
         $nueva  = trim($body['contrasena_nueva']);
@@ -129,7 +129,7 @@ if ($metodo === 'PUT') {
         responder(400, ['ok' => false, 'mensaje' => 'No hay campos para actualizar.']);
     }
 
-    // ── Ejecutar UPDATE ───────────────────────────────────
+    // ── Ejecutar UPDATE 
     $sql = 'UPDATE usuarios SET ' . implode(', ', $campos) . ' WHERE id = :id';
     $pdo->prepare($sql)->execute($params);
 

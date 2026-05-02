@@ -1,13 +1,4 @@
 <?php
-// ============================================================
-//  api/reservaciones/confirmar.php — Hotel Quinta Dalam
-//  Confirma el pago en efectivo de una reservación pendiente.
-//  Solo accesible para admin y recepcionista.
-//
-//  Método: POST
-//  Body:   { "reservacion_id": 1, "metodo": "efectivo" }
-// ============================================================
-
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/response.php';
 
@@ -16,7 +7,7 @@ soloMetodo('POST');
 
 session_start();
 
-// ── RBAC ─────────────────────────────────────────────────────
+// ── RBAC 
 $rol = $_SESSION['rol'] ?? '';
 if (!in_array($rol, ['admin', 'recepcionista'], true)) {
     responder(403, ['ok' => false, 'mensaje' => 'Acceso restringido.']);
@@ -55,7 +46,7 @@ if (in_array($reservacion['estado'], ['cancelada', 'completada'], true)) {
     responder(409, ['ok' => false, 'mensaje' => 'No se puede confirmar una reservación ' . $reservacion['estado'] . '.']);
 }
 
-// ── Transacción: confirmar reserva + registrar pago ──────────
+// ── Transacción: confirmar reserva + registrar pago 
 try {
     $pdo->beginTransaction();
 
@@ -64,18 +55,20 @@ try {
         'UPDATE reservaciones SET estado = "confirmada" WHERE id = :id'
     )->execute([':id' => $reservacionId]);
 
-    // 2. Registrar el pago en tabla pagos
+   // 2. Registrar el pago en tabla pagos
     $pdo->prepare(
         'INSERT INTO pagos (reservacion_id, metodo, monto, estado, referencia)
          VALUES (:rid, :metodo, :monto, "completado", :ref)
-         ON DUPLICATE KEY UPDATE estado = "completado", metodo = :metodo'
+         ON DUPLICATE KEY UPDATE 
+            estado = "completado", 
+            metodo = :metodo_upd' 
     )->execute([
-        ':rid'    => $reservacionId,
-        ':metodo' => $metodo,
-        ':monto'  => $reservacion['total'],
-        ':ref'    => 'DASH-' . strtoupper($metodo) . '-' . date('YmdHis'),
+        ':rid'        => $reservacionId,
+        ':metodo'     => $metodo,
+        ':monto'      => $reservacion['total'],
+        ':ref'        => 'DASH-' . strtoupper($metodo) . '-' . date('YmdHis'),
+        ':metodo_upd' => $metodo  
     ]);
-
     // 3. La habitación ya está ocupada — no se toca
     // (permanece ocupada porque la reserva está confirmada)
 

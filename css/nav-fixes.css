@@ -1,114 +1,101 @@
-/* ============================================================
-   nav-fixes.css — Hotel Quinta Dalam
-   Agrega este archivo a TODOS los HTML que tengan nav.
-
-   Fixes incluidos:
-   1. Sombra/borde tenue en el nav (todas las páginas)
-   2. Botón "← Volver al inicio" restaurado con flecha y hover
-   3. Hamburguesa visible en móvil para contacto.html
-   ============================================================ */
-
-/* ── 1. NAV — borde inferior tenue + sombra suave ─────────── */
 /* Se aplica al <nav> estándar de todas las páginas */
 nav {
-    border-bottom: 1px solid rgba(140, 90, 53, 0.12);
-    box-shadow: 0 2px 12px rgba(26, 13, 6, 0.07);
+  border-bottom: 1px solid rgba(140, 90, 53, 0.12);
+  box-shadow: 0 2px 12px rgba(26, 13, 6, 0.07);
 }
 
 /* Nav-minimal (login y registro) */
 .nav-minimal {
-    border-bottom: 1px solid rgba(140, 90, 53, 0.12);
-    box-shadow: 0 2px 12px rgba(26, 13, 6, 0.07);
+  border-bottom: 1px solid rgba(140, 90, 53, 0.12);
+  box-shadow: 0 2px 12px rgba(26, 13, 6, 0.07);
 }
 
-/* ── 2. BOTÓN "← Volver al inicio" ────────────────────────── */
 /* Restaura la flecha y la animación hover que se perdió */
 .btn-volver-inicio {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: #8c5a35;
-    text-decoration: none;
-    font-family: 'Lato', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    padding: 8px 16px;
-    border-radius: 8px;
-    border: 1.5px solid rgba(140, 90, 53, 0.25);
-    background: rgba(140, 90, 53, 0.04);
-    transition: all 0.25s ease;
-    white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #8c5a35;
+  text-decoration: none;
+  font-family: "Lato", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(140, 90, 53, 0.25);
+  background: rgba(140, 90, 53, 0.04);
+  transition: all 0.25s ease;
+  white-space: nowrap;
 }
 
 .btn-volver-inicio::before {
-    content: '←';
-    font-size: 1rem;
-    transition: transform 0.25s ease;
-    display: inline-block;
+  content: "←";
+  font-size: 1rem;
+  transition: transform 0.25s ease;
+  display: inline-block;
 }
 
 .btn-volver-inicio:hover {
-    background: rgba(140, 90, 53, 0.1);
-    border-color: rgba(140, 90, 53, 0.5);
-    color: #6b3a1f;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(140, 90, 53, 0.15);
+  background: rgba(140, 90, 53, 0.1);
+  border-color: rgba(140, 90, 53, 0.5);
+  color: #6b3a1f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(140, 90, 53, 0.15);
 }
 
 .btn-volver-inicio:hover::before {
-    transform: translateX(-4px);
+  transform: translateX(-4px);
 }
 
-/* ── 3. HAMBURGUESA — visible en contacto.html móvil ──────── */
 /* Asegura que el botón hamburguesa aparezca en pantallas pequeñas */
 @media (max-width: 768px) {
-    .nav-hamburger {
-        display: flex !important;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 5px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 8px;
-        z-index: 1001;
-    }
+  .nav-hamburger {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+  }
 
-    .nav-ham-line {
-        display: block !important;
-        width: 24px;
-        height: 2px;
-        background: #1a0d06;
-        border-radius: 2px;
-        transition: all 0.3s ease;
-    }
+  .nav-ham-line {
+    display: block !important;
+    width: 24px;
+    height: 2px;
+    background: #1a0d06;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
 
-    /* Ocultar links del nav en móvil hasta que se abra */
-    nav .nav-links {
-        display: none;
-    }
+  /* Ocultar links del nav en móvil hasta que se abra */
+  nav .nav-links {
+    display: none;
+  }
 
-    nav .nav-links.nav-open {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background: #1a0d06;
-        z-index: 1000;
-        justify-content: center;
-        align-items: center;
-        gap: 28px;
-    }
+  nav .nav-links.nav-open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #1a0d06;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+  }
 }
 
-/* En escritorio ocultar la hamburguesa */
+/* En escritorio ocultar nav movil */
 @media (min-width: 769px) {
-    .nav-hamburger {
-        display: none !important;
-    }
+  .nav-hamburger {
+    display: none !important;
+  }
 }
