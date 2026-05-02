@@ -20,6 +20,40 @@ soloMetodo('GET');
 
 $pdo = getPDO();
 
+// ── RECOLECTOR DE BASURA — Limpieza pasiva ───────────────────
+// Cada vez que alguien consulta el catálogo, liberamos las
+// habitaciones cuyas reservaciones pendientes llevan más de
+// 15 minutos sin confirmarse (usuario abandonó el pago).
+try {
+    $pdo->beginTransaction();
+
+    // Paso 1: Cancelar reservaciones pendientes > 15 minutos
+    $pdo->prepare(
+        'UPDATE reservaciones
+         SET estado = "cancelada"
+         WHERE estado = "pendiente"
+           AND created_at < NOW() - INTERVAL 15 MINUTE'
+    )->execute();
+
+    // Paso 2: Liberar habitaciones sin reserva activa
+    $pdo->prepare(
+        'UPDATE habitaciones h
+         SET h.estado = "disponible"
+         WHERE h.estado = "ocupada"
+           AND NOT EXISTS (
+               SELECT 1 FROM reservaciones r
+               WHERE r.habitacion_id = h.id
+                 AND r.estado IN ("pendiente", "confirmada", "activa")
+           )'
+    )->execute();
+
+    $pdo->commit();
+} catch (Exception $e) {
+    if ($pdo->inTransaction()) $pdo->rollBack();
+    error_log('Limpieza pasiva error: ' . $e->getMessage());
+}
+// ── Fin recolector
+
 $where  = [];
 $params = [];
 
