@@ -1,4 +1,17 @@
 <?php
+// ============================================================
+//  api/reservaciones/listar.php — Hotel Quinta Dalam
+//  Lista reservaciones con datos del huésped y habitación.
+//
+//  Método: GET
+//  Params: ?usuario_id=N  (opcional — filtra por usuario)
+//          ?estado=...    (opcional)
+//
+//  LEFT JOIN en usuarios: incluye reservaciones manuales donde
+//  usuario_id puede ser NULL (huésped anónimo de recepción).
+//  COALESCE: usuario registrado → huesped_nombre → "Huésped"
+// ============================================================
+
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/response.php';
 
@@ -10,23 +23,20 @@ $pdo = getPDO();
 $where  = [];
 $params = [];
 
-// ── Filtro por usuario ──────────────────────────────────────
 if (!empty($_GET['usuario_id']) && is_numeric($_GET['usuario_id'])) {
-    $where[]              = 'r.usuario_id = :usuario_id';
+    $where[]               = 'r.usuario_id = :usuario_id';
     $params[':usuario_id'] = (int) $_GET['usuario_id'];
 }
 
-// ── Filtro por estado ───────────────────────────────────────
 $estadosValidos = ['pendiente', 'confirmada', 'activa', 'completada', 'cancelada'];
 if (!empty($_GET['estado'])) {
     $estado = limpiar($_GET['estado']);
     if (in_array($estado, $estadosValidos, true)) {
-        $where[]          = 'r.estado = :estado';
+        $where[]           = 'r.estado = :estado';
         $params[':estado'] = $estado;
     }
 }
 
-// Si no hay filtros específicos se devuelven todas (futuro: verificar rol admin)
 $sql = 'SELECT
             r.id,
             r.codigo,
@@ -38,13 +48,13 @@ $sql = 'SELECT
             r.estado,
             r.notas,
             r.created_at,
-            u.nombre   AS huesped_nombre,
-            u.correo   AS huesped_correo,
-            h.numero   AS habitacion_numero,
-            h.nombre   AS habitacion_nombre,
-            h.tipo     AS habitacion_tipo
+            COALESCE(u.nombre, r.huesped_nombre, "Huésped") AS huesped_nombre,
+            u.correo                                         AS huesped_correo,
+            h.numero                                         AS habitacion_numero,
+            h.nombre                                         AS habitacion_nombre,
+            h.tipo                                           AS habitacion_tipo
         FROM reservaciones r
-        INNER JOIN usuarios    u ON u.id = r.usuario_id
+        LEFT JOIN  usuarios     u ON u.id = r.usuario_id
         INNER JOIN habitaciones h ON h.id = r.habitacion_id';
 
 if (!empty($where)) {
@@ -57,17 +67,14 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $reservaciones = $stmt->fetchAll();
 
-// ── Formatear tipos ─────────────────────────────────────────
 foreach ($reservaciones as &$r) {
-    $r['id']           = (int)   $r['id'];
-    $r['num_huespedes'] = (int)  $r['num_huespedes'];
-    $r['precio_noche'] = (float) $r['precio_noche'];
-    $r['total']        = (float) $r['total'];
-
-    // Calcular número de noches
-    $entrada = new DateTime($r['fecha_entrada']);
-    $salida  = new DateTime($r['fecha_salida']);
-    $r['noches'] = (int) $entrada->diff($salida)->days;
+    $r['id']            = (int)   $r['id'];
+    $r['num_huespedes'] = (int)   $r['num_huespedes'];
+    $r['precio_noche']  = (float) $r['precio_noche'];
+    $r['total']         = (float) $r['total'];
+    $entrada            = new DateTime($r['fecha_entrada']);
+    $salida             = new DateTime($r['fecha_salida']);
+    $r['noches']        = (int) $entrada->diff($salida)->days;
 }
 unset($r);
 
