@@ -1,20 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Reservaciones | Hotel Quinta Dalam</title>
-    <link rel="stylesheet" href="./css/styles.css">
-    <link rel="stylesheet" href="./css/reservaciones.css">
-    <link rel="icon" type="image/svg+xml" href="./img/logo/logo-quinta-dalam-dark.svg">
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/reservaciones.css" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="./img/logo/logo-quinta-dalam-dark.svg"
+    />
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-</head>
-<body>
+    <script src="./js/babel-loader.js"></script>
+  </head>
+  <body>
     <header>
-        <nav>
-             <a href="index.html" class="Logo">
+      <nav>
+        <a href="index.html" class="Logo">
           <div class="Logo-icon">
             <img
               src="./img/logo/logo-quinta-dalam-dark.svg"
@@ -26,84 +37,113 @@
             <span>Michoacán · México</span>
           </div>
         </a>
-            <button class="nav-hamburger" id="nav-ham-btn"
-             aria-label="Abrir menú" aria-expanded="false">
-             <span class="nav-ham-line"></span>
-             <span class="nav-ham-line"></span>
-             <span class="nav-ham-line"></span>
-             </button>
-            <ul class="nav-links">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="nosotros.html">Nosotros</a></li>
-                <li><a href="catalogo.html">Habitaciones</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-                <li><a href="reservaciones.html" class="active">Reservar</a></li>
+        <button
+          class="nav-hamburger"
+          id="nav-ham-btn"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+        >
+          <span class="nav-ham-line"></span>
+          <span class="nav-ham-line"></span>
+          <span class="nav-ham-line"></span>
+        </button>
+        <ul class="nav-links">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="catalogo.html">Habitaciones</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="reservaciones.html" class="active">Reservar</a></li>
+        </ul>
+        <div class="nav-actions">
+          <div class="dropdown">
+            <a href="#" class="dropbtn">Idioma 🌐</a>
+            <ul class="dropdown-menu">
+              <li><a href="reservaciones.html">Español</a></li>
+              <li><a href="reservaciones-en.html">English</a></li>
             </ul>
-            <div class="nav-actions">
-                <div class="dropdown">
-                    <a href="#" class="dropbtn">Idioma 🌐</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="reservaciones.html">Español</a></li>
-                        <li><a href="reservaciones-en.html">English</a></li>
-                    </ul>
-                </div>
-                <div id="nav-auth-slot"></div>
-            </div>
-        </nav>
+          </div>
+          <div id="nav-auth-slot"></div>
+        </div>
+      </nav>
     </header>
     <div class="nav-mobile-overlay" id="nav-overlay"></div>
     <main>
-        <section class="page-header bg-contacto">
-            <h1>Reserva tu Estancia</h1>
-            <p>Selecciona tus fechas y encuentra la habitación perfecta en Michoacán.</p>
-        </section>
+      <section class="page-header bg-contacto">
+        <h1>Reserva tu Estancia</h1>
+        <p>
+          Selecciona tus fechas y encuentra la habitación perfecta en Michoacán.
+        </p>
+      </section>
 
-        <div id="root-reservaciones"></div>
+      <div id="root-reservaciones"></div>
     </main>
 
     <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-column brand-col">
-                <h1>Hotel Quinta-Dalam</h1>
-                <p>Tu refugio temático en el corazón de Michoacán. Vive la cultura, el confort y la tradición en cada estancia.</p>
-            </div>
-            <div class="footer-column links-col">
-                <h1>Enlaces Rápidos</h1>
-                <ul>
-                    <li><a href="index.html">Inicio</a></li>
-                    <li><a href="nosotros.html">Nosotros</a></li>
-                    <li><a href="catalogo.html">Habitaciones</a></li>
-                    <li><a href="contacto.html">Contacto</a></li>
-                    <li><a href="reservaciones.html">Reservar</a></li>
-                </ul>
-            </div>
-            <div class="footer-column contact-col">
-                <h1>Contáctanos</h1>
-                <p>📍 Michoacán, México</p>
-                <p>📞 +52 (443) 000-0000</p>
-                <p>✉️ reservaciones@quintadalam.com</p>
-            </div>
+      <div class="footer-container">
+        <div class="footer-column brand-col">
+          <h1>Hotel Quinta-Dalam</h1>
+          <p>
+            Tu refugio temático en el corazón de Michoacán. Vive la cultura, el
+            confort y la tradición en cada estancia.
+          </p>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Hotel Quinta-Dalam. Todos los derechos reservados.</p>
-            <div class="w3c-badges">
-                <a href="https://validator.w3.org/nu/?doc=https://progangel.github.io/hotel-quinta-dalam/" target="_blank">
-                    <img src="https://www.w3.org/html/logo/badge/html5-badge-h-solo.png" width="45" height="45" alt="HTML5 Válido" title="Código HTML5 Válido">
-                </a>
-                <a href="https://jigsaw.w3.org/css-validator/validator?lang=es&profile=css3svg&uri=https%3A%2F%2Fprogangel.github.io%2Fhotel-quinta-dalam%2Fnosotros.html&usermedium=all&vextwarning=&warning=1">
-                    <img class="vcss-badge" src="https://jigsaw.w3.org/css-validator/images/vcss" alt="¡CSS Válido!">
-                </a>
-            </div>
+        <div class="footer-column links-col">
+          <h1>Enlaces Rápidos</h1>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="catalogo.html">Habitaciones</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="reservaciones.html">Reservar</a></li>
+          </ul>
         </div>
+        <div class="footer-column contact-col">
+          <h1>Contáctanos</h1>
+          <p>📍 Michoacán, México</p>
+          <p>📞 +52 (443) 000-0000</p>
+          <p>✉️ reservaciones@quintadalam.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Hotel Quinta-Dalam. Todos los derechos reservados.</p>
+        <div class="w3c-badges">
+          <a
+            href="https://validator.w3.org/nu/?doc=https://progangel.github.io/hotel-quinta-dalam/"
+            target="_blank"
+          >
+            <img
+              src="https://www.w3.org/html/logo/badge/html5-badge-h-solo.png"
+              width="45"
+              height="45"
+              alt="HTML5 Válido"
+              title="Código HTML5 Válido"
+            />
+          </a>
+          <a
+            href="https://jigsaw.w3.org/css-validator/validator?lang=es&profile=css3svg&uri=https%3A%2F%2Fprogangel.github.io%2Fhotel-quinta-dalam%2Fnosotros.html&usermedium=all&vextwarning=&warning=1"
+          >
+            <img
+              class="vcss-badge"
+              src="https://jigsaw.w3.org/css-validator/images/vcss"
+              alt="¡CSS Válido!"
+            />
+          </a>
+        </div>
+      </div>
     </footer>
 
     <script src="./js/session.js"></script>
     <script src="./js/nav-auth.js"></script>
     <script src="./js/mobile-nav.js"></script>
-    <script type="text/babel" src="./js/reservaciones.js"></script>
-    
     <script>
-        QDSession.guardarPagina('', 'Para reservar una habitación, inicia sesión o crea una cuenta primero.');
+      loadJSX("./js/reservaciones.js");
     </script>
-</body>
+
+    <script>
+      QDSession.guardarPagina(
+        "",
+        "Para reservar una habitación, inicia sesión o crea una cuenta primero.",
+      );
+    </script>
+  </body>
 </html>

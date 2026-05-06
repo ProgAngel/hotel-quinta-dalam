@@ -1,37 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mi Perfil | Hotel Quinta Dalam</title>
-    <link rel="stylesheet" href="./css/styles.css">
-    <link rel="stylesheet" href="./css/perfil.css">
-    <link rel="icon" type="image/svg+xml" href="./img/logo/logo-quinta-dalam-dark.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/perfil.css" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="./img/logo/logo-quinta-dalam-dark.svg"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
 
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-</head>
-<body style="background-color: #f4f1ea; margin: 0; padding: 0;">
-
+    <script src="./js/babel-loader.js"></script>
+  </head>
+  <body style="background-color: #f4f1ea; margin: 0; padding: 0">
     <!-- Guard: redirige si no hay sesion activa -->
     <script>
-        (function () {
-            try {
-                const s = JSON.parse(sessionStorage.getItem('qdSession') || 'null');
-                if (!s) { window.location.href = 'login.html'; }
-            } catch (e) {
-                window.location.href = 'login.html';
-            }
-        })();
+      (function () {
+        try {
+          const s = JSON.parse(sessionStorage.getItem("qdSession") || "null");
+          if (!s) {
+            window.location.href = "login.html";
+          }
+        } catch (e) {
+          window.location.href = "login.html";
+        }
+      })();
     </script>
 
     <header>
-        <nav>
-             <a href="index.html" class="Logo">
+      <nav>
+        <a href="index.html" class="Logo">
           <div class="Logo-icon">
             <img
               src="./img/logo/logo-quinta-dalam-dark.svg"
@@ -43,71 +58,102 @@
             <span>Michoacán · México</span>
           </div>
         </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="nosotros.html">Nosotros</a></li>
-                <li><a href="catalogo.html">Habitaciones</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-                <li><a href="reservaciones.html">Reservar</a></li>
+        <ul class="nav-links">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="catalogo.html">Habitaciones</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="reservaciones.html">Reservar</a></li>
+        </ul>
+        <div class="nav-actions">
+          <div class="dropdown">
+            <a href="#" class="dropbtn">Idioma 🌐</a>
+            <ul class="dropdown-menu">
+              <li><a href="perfil.html">Español</a></li>
+              <li><a href="perfil-en.html">English</a></li>
             </ul>
-            <div class="nav-actions">
-                <div class="dropdown">
-                    <a href="#" class="dropbtn">Idioma 🌐</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="perfil.html">Español</a></li>
-                        <li><a href="perfil-en.html">English</a></li>
-                    </ul>
-                </div>
-                <div id="nav-auth-slot"></div>
-            </div>
-        </nav>
+          </div>
+          <div id="nav-auth-slot"></div>
+        </div>
+      </nav>
     </header>
 
     <main>
-        <div id="root-perfil"></div>
+      <div id="root-perfil"></div>
     </main>
 
     <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-column brand-col">
-                <h1>Hotel Quinta-Dalam</h1>
-                <p>Tu refugio temático en el corazón de Michoacán. Vive la cultura, el confort y la tradición en cada estancia.</p>
-            </div>
-            <div class="footer-column links-col">
-                <h1>Enlaces Rápidos</h1>
-                <ul>
-                    <li><a href="index.html">Inicio</a></li>
-                    <li><a href="nosotros.html">Nosotros</a></li>
-                    <li><a href="catalogo.html">Habitaciones</a></li>
-                    <li><a href="contacto.html">Contacto</a></li>
-                    <li><a href="reservaciones.html">Reservar</a></li>
-                </ul>
-            </div>
-            <div class="footer-column contact-col">
-                <h1>Contáctanos</h1>
-                <p>📍 Michoacán, México</p>
-                <p>📞 +52 (443) 000-0000</p>
-                <p>✉️ reservaciones@quintadalam.com</p>
-            </div>
+      <div class="footer-container">
+        <div class="footer-column brand-col">
+          <h1>Hotel Quinta-Dalam</h1>
+          <p>
+            Tu refugio temático en el corazón de Michoacán. Vive la cultura, el
+            confort y la tradición en cada estancia.
+          </p>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Hotel Quinta-Dalam. Todos los derechos reservados.</p>
-            <div class="w3c-badges" style="margin-top: 15px; display: flex; justify-content: center; gap: 15px; align-items: center;">
-                <a href="https://validator.w3.org/nu/?doc=https://progangel.github.io/hotel-quinta-dalam/" target="_blank">
-                    <img src="https://www.w3.org/html/logo/badge/html5-badge-h-solo.png" width="45" height="45" alt="HTML5 Válido" title="Código HTML5 Válido">
-                </a>
-                <a href="https://jigsaw.w3.org/css-validator/validator?lang=es&profile=css3svg&uri=https%3A%2F%2Fprogangel.github.io%2Fhotel-quinta-dalam%2Fnosotros.html&usermedium=all&vextwarning=&warning=1">
-                    <img style="border:0;width:88px;height:31px" src="https://jigsaw.w3.org/css-validator/images/vcss" alt="¡CSS Válido!" />
-                </a>
-            </div>
+        <div class="footer-column links-col">
+          <h1>Enlaces Rápidos</h1>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="catalogo.html">Habitaciones</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="reservaciones.html">Reservar</a></li>
+          </ul>
         </div>
+        <div class="footer-column contact-col">
+          <h1>Contáctanos</h1>
+          <p>📍 Michoacán, México</p>
+          <p>📞 +52 (443) 000-0000</p>
+          <p>✉️ reservaciones@quintadalam.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Hotel Quinta-Dalam. Todos los derechos reservados.</p>
+        <div
+          class="w3c-badges"
+          style="
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            align-items: center;
+          "
+        >
+          <a
+            href="https://validator.w3.org/nu/?doc=https://progangel.github.io/hotel-quinta-dalam/"
+            target="_blank"
+          >
+            <img
+              src="https://www.w3.org/html/logo/badge/html5-badge-h-solo.png"
+              width="45"
+              height="45"
+              alt="HTML5 Válido"
+              title="Código HTML5 Válido"
+            />
+          </a>
+          <a
+            href="https://jigsaw.w3.org/css-validator/validator?lang=es&profile=css3svg&uri=https%3A%2F%2Fprogangel.github.io%2Fhotel-quinta-dalam%2Fnosotros.html&usermedium=all&vextwarning=&warning=1"
+          >
+            <img
+              style="border: 0; width: 88px; height: 31px"
+              src="https://jigsaw.w3.org/css-validator/images/vcss"
+              alt="¡CSS Válido!"
+            />
+          </a>
+        </div>
+      </div>
     </footer>
 
     <script src="./js/session.js"></script>
     <script src="./js/nav-auth.js"></script>
     <script src="./js/mobile-nav.js"></script>
-    <script type="text/babel" src="./js/perfil.js"></script>
+    <script>
+      loadJSX("./js/perfil.js");
+    </script>
 
-    <script>QDSession.guardarPagina('', 'Inicia sesión para ver tu perfil.');</script>
-</body>
+    <script>
+      QDSession.guardarPagina("", "Inicia sesión para ver tu perfil.");
+    </script>
+  </body>
 </html>
