@@ -5,7 +5,7 @@
   var AVISO_MS = 18 * 60 * 1000;
   var CLAVE_SESION = "qdSession";
   var CLAVE_ULTIMA = "qdLastActivity";
-  var API_VALIDATE = "/Hotel-quinta-dalam/api/auth/validate.php";
+  var API_VALIDATE = window.QD_CONFIG.API_BASE + "/auth/validate.php";
 
   var timerExpiracion, timerAviso;
   var avisoVisible = false;

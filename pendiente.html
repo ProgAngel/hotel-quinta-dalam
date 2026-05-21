@@ -1,69 +1,191 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pago Pendiente | Hotel Quinta Dalam</title>
-    <link rel="stylesheet" href="./css/styles.css">
-    <link rel="icon" type="image/svg+xml" href="./img/logo/logo-quinta-dalam-dark.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="./img/logo/logo-quinta-dalam-dark.svg"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700&family=Lato:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="./js/config.js"></script>
     <style>
-        .pago-resultado-page { min-height:80vh; display:flex; align-items:center; justify-content:center; padding:40px 20px; }
-        .pago-resultado-card { background:#fff; border-radius:24px; padding:60px 50px; text-align:center; max-width:520px; width:100%; box-shadow:0 20px 60px rgba(0,0,0,0.12); animation:cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1); }
-        @keyframes cardIn { from{opacity:0;transform:scale(0.88) translateY(20px);}to{opacity:1;transform:scale(1) translateY(0);} }
-        .pago-icono-wrap { width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#fff3cd,#ffeaa7);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;font-size:2.8rem;box-shadow:0 8px 24px rgba(243,156,18,0.15); }
-        .pago-titulo { font-family:'Playfair Display',Georgia,serif;font-size:2rem;font-weight:700;color:#2d1a0e;margin-bottom:14px; }
-        .pago-subtitulo { font-family:'Lato',sans-serif;font-size:1rem;color:#666;line-height:1.7;margin-bottom:24px; }
-        .pago-codigo { display:inline-block;background:#fff3cd;border:1px solid #ffc107;border-radius:10px;padding:10px 24px;font-family:'Lato',sans-serif;font-weight:700;font-size:1.1rem;color:#856404;letter-spacing:1.5px;margin-bottom:24px; }
-        .pago-aviso { background:#f0faf2;border:1px solid #a8ddb5;border-radius:10px;padding:14px 18px;font-family:'Lato',sans-serif;font-size:0.85rem;color:#1a5c2e;line-height:1.6;margin-bottom:28px;text-align:left; }
-        .pago-acciones { display:flex;gap:12px;justify-content:center;flex-wrap:wrap; }
-        .btn-pago-primario { background:linear-gradient(135deg,#8c5a35,#6b3a1f);color:#fff;text-decoration:none;border:none;border-radius:10px;padding:13px 28px;font-family:'Lato',sans-serif;font-weight:700;font-size:0.92rem;cursor:pointer;box-shadow:0 4px 14px rgba(140,90,53,0.3);transition:all 0.25s ease; }
-        .btn-pago-secundario { background:none;color:#8c5a35;border:1.5px solid #8c5a35;border-radius:10px;padding:13px 28px;font-family:'Lato',sans-serif;font-weight:700;font-size:0.92rem;cursor:pointer;text-decoration:none;transition:all 0.25s ease; }
-        @media(max-width:500px){ .pago-resultado-card{padding:44px 28px;} .pago-acciones{flex-direction:column;} }
+      .pago-resultado-page {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+      }
+      .pago-resultado-card {
+        background: #fff;
+        border-radius: 24px;
+        padding: 60px 50px;
+        text-align: center;
+        max-width: 520px;
+        width: 100%;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+        animation: cardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      @keyframes cardIn {
+        from {
+          opacity: 0;
+          transform: scale(0.88) translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+      .pago-icono-wrap {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 28px;
+        font-size: 2.8rem;
+        box-shadow: 0 8px 24px rgba(243, 156, 18, 0.15);
+      }
+      .pago-titulo {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2d1a0e;
+        margin-bottom: 14px;
+      }
+      .pago-subtitulo {
+        font-family: "Lato", sans-serif;
+        font-size: 1rem;
+        color: #666;
+        line-height: 1.7;
+        margin-bottom: 24px;
+      }
+      .pago-codigo {
+        display: inline-block;
+        background: #fff3cd;
+        border: 1px solid #ffc107;
+        border-radius: 10px;
+        padding: 10px 24px;
+        font-family: "Lato", sans-serif;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #856404;
+        letter-spacing: 1.5px;
+        margin-bottom: 24px;
+      }
+      .pago-aviso {
+        background: #f0faf2;
+        border: 1px solid #a8ddb5;
+        border-radius: 10px;
+        padding: 14px 18px;
+        font-family: "Lato", sans-serif;
+        font-size: 0.85rem;
+        color: #1a5c2e;
+        line-height: 1.6;
+        margin-bottom: 28px;
+        text-align: left;
+      }
+      .pago-acciones {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .btn-pago-primario {
+        background: linear-gradient(135deg, #8c5a35, #6b3a1f);
+        color: #fff;
+        text-decoration: none;
+        border: none;
+        border-radius: 10px;
+        padding: 13px 28px;
+        font-family: "Lato", sans-serif;
+        font-weight: 700;
+        font-size: 0.92rem;
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(140, 90, 53, 0.3);
+        transition: all 0.25s ease;
+      }
+      .btn-pago-secundario {
+        background: none;
+        color: #8c5a35;
+        border: 1.5px solid #8c5a35;
+        border-radius: 10px;
+        padding: 13px 28px;
+        font-family: "Lato", sans-serif;
+        font-weight: 700;
+        font-size: 0.92rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.25s ease;
+      }
+      @media (max-width: 500px) {
+        .pago-resultado-card {
+          padding: 44px 28px;
+        }
+        .pago-acciones {
+          flex-direction: column;
+        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <nav class="nav-minimal">
-            <a href="index.html" class="Logo">
-                <div class="Logo-icon"><img src="./img/logo/logo-quinta-dalam-dark.svg" alt="Logo"></div>
-                <div class="Logo-text"><strong>Hotel Quinta Dalam</strong><span>Michoacán · México</span></div>
-            </a>
-        </nav>
+      <nav class="nav-minimal">
+        <a href="index.html" class="Logo">
+          <div class="Logo-icon">
+            <img src="./img/logo/logo-quinta-dalam-dark.svg" alt="Logo" />
+          </div>
+          <div class="Logo-text">
+            <strong>Hotel Quinta Dalam</strong><span>Michoacán · México</span>
+          </div>
+        </a>
+      </nav>
     </header>
     <main>
-        <div class="pago-resultado-page">
-            <div class="pago-resultado-card">
-                <div class="pago-icono-wrap">⏳</div>
-                <h1 class="pago-titulo">Pago Pendiente</h1>
-                <p class="pago-subtitulo">
-                    Tu pago está siendo procesado. Si elegiste pagar en OXXO o
-                    por transferencia bancaria, tienes hasta <strong>72 horas</strong>
-                    para completarlo.
-                </p>
-                <div class="pago-codigo" id="codigo-reservacion">Cargando...</div>
-                <div class="pago-aviso">
-                    ✅ <strong>¿Qué pasa después?</strong><br>
-                    Una vez que confirmes tu pago, Mercado Pago nos notificará
-                    automáticamente y tu reservación cambiará a <strong>"Confirmada"</strong>.
-                    Puedes revisarlo en <em>Mis Reservaciones</em>.
-                </div>
-                <div class="pago-acciones">
-                    <a href="perfil.html#mis-reservaciones" class="btn-pago-primario">📋 Mis Reservaciones</a>
-                    <a href="index.html" class="btn-pago-secundario">🏠 Ir al Inicio</a>
-                </div>
-            </div>
+      <div class="pago-resultado-page">
+        <div class="pago-resultado-card">
+          <div class="pago-icono-wrap">⏳</div>
+          <h1 class="pago-titulo">Pago Pendiente</h1>
+          <p class="pago-subtitulo">
+            Tu pago está siendo procesado. Si elegiste pagar en OXXO o por
+            transferencia bancaria, tienes hasta <strong>72 horas</strong>
+            para completarlo.
+          </p>
+          <div class="pago-codigo" id="codigo-reservacion">Cargando...</div>
+          <div class="pago-aviso">
+            ✅ <strong>¿Qué pasa después?</strong><br />
+            Una vez que confirmes tu pago, Mercado Pago nos notificará
+            automáticamente y tu reservación cambiará a
+            <strong>"Confirmada"</strong>. Puedes revisarlo en
+            <em>Mis Reservaciones</em>.
+          </div>
+          <div class="pago-acciones">
+            <a href="perfil.html#mis-reservaciones" class="btn-pago-primario"
+              >📋 Mis Reservaciones</a
+            >
+            <a href="index.html" class="btn-pago-secundario">🏠 Ir al Inicio</a>
+          </div>
         </div>
+      </div>
     </main>
     <script src="./js/session.js"></script>
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const codigo = params.get('reservacion');
-        const el     = document.getElementById('codigo-reservacion');
-        if (codigo && el) el.textContent = '🎫 ' + codigo;
-        else if (el) el.style.display = 'none';
+      const params = new URLSearchParams(window.location.search);
+      const codigo = params.get("reservacion");
+      const el = document.getElementById("codigo-reservacion");
+      if (codigo && el) el.textContent = "🎫 " + codigo;
+      else if (el) el.style.display = "none";
     </script>
-</body>
+  </body>
 </html>

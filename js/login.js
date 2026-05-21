@@ -4,7 +4,7 @@ const { useState, useEffect, useRef } = React;
 // En XAMPP local apunta a localhost.
 // En Hostinger simplemente cambia a '/Hotel-quinta-dalam/api/auth/login.php'
 // porque el dominio ya es el correcto.
-const API_LOGIN = "/Hotel-quinta-dalam/api/auth/login.php";
+const API_LOGIN = window.QD_CONFIG.API_BASE + "/auth/login.php";
 
 // ── Íconos SVG ─────────────────────────────────────────────
 const IconEmail = () => (

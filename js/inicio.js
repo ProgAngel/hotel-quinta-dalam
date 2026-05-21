@@ -1,6 +1,6 @@
 const { useState, useEffect } = React;
 
-const API_HABITACIONES = "./api/habitaciones/listar.php";
+const API_HABITACIONES = window.QD_CONFIG.API_BASE + "/habitaciones/listar.php";
 
 // ── Enriquecimiento estático (mismo que catalogo.js)
 const ENRIQUECIMIENTO = {

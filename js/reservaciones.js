@@ -1,7 +1,7 @@
 const { useState, useEffect, useRef } = React;
 
-const API_HABITACIONES = "/Hotel-quinta-dalam/api/habitaciones/listar.php";
-const API_RESERVAR = "/Hotel-quinta-dalam/api/reservaciones/crear.php";
+const API_HABITACIONES = window.QD_CONFIG.API_BASE + "/habitaciones/listar.php";
+const API_RESERVAR = window.QD_CONFIG.API_BASE + "/reservaciones/crear.php";
 
 // ── Helper: scroll suave a un elemento
 function scrollA(ref) {

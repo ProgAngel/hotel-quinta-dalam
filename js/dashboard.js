@@ -1,6 +1,6 @@
 const { useState, useEffect, useCallback, useRef } = React;
 
-const API_BASE = "/Hotel-quinta-dalam/api";
+const API_BASE = window.QD_CONFIG.API_BASE;
 const API_USUARIOS = API_BASE + "/usuarios/listar.php";
 const API_USUARIOS_NEW = API_BASE + "/usuarios/crear.php";
 const API_RESERVAS = API_BASE + "/reservaciones/listar.php";
