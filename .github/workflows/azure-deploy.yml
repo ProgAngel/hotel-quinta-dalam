@@ -1,0 +1,43 @@
+# ============================================================
+#  azure-deploy.yml — Hotel Quinta Dalam
+#  Deploy automático a Azure App Service
+#  Se ejecuta en cada push a la rama frontend-final
+# ============================================================
+
+name: Deploy Hotel Quinta Dalam → Azure
+
+on:
+  push:
+    branches:
+      - frontend-final
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: Descargar el código del repositorio
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      # Paso 2: Configurar PHP 8.2
+      - name: Configurar PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      # Paso 3: Instalar dependencias de Composer (Mercado Pago SDK)
+      - name: Instalar dependencias PHP (Composer)
+        run: |
+          if [ -f composer.json ]; then
+            composer install --no-dev --optimize-autoloader
+          fi
+
+      # Paso 4: Desplegar a Azure App Service usando Publish Profile
+      - name: Deploy a Azure App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'hotel-quinta-dalam'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: .
