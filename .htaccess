@@ -1,0 +1,25 @@
+# ============================================================
+#  .htaccess — Hotel Quinta Dalam
+#  Configuración Apache para Azure App Service
+# ============================================================
+
+# Habilitar motor de reescritura
+RewriteEngine On
+
+# Forzar HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Permitir acceso directo a archivos y carpetas existentes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirigir todo lo demás al index.html
+RewriteRule ^ /index.html [L]
+
+# Configurar zona horaria
+SetEnv TZ America/Mexico_City
+
+# Headers de seguridad
+Header always set X-Content-Type-Options nosniff
+Header always set X-Frame-Options DENY
