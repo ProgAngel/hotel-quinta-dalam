@@ -1,13 +1,3 @@
--- ============================================================
---  Hotel Quinta Dalam — Base de Datos
---  Motor: MySQL 8+  |  Charset: utf8mb4
--- ============================================================
-
-CREATE DATABASE IF NOT EXISTS hotel_quinta_dalam
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_spanish_ci;
-
-USE hotel_quinta_dalam;
 
 -- ============================================================
 --  TABLA: usuarios
@@ -18,7 +8,7 @@ CREATE TABLE usuarios (
     correo      VARCHAR(180)    NOT NULL,
     telefono    VARCHAR(15)         NULL,
     contrasena  VARCHAR(255)    NOT NULL,          -- bcrypt hash
-    rol         ENUM('cliente','admin') NOT NULL DEFAULT 'cliente',
+    rol         ENUM('cliente','recepcionista','admin') NOT NULL DEFAULT 'cliente',
     estado      ENUM('activo','inactivo','pendiente') NOT NULL DEFAULT 'activo',
     created_at  TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at  TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -133,4 +123,4 @@ INSERT INTO habitaciones (numero, nombre, tipo, precio_noche, capacidad, estado)
 -- ============================================================
 INSERT INTO usuarios (nombre, correo, contrasena, rol) VALUES
 ('Angel Romero', 'admin@quintadalam.com',
- '$2y$12$placeholderHashAquiLoGeneraPhp', 'admin');
+ '$2y$12$LSopSYyQpGf/wsSEEilzW.DYNznQ/UyXm6ZgfpueIv/V5lSyZPuyq', 'admin');
