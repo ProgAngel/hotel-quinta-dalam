@@ -42,16 +42,14 @@ function getPDO(): PDO {
            PDO::ATTR_PERSISTENT => true, // Reutiliza conexiones - limite 5 conexiones Clever Cloud DEV // Reutiliza conexiones — vital para límite de 5 en Clever Cloud DEV
         ]);
     } catch (PDOException $e) {
-        http_response_code(500);
-
-        // En producción no exponemos detalles del error
-        $mensaje = getenv('DB_HOST')
-            ? 'Error interno del servidor.'
-            : 'Error de conexión: ' . $e->getMessage();
-
-        echo json_encode(['ok' => false, 'mensaje' => $mensaje]);
-        exit;
-    }
-
+    http_response_code(500);
+    echo json_encode([
+        'ok'    => false,
+        'error' => $e->getMessage(),
+        'host'  => getenv('DB_HOST'),
+        'db'    => getenv('DB_NAME'),
+    ]);
+    exit;
+}
     return $pdo;
 }
