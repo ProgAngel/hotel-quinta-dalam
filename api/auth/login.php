@@ -18,12 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// ── Configuración de la BD 
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'hotel_quinta_dalam');
-define('DB_USER', 'root');
-define('DB_PASS', '');           // En XAMPP local la contraseña es vacía
-define('DB_CHARSET', 'utf8mb4');
+// ── Conexión a la BD (detecta entorno automáticamente)
+// database.php usa getenv() en Azure y .env en local
+require_once __DIR__ . '/../config/database.php';
+$pdo = getPDO();
 
 // ── Leer y validar el body JSON 
 $body = json_decode(file_get_contents('php://input'), true);
@@ -34,7 +32,7 @@ if (!$body) {
     exit;
 }
 
-$correo    = trim($body['correo']    ?? '');
+$correo     = trim($body['correo']     ?? '');
 $contrasena = trim($body['contrasena'] ?? '');
 
 // Validación básica de campos vacíos
@@ -48,20 +46,6 @@ if (empty($correo) || empty($contrasena)) {
 if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
     http_response_code(400);
     echo json_encode(['ok' => false, 'mensaje' => 'Formato de correo inválido.']);
-    exit;
-}
-
-// ── Conexión a MySQL
-try {
-    $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
-    $pdo = new PDO($dsn, DB_USER, DB_PASS, [
-        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES   => false,
-    ]);
-} catch (PDOException $e) {
-    http_response_code(500);
-    echo json_encode(['ok' => false, 'mensaje' => 'Error de conexión a la base de datos.']);
     exit;
 }
 
@@ -112,11 +96,11 @@ if (!password_verify($contrasena, $usuario['contrasena'])) {
 session_start();
 session_regenerate_id(true); // previene session fixation
 
-$_SESSION['usuario_id']      = (int) $usuario['id'];
-$_SESSION['rol']             = $usuario['rol'];
-$_SESSION['ua_hash']         = hash('sha256', $_SERVER['HTTP_USER_AGENT'] ?? '');
+$_SESSION['usuario_id']       = (int) $usuario['id'];
+$_SESSION['rol']              = $usuario['rol'];
+$_SESSION['ua_hash']          = hash('sha256', $_SERVER['HTTP_USER_AGENT'] ?? '');
 $_SESSION['ultima_actividad'] = time();
-$_SESSION['created_at']      = time();
+$_SESSION['created_at']       = time();
 
 // Nunca devolver la contraseña (ni el hash) al frontend
 http_response_code(200);
@@ -129,4 +113,3 @@ echo json_encode([
         'rol'    => $usuario['rol'],
     ]
 ]);
-?>
