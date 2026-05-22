@@ -2,8 +2,8 @@
 // ============================================================
 //  database.php — Hotel Quinta Dalam
 //  Conexión PDO con detección automática de entorno:
-//  - PRODUCCIÓN: Azure inyecta variables via App Service
-//  - LOCAL:      Lee credenciales desde archivo .env (XAMPP)
+//  - PRODUCCIÓN: Azure inyecta DB_HOST como variable de sistema
+//  - LOCAL:      Lee credenciales desde archivo .env via env.php
 // ============================================================
 
 function getPDO(): PDO {
@@ -11,24 +11,24 @@ function getPDO(): PDO {
     if ($pdo !== null) return $pdo;
 
     // ── Detección de entorno ─────────────────────────────────
-    // Azure App Service inyecta DB_HOST como variable de sistema.
-    // Si existe → estamos en producción (Clever Cloud).
-    // Si no existe → estamos en local (XAMPP + .env).
+    // getenv('DB_HOST') devuelve el valor si Azure lo inyectó,
+    // o false si no existe (estamos en local con XAMPP).
     if (getenv('DB_HOST')) {
-        // PRODUCCIÓN — variables inyectadas por Azure
-        $host    = getenv('DB_HOST');
-        $dbname  = getenv('DB_NAME');
-        $user    = getenv('DB_USER');
-        $pass    = getenv('DB_PASS');
-        $port    = getenv('DB_PORT') ?: '3306';
+        // PRODUCCIÓN — variables inyectadas por Azure App Service
+        $host   = getenv('DB_HOST');
+        $dbname = getenv('DB_NAME');
+        $user   = getenv('DB_USER');
+        $pass   = getenv('DB_PASS');
+        $port   = getenv('DB_PORT') ?: '3306';
     } else {
-        // LOCAL — leer desde archivo .env via env.php
+        // LOCAL — cargar .env solo cuando estamos en XAMPP
+        // env.php NO existe en Azure, por eso solo se carga aquí
         require_once __DIR__ . '/env.php';
-        $host    = env('DB_HOST', 'localhost');
-        $dbname  = env('DB_NAME', 'hotel_quinta_dalam');
-        $user    = env('DB_USER', 'root');
-        $pass    = env('DB_PASS', '');
-        $port    = env('DB_PORT', '3306');
+        $host   = env('DB_HOST', 'localhost');
+        $dbname = env('DB_NAME', 'hotel_quinta_dalam');
+        $user   = env('DB_USER', 'root');
+        $pass   = env('DB_PASS', '');
+        $port   = env('DB_PORT', '3306');
     }
 
     $charset = 'utf8mb4';
@@ -39,6 +39,7 @@ function getPDO(): PDO {
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES   => false,
+           PDO::ATTR_PERSISTENT => true, // Reutiliza conexiones - limite 5 conexiones Clever Cloud DEV // Reutiliza conexiones — vital para límite de 5 en Clever Cloud DEV
         ]);
     } catch (PDOException $e) {
         http_response_code(500);
